@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuoteBot</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    background: #121726;
+  }
+  header {
+    background: #3A4151;
+    padding: 1% 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 3px;
+  }
+  .nav-container {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+  }
+  nav {
+    display: flex;
+    gap: 20%; /* Adjust spacing between buttons */
+  }
+  nav a, .login {
+    background: #222937;
+    color: #6589C7;
+    padding: 10px 20px; /* Adjust for exact padding */
+    border-radius: 10px; /* Adjusted corner radius */
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1em; /* Adjust for exact font size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px; /* Width of the largest button */
+  }
+.login {
+  color: #5865F2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Space between icon and text */
+  margin-right: 20px; /* Gap from the right side of the screen */
+}
+
+.login img {
+  width: 20px; /* Adjust for exact size */
+  height: auto;
+}
+</style>
+<header>
+  <div class="nav-container">
+    <nav>
+      <a href="#">About</a>
+      <a href="#">FAQ</a>
+      <a href="#">Changelog</a>
+    </nav>
+  </div>
+  <a href="#" class="login">
+    <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179098284560760842/discord-mark-blue.png" alt="Login Icon">
+    <span>Login</span>
+  </a>
+</header>
+<!-- LOGO + STATS -->
+<div style="background: #121726; padding: 2% 0; text-align: center;">
+    <!-- Logo and QuoteBot text, inline with no background box -->
+<img src="https://cdn.discordapp.com/attachments/916091272186454076/1017973024680579103/quote_botttt.png" alt="QuoteBot Logo" style="width: 250px; vertical-align: middle;">
+<h1 style="color: #71CB70; display: inline; font-size: 4em; font-weight: 700; vertical-align: middle; margin: 0;">Quote</h1><!--
+--><h1 style="color: #F8F991; display: inline; font-size: 4em; font-weight: 700; vertical-align: middle; margin: 0;">Bot</h1>
+<div style="background: #121726; padding: 2% 0; text-align: center;">
+
+    
+    <!-- Stats section -->
+    <div style="margin: 10px; background: #222937; padding: 20px; border-radius: 34px;">
+        <p style="color: #6589C7; font-size: 1.5em;">The go to tool for saving and organizing quotes in servers!</p>
+        <div style="display: flex; justify-content: center; gap: 10%; margin-top: 10px; flex-wrap: wrap; margin-bottom: 20px">
+            <div style="color: white; font-size: 2em;">
+                <strong>425</strong> Servers
+            </div>
+            <div style="color: white; font-size: 2em;">
+                <strong>8500+</strong> Quotes
+            </div>
+            <div style="color: white; font-size: 2em;">
+                <strong>1200+</strong> Users
+            </div>
+        </div>
+    </div>
+    
+    <!-- RATING + INVITE -->
+    <div style="margin: 10px; background: #222937; padding:10px; border-radius: 34px; display: flex; justify-content: center; gap: 20%; align-items: center; margin-top: 20px">
+        <div>
+            <div style="margin-top: 20px;color: #FFD700; font-size: 2em;">★★★★★</div>
+            <p style="color: white; font-size: 1.5em;">Rated 4.7 Stars on Top.gg</p>
+        </div>
+        <button style="background: #3662E4; color: white; padding: 1em 2em; font-size: 1.5em; border-radius: 20px; border: none; cursor: pointer;">
+            Add QuoteBot to Discord
+        </button>
+    </div>
+</div>
+
+<!-- FEATURE LIST -->
+    <div style="margin: 10px; background: #222937; padding:10px; border-radius: 34px; display: flex; justify-content: center; gap: 20%; align-items: center; margin-top: 0px">
+
+    <!-- Features container -->
+    <div style="background: #222937; padding: 20px; border-radius: 34px; text-align: center; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;">
+
+        <!-- Custom Quotes -->
+        <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
+            <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179097315244523650/quotes.png" alt="Custom Quotes Icon" style="margin-bottom: 5px; width: 50px">
+            <h2 style="color: #6998FB; font-size: 1.5em;">Custom Quotes</h2>
+            <p style="color: white; font-size: 1em;">Save anything your friends say on QuoteBot!</p>
+        </div>
+        
+        <!-- Quote Profiles -->
+        <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
+            <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179097316016271400/user.png" alt="Quote Profiles Icon" style="margin-bottom: 5px; width: 50px">
+            <h2 style="color: #6998FB; font-size: 1.5em;">Quote Profiles</h2>
+            <p style="color: white; font-size: 1em;">Easily view a user’s quote with QuoteBot’s streamline user profile interface!</p>
+        </div>
+        
+        <!-- Random Quote -->
+        <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
+            <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179097314481152101/dice.png" alt="Random Quote Icon" style="margin-bottom: 5px; width: 50px">
+            <h2 style="color: #6998FB; font-size: 1.5em;">Random Quote</h2>
+            <p style="color: white; font-size: 1em;">Find a random quote from a member’s profile!</p>
+        </div>
+        
+        <!-- Profile Customizer -->
+        <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
+            <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179097314141421628/customization.png" alt="Profile Customizer Icon" style="margin-bottom: 5px; width: 50px">
+            <h2 style="color: #6998FB; font-size: 1.5em;">Profile Customizer</h2>
+            <p style="color: white; font-size: 1em;">Make your QuoteBot profile unique by pinning a quote and setting your bio!</p>
+        </div>
+        
+        <!-- Multiple Languages -->
+        <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
+            <div style="position: absolute; top: 10px; left: 10px; background: #58BC86; padding: 10px 10px; border-radius: 10px; color: white; font-size: 0.8em;">
+                Coming in version 5
+            </div>
+                        <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179097315701694474/translate.png" alt="Multiple Languages Icon" style="margin-bottom: 5px; width: 50px">
+            <h2 style="color: #6998FB; font-size: 1.5em;">Multiple Languages</h2>
+            <p style="color: white; font-size: 1em;">Use QuoteBot features in your primary language! Including content filtering!</p>
+        </div>
+
+        <!-- Community Support -->
+        <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
+            <div style="position: absolute; top: 10px; left: 10px; background: #58BC86; padding: 10px 10px; border-radius: 10px; color: white; font-size: 0.8em;">
+                Coming in version 5
+            </div>
+            <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179097314829283348/group.png" alt="Community Support Icon" style="margin-bottom: 5px; width: 50px">
+            <h2 style="color: #6998FB; font-size: 1.5em;">Community Support</h2>
+            <p style="color: white; font-size: 1em;">If your community is large don’t worry! QuoteBot has a wide array of customizable settings to help you manage who, when and where it can be used!</p>
+        </div>
+
+    </div>
+</div>
+<!-- FOOTER -->
+<footer style="background: #3A4151; padding: 1%; text-align: center; color: white; font-size: 1em; border-radius: 3px; margin-top: 10px; margin-bottom: 10px; position: absolute; width: 100%">
+    © 2023 QuoteBot, all rights reserved
+</footer>
+
+
