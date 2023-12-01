@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuoteBot</title>
+</head>
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: #121726; color: #fff; padding: 0; box-sizing: border-box; height: 100vh;">
+    <div style="min-height: 100vh; display: flex; flex-direction: column;">
+        <header style="background: #3A4151; padding: 1% 0; display: flex; justify-content: space-between; align-items: center; border-radius: 3px;">
+            <div style="display: flex; align-items: center;">
+                <img src="https://cdn.discordapp.com/attachments/916091272186454076/1017973024680579103/quote_botttt.png" alt="QuoteBot Logo" style="height: 50px;"> <!-- Adjust the size of the logo as needed -->
+                <h1 style="color: #71CB70; display: inline; font-size: 2em; font-weight: 700; margin-left: 10px;">Quote</h1>
+                <h1 style="color: #F8F991; display: inline; font-size: 2em; font-weight: 700;">Bot</h1>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <a href="/" class="back-button" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: inline-flex; align-items: center; margin-right: 10px;">
+                    Back
+                </a>
+                <a id="profile-area" class="login" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px;">
+                    <!-- Profile content will be inserted by JavaScript -->
+                </a>
+            </div>
+        </header>
+        
+        
+        <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <div style="text-align: center; max-width: 600px; margin: auto;">
+                <h1 style="color: #71CB70; margin-bottom: 10px;">About QuoteBot</h1>
+                <div style="background-color: #3A4151; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                    <h2 style="color: #6589C7; margin: 0;">Credits</h2>
+                    <p style="margin: 10px 0;">Lead Developer: @v3xi</p>
+                    <p style="margin: 10px 0;">Early Development: @pastaslayer</p>
+                    <p style="margin: 10px 0;">QA Tester: @qloomi, @heyitselliee</p>
+                </div>
+                <div style="background-color: #3A4151; padding: 15px; border-radius: 5px;">
+                    <h2 style="color: #6589C7; margin: 0;">History</h2>
+                    <p style="margin: 10px 0;">A short history of how quotebot came to be and why we continued development, I'm still writing this tho so have this lorem ipsum for now <3 :)</p>
+                    <!-- Placeholder for the actual content -->
+                    <p style="margin: 10px 0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                </div>
+            </div>
+        </div>
+        <footer style="background: #3A4151; color: #6589C7; padding: 10px; text-align: center; border-radius: 3px;">
+            © 2023 QuoteBot, all rights reserved
+        </footer>
+    </div>
+    <script type="text/javascript">
+        window.onload = function() {
+          fetch('/check_login')
+            .then(response => response.json())
+            .then(data => {
+              const profileArea = document.getElementById('profile-area');
+              if (data.logged_in) {
+                // User is logged in, display profile picture and username
+                profileArea.style.display = 'inline-flex'; // Make sure the profile area is visible
+                profileArea.innerHTML = `
+                  <img src="${data.user_info.avatar_url}" alt="User Avatar" style="width: 32px; height: 32px; border-radius: 50%;">
+                  <span>${data.user_info.username}</span>
+                `;
+              } else {
+                // User is not logged in, hide profile button
+                profileArea.style.display = 'none';
+              }
+            }).catch(error => {
+              console.error('Error:', error);
+            });
+        };
+      </script>   
+</body>
+</html>
