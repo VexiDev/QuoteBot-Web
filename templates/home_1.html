@@ -30,7 +30,7 @@
     display: flex;
     gap: 20%; /* Adjust spacing between buttons */
   }
-  nav a, .login {
+  nav a, .profile-button {
     background: #222937;
     color: #6589C7;
     padding: 10px 20px; /* Adjust for exact padding */
@@ -43,7 +43,7 @@
     justify-content: center;
     min-width: 80px; /* Width of the largest button */
   }
-.login {
+  .login {
   color: #5865F2;
   display: flex;
   align-items: center;
@@ -57,19 +57,51 @@
   height: auto;
 }
 </style>
-<header>
-  <div class="nav-container">
-    <nav>
-      <a href="#">About</a>
-      <a href="#">FAQ</a>
-      <a href="#">Changelog</a>
-    </nav>
-  </div>
-  <a href="#" class="login">
-    <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179098284560760842/discord-mark-blue.png" alt="Login Icon">
-    <span>Login</span>
-  </a>
-</header>
+<script type="text/javascript">
+  window.onload = function() {
+    fetch('/check_login')
+      .then(response => response.json())
+      .then(data => {
+        const loginArea = document.querySelector('.login');
+        if (data.logged_in) {
+          // Set the profile image
+          const avatarImg = document.createElement('img');
+          avatarImg.src = data.user_info.avatar_url;
+          avatarImg.alt = 'User Avatar';
+          avatarImg.style.width = '20px';
+          avatarImg.style.height = 'auto';
+          avatarImg.style.borderRadius = '50%';
+
+          // Clear the current contents of the login area and append the new elements
+          loginArea.innerHTML = '';
+          loginArea.appendChild(avatarImg);
+          loginArea.append(data.user_info.username);
+          // Change the href to the user's profile or logout link if you have one
+          loginArea.href = '/servers'; // Replace with the correct route
+        }
+      }).catch(error => {
+        console.error('Error:', error);
+      });
+  };
+</script>
+</head>
+<body>
+<!-- Content wrapper -->
+<div class="content-wrapper" style="flex-grow: 1; display: flex; flex-direction: column;">
+  <!-- HEADER -->
+  <header style="background: #3A4151; padding: 1% 0; display: flex; justify-content: space-between; align-items: center; border-radius: 3px;">
+    <div class="nav-container" style="display: flex; justify-content: center; flex-grow: 1;">
+      <nav style="display: flex; gap: 20%;">
+        <a href="/about" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">About</a>
+        <a href="/faq" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">FAQ</a>
+        <a href="/changelog" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">Changelog</a>
+      </nav>
+    </div>
+    <a href="/login" class="login" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; gap: 10px; margin-right: 20px;">
+      <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179098284560760842/discord-mark-blue.png" alt="Login Icon" style="width: 20px; height: auto;">
+      <span>Login</span>
+    </a>
+  </header>
 <!-- LOGO + STATS -->
 <div style="background: #121726; padding: 2% 0; text-align: center;">
     <!-- Logo and QuoteBot text, inline with no background box -->
