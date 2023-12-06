@@ -1,0 +1,36 @@
+[
+    {
+        "version": "v4.2.1",
+        "date_added": "11/10/23 00:00:00",
+        "description": "",
+        "feature_updates": [
+            "Updated to use username instead of discriminators"
+        ],
+        "system_updates": [],
+        "planned_updates": []
+    },
+    {
+        "version": "v4.2",
+        "date_added": "8/5/23 00:00:00",
+        "description": "",
+        "feature_updates": [
+            "Upgraded database",
+            "Fixed profile command sometimes hanging on 'Processing request'",
+            "QuoteBot v5.0 in progress"
+        ],
+        "system_updates": [],
+        "planned_updates": []
+    },
+    {
+        "version": "v4.1.1",
+        "date_added": "8/3/21 00:00:00",
+        "description": "",
+        "feature_updates": [
+            "Upgraded database",
+            "Fixed profile command sometimes hanging on 'Processing request'",
+            "QuoteBot v5.0 in progress"
+        ],
+        "system_updates": [],
+        "planned_updates": []
+    }
+]
