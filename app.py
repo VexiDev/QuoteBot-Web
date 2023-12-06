@@ -10,8 +10,9 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # Only for development!
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Replace with a real secret key
-
+#vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv Replace with a real secret key vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+app.secret_key = "thisisanubersecretkey123123123134901u5401485035u4jghiulbhdnaoiuRVGHC09paomp9cy4hg-92pGHMUIPGCHMPIHUPigco-r"  
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 # These values should be read from a config file or environment variables
