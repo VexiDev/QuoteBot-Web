@@ -8,41 +8,56 @@
 </head>
 <body style="margin: 0; font-family: Arial, sans-serif; background-color: #121726; color: #fff; padding: 0; box-sizing: border-box; height: 100vh;">
     <div style="min-height: 100vh; display: flex; flex-direction: column;">
-        <header style="background: #3A4151; padding: 1% 0; display: flex; justify-content: space-between; align-items: center; border-radius: 3px;">
-            <div style="display: flex; align-items: center;">
-                <img src="https://cdn.discordapp.com/attachments/916091272186454076/1017973024680579103/quote_botttt.png" alt="QuoteBot Logo" style="height: 50px;"> <!-- Adjust the size of the logo as needed -->
-                <h1 style="color: #71CB70; display: inline; font-size: 2em; font-weight: 700; margin-left: 10px;">Quote</h1>
-                <h1 style="color: #F8F991; display: inline; font-size: 2em; font-weight: 700;">Bot</h1>
+      <header style="background: #3A4151; padding: 1% 0 1% 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 3px;">
+          <div style="display: flex; align-items: center; margin-left: 20px;">
+              <img src="https://cdn.discordapp.com/attachments/916091272186454076/1017973024680579103/quote_botttt.png" alt="QuoteBot Logo" style="height: 75px;"> <!-- Adjust the size of the logo as needed -->
+              <h1 style="color: #71CB70; display: inline; font-size: 2em; font-weight: 700; margin-left: 10px;">Quote</h1>
+              <h1 style="color: #F8F991; display: inline; font-size: 2em; font-weight: 700;">Bot</h1>
+          </div>
+          <div style="display: flex; align-items: center; margin-right: 53px;">
+              <a href="/" class="back-button" style="background: #222937; color: #5865F2; padding: 17px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: inline-flex; align-items: center; gap: 10px; margin-right: 10px;">
+                  Back
+              </a>
+              <a id="profile-area" class="login" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px; margin-right: 10px;">
+                  <!-- Profile content will be inserted by JavaScript -->
+              </a>
+          </div>
+      </header>   
+
+        <main style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
+          <div style="background: #222937; border-radius: 18px; padding-top: 40px; padding-bottom: 40px; padding-left: 100px; padding-right: 100px; width: 80%; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+              <div style="background: #3A4151; border-radius: 18px; padding-right: 30px; padding-left: 30px; padding: 20px; display: inline-block; text-align: center;">
+                <h2 style="font-size: 2em; font-weight: 700; color: #ffffff; margin: 0;">About QuoteBot</h2>
             </div>
-            <div style="display: flex; align-items: center;">
-                <a href="/" class="back-button" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: inline-flex; align-items: center; margin-right: 10px;">
-                    Back
-                </a>
-                <a id="profile-area" class="login" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px;">
-                    <!-- Profile content will be inserted by JavaScript -->
-                </a>
-            </div>
-        </header>
-        
-        
-        <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <div style="text-align: center; max-width: 600px; margin: auto;">
-                <h1 style="color: #71CB70; margin-bottom: 10px;">About QuoteBot</h1>
-                <div style="background-color: #3A4151; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-                    <h2 style="color: #6589C7; margin: 0;">Credits</h2>
-                    <p style="margin: 10px 0;">Lead Developer: @v3xi</p>
-                    <p style="margin: 10px 0;">Early Development: @pastaslayer</p>
-                    <p style="margin: 10px 0;">QA Tester: @qloomi, @heyitselliee</p>
-                </div>
-                <div style="background-color: #3A4151; padding: 15px; border-radius: 5px;">
-                    <h2 style="color: #6589C7; margin: 0;">History</h2>
-                    <p style="margin: 10px 0;">A short history of how quotebot came to be and why we continued development, I'm still writing this tho so have this lorem ipsum for now <3 :)</p>
-                    <!-- Placeholder for the actual content -->
-                    <p style="margin: 10px 0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-                </div>
-            </div>
+            <div style="background: #3A4151; border-radius: 18px; padding: 20px; width: 100%; text-align: center;">
+              <h3 style="font-size: 1.5em; font-weight: 700; margin-bottom: 10px;">Credits</h3>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                  <span style="flex: 1; text-align: right; padding-right: 10px;">Lead Developer:</span>
+                  <span style="flex: 1; text-align: left; padding-left: 10px;">@v3xi</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                  <span style="flex: 1; text-align: right; padding-right: 10px;">Early Development:</span>
+                  <span style="flex: 1; text-align: left; padding-left: 10px;">@pastaslayer</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                  <span style="flex: 1; text-align: right; padding-right: 10px;">QA Tester:</span>
+                  <span style="flex: 1; text-align: left; padding-left: 10px;">@qloomi, @heyitselliee</span>
+              </div>
+          </div>
+          
+          <div style="background: #3A4151; border-radius: 18px; padding: 20px; width: 100%;">
+            <h3 style="font-size: 1.5em; font-weight: 700; margin: 0 0 10px 0; text-align: center;">History</h3>
+            <p style="font-size: 1em; font-weight: 400; text-align: justify; padding: 0 20px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis velit at dui venenatis maximus ut vitae ligula. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec pretium, elit sed ultricies pretium, ante est fermentum neque, eu maximus nisi urna quis nunc. Aliquam et imperdiet est. Aliquam rutrum orci consectetur purus rhoncus mattis. Praesent a ipsum vitae nisi feugiat eleifend bibendum ut est. In feugiat nibh in nisi maximus, a porttitor purus mollis. Sed lobortis at eros eget interdum. Vestibulum a commodo mauris. Integer rutrum sapien pharetra interdum scelerisque. Proin eget dignissim nulla. In hac habitasse platea dictumst. Quisque sed sollicitudin quam. Aliquam viverra risus vitae tellus vehicula gravida. Donec sit amet condimentum enim.
+
+              Vivamus molestie massa nisl, vel ullamcorper velit cursus quis. Vestibulum ullamcorper diam eu arcu ultricies pretium. Donec lorem ligula, maximus in consequat non, ullamcorper ut leo. Proin a nulla a augue viverra egestas quis a dolor. Praesent tortor est, ultricies sit amet metus pellentesque, mattis egestas nibh. Aenean viverra mauris at neque bibendum bibendum. Ut a finibus nisl. Fusce non porta ligula. Donec euismod elit magna, vel consectetur magna placerat quis.
+              
+              In turpis purus, ultrices sit amet nibh a, eleifend posuere dolor. Curabitur in scelerisque ligula, sed lacinia ex. Nam posuere justo eu est finibus, non tempus enim fringilla. Aliquam erat volutpat. Quisque sagittis erat non massa imperdiet egestas. In nec augue sed mi volutpat scelerisque. Donec in felis a ante tempor viverra eget at urna. Maecenas nec bibendum sem. Curabitur rhoncus mattis lectus sit amet tempor. Proin tortor nisl, luctus tincidunt posuere eget, efficitur at metus. Aliquam congue, metus eget blandit eleifend, urna orci congue felis, non sollicitudin lorem magna id arcu. Praesent sit amet dapibus risus, in convallis ipsum. Cras magna metus, semper et arcu id, ultrices eleifend diam. Donec.</p>
         </div>
-        <footer style="background: #3A4151; color: #6589C7; padding: 10px; text-align: center; border-radius: 3px;">
+        
+          </div>
+      </main>
+
+        <footer style="background: #3A4151; color: #ffffff; padding: 10px; text-align: center; border-radius: 3px;">
             © 2023 QuoteBot, all rights reserved
         </footer>
     </div>
