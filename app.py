@@ -2,6 +2,8 @@ from flask import Flask, redirect, request, session, jsonify, render_template, u
 from requests_oauthlib import OAuth2Session
 import os
 from dotenv import load_dotenv
+import json
+from datetime import datetime
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'  # Only for development!
 
@@ -28,6 +30,34 @@ def home():
 def about():
     return render_template('about.html')
 
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
+@app.route('/faq/<item_name>')
+def faq_item(item_name):
+    # Construct the template path dynamically based on the item name
+    template_path = f"faq_items/faq_{item_name}.html"
+
+    # Render the specific FAQ item template
+    return render_template(template_path)
+
+@app.route('/changelog')
+def changelog():
+    # Define the path to the changelog.json file
+    # Load the changelog data from the JSON file
+    with open('data/changelog/changelog.json', 'r') as f:
+        changelog_data = json.load(f)
+    # Convert string dates to datetime objects for sorting
+    for update in changelog_data:
+        update['date_added'] = datetime.strptime(update['date_added'], '%d/%m/%y %H:%M:%S')
+    # Sort the changelog data by date_added in descending order
+    changelog_data.sort(key=lambda x: x['date_added'], reverse=True)
+    # Separate the latest update from the rest
+    latest_update = changelog_data[0]
+    past_updates = changelog_data[1:] if len(changelog_data) > 1 else []
+    # Pass the data to the template
+    return render_template('changelog.html', latest_update=latest_update, past_updates=past_updates)
 
 @app.route('/login')
 def login():
