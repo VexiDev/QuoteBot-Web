@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuoteBot</title>
+</head>
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: #121726; color: #fff; padding: 0; box-sizing: border-box; height: 100vh;">
+    <div style="min-height: 100vh; display: flex; flex-direction: column;">
+        <header style="background: #3A4151; padding: 1% 0 1% 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 3px;">
+            <div style="display: flex; align-items: center; margin-left: 20px;">
+                <img src="https://cdn.discordapp.com/attachments/916091272186454076/1017973024680579103/quote_botttt.png" alt="QuoteBot Logo" style="height: 75px;"> <!-- Adjust the size of the logo as needed -->
+                <h1 style="color: #71CB70; display: inline; font-size: 2em; font-weight: 700; margin-left: 10px;">Quote</h1>
+                <h1 style="color: #F8F991; display: inline; font-size: 2em; font-weight: 700;">Bot</h1>
+            </div>
+            <div style="display: flex; align-items: center; margin-right: 25px;">
+                <a href="/" class="back-button" style="background: #222937; color: #5865F2; padding: 17px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: inline-flex; align-items: center; gap: 10px; margin-right: 10px;">
+                    Back
+                </a>
+                <a id="profile-area" class="login" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px; margin-right: 10px;">
+                    <!-- Profile content will be inserted by JavaScript -->
+                </a>
+            </div>
+        </header>        
+        
+        <main style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <div style="background: #222937; border-radius: 18px; padding: 40px; width: 90%; margin: 25px 0; display: flex; flex-direction: column; align-items: center;">
+                <div style="background: #3A4151; border-radius: 18px; padding-left: 50px; padding-right: 50px; padding-top: 20px; padding-bottom: 20px; text-align: center; margin-bottom: 20px; width: fit-content;">
+                    <h2 style="font-size: 2em; font-weight: 700; color: #fff; margin: 0;">FAQ</h2>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; width: 100%;">
+                    <!-- FAQ Item 1 -->
+                    <div class="faq-item" style="background: #3A4151; border-radius: 18px; padding: 20px; text-align: center; position: relative;" onmouseover="this.querySelector('.hover-info').style.display = 'flex';" onmouseout="this.querySelector('.hover-info').style.display = 'none';">
+                        <a href="/faq/add" style="color: #C0C0C0; text-decoration: none; display: block; height: 100%; width: 100%;">
+                            <div class="hover-info" style="display: none; position: absolute; top: 1; left: 50%; transform: translateX(-50%); font-style: italic; font-size: 1em; font-weight: bold; align-items: center; justify-content: center;">
+                                <img src="{{ url_for('static', filename='images/faq/info.png') }}" alt="Info Icon" style="width: 15px; height: 15px; margin-right: 10px;">
+                                Click to learn more
+                            </div>
+                            <img src="{{ url_for('static', filename='images/faq/add.png') }}" alt="Add Icon" style="width: 64px; height: 64px; margin-top: 25px;">
+                            <h3 style="font-size: 1.5em; font-weight: 700; color: #fff;">Adding Quotes</h3>
+                            <p style="font-size: 1em; font-weight: 400; color: #C0C0C0;">
+                                You can add a quote to QuoteBot by using the <span style="font-weight: bold; color: #68ADFE;">/add</span> command in the server you wish to add the quote to.
+                            </p>
+                        </a>
+                    </div>                        
+                    <!-- FAQ Item 2 -->
+                    <div class="faq-item" style="background: #3A4151; border-radius: 18px; padding: 20px; text-align: center; position: relative;" onmouseover="this.querySelector('.hover-info').style.display = 'flex';" onmouseout="this.querySelector('.hover-info').style.display = 'none';">
+                        <a href="/faq/delete" style="color: #C0C0C0; text-decoration: none; display: block; height: 100%; width: 100%;">
+                            <div class="hover-info" style="display: none; position: absolute; top: 1; left: 50%; transform: translateX(-50%); font-style: italic; font-size: 1em; font-weight: bold; align-items: center; justify-content: center;">
+                                <img src="{{ url_for('static', filename='images/faq/info.png') }}" alt="Info Icon" style="width: 15px; height: 15px; margin-right: 10px;">
+                                Click to learn more
+                            </div>
+                            <img src="{{ url_for('static', filename='images/faq/delete.png') }}" alt="Delete Icon" style="width: 64px; height: 64px; margin-top: 25px;">
+                            <h3 style="font-size: 1.5em; font-weight: 700; color: #fff;">Deleting Quotes</h3>
+                            <p style="font-size: 1em; font-weight: 400; color: #C0C0C0;">
+                                You can delete a quote from QuoteBot by using the <span style="font-weight: bold; color: #68ADFE;">/delete</span> command in the server you wish to remove a quote from.
+                            </p>
+                        </a>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="faq-item" style="background: #3A4151; border-radius: 18px; padding: 20px; text-align: center; position: relative;" onmouseover="this.querySelector('.hover-info').style.display = 'flex';" onmouseout="this.querySelector('.hover-info').style.display = 'none';">
+                        <a href="/faq/view" style="color: #C0C0C0; text-decoration: none; display: block; height: 100%; width: 100%;">
+                            <div class="hover-info" style="display: none; position: absolute; top: 1; left: 50%; transform: translateX(-50%); font-style: italic; font-size: 1em; font-weight: bold; align-items: center; justify-content: center;">
+                                <img src="{{ url_for('static', filename='images/faq/info.png') }}" alt="Info Icon" style="width: 15px; height: 15px; margin-right: 10px;">
+                                Click to learn more
+                            </div>
+                            <img src="{{ url_for('static', filename='images/faq/user.png') }}" alt="Profile Icon" style="width: 64px; height: 64px; margin-top: 25px;">
+                            <h3 style="font-size: 1.5em; font-weight: 700; color: #fff;">Viewing added Quotes</h3>
+                            <p style="font-size: 1em; font-weight: 400; color: #C0C0C0;">
+                                You can find added quotes for a user on a server by running the <span style="font-weight: bold; color: #68ADFE;">/profile</span> command.
+                            </p>
+                        </a>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="faq-item" style="background: #3A4151; border-radius: 18px; padding: 20px; text-align: center; position: relative;" onmouseover="this.querySelector('.hover-info').style.display = 'flex';" onmouseout="this.querySelector('.hover-info').style.display = 'none';">
+                        <a href="/faq/block" style="color: #C0C0C0; text-decoration: none; display: block; height: 100%; width: 100%;">
+                            <div class="hover-info" style="display: none; position: absolute; top: 1; left: 50%; transform: translateX(-50%); font-style: italic; font-size: 1em; font-weight: bold; align-items: center; justify-content: center;">
+                                <img src="{{ url_for('static', filename='images/faq/info.png') }}" alt="Info Icon" style="width: 15px; height: 15px; margin-right: 10px;">
+                                Click to learn more
+                            </div>
+                            <img src="{{ url_for('static', filename='images/faq/block.png') }}" alt="Block Icon" style="width: 64px; height: 64px; margin-top: 25px;">
+                            <h3 style="font-size: 1.5em; font-weight: 700; color: #fff;">Blocking a user</h3>
+                            <p style="font-size: 1em; font-weight: 400; color: #C0C0C0;">
+                                You can prevent a user from adding quotes to your profile on all servers by running the <span style="font-weight: bold; color: #68ADFE;">/block</span> command.
+                            </p>
+                        </a>
+                    </div>
+
+                    <!-- FAQ Item 5 -->
+                    <div class="faq-item" style="background: #3A4151; border-radius: 18px; padding: 20px; text-align: center; position: relative;" onmouseover="this.querySelector('.hover-info').style.display = 'flex';" onmouseout="this.querySelector('.hover-info').style.display = 'none';">
+                        <a href="/faq/nsfw" style="color: #C0C0C0; text-decoration: none; display: block; height: 100%; width: 100%;">
+                            <div class="hover-info" style="display: none; position: absolute; top: 1; left: 50%; transform: translateX(-50%); font-style: italic; font-size: 1em; font-weight: bold; align-items: center; justify-content: center;">
+                                <img src="{{ url_for('static', filename='images/faq/info.png') }}" alt="Info Icon" style="width: 15px; height: 15px; margin-right: 10px;">
+                                Click to learn more
+                            </div>
+                            <img src="{{ url_for('static', filename='images/faq/nsfw.png') }}" alt="NSFW Icon" style="width: 64px; height: 64px; margin-top: 25px;">
+                            <h3 style="font-size: 1.5em; font-weight: 700; color: #fff;">My quote is marked NSFW</h3>
+                            <p style="font-size: 1em; font-weight: 400; color: #C0C0C0;">
+                                If your quote was flagged it means our filters detected vulgar content within the quote and it was placed in the NSFW category on your profile.
+                            </p>
+                        </a>
+                    </div>
+
+                    <!-- FAQ Item 6 -->
+                    <div class="faq-item" style="background: #3A4151; border-radius: 18px; padding: 20px; text-align: center; position: relative;" onmouseover="this.querySelector('.hover-info').style.display = 'flex';" onmouseout="this.querySelector('.hover-info').style.display = 'none';">
+                        <a href="/faq/canceled" style="color: #C0C0C0; text-decoration: none; display: block; height: 100%; width: 100%;">
+                            <div class="hover-info" style="display: none; position: absolute; top: 1; left: 50%; transform: translateX(-50%); font-style: italic; font-size: 1em; font-weight: bold; align-items: center; justify-content: center;">
+                                <img src="{{ url_for('static', filename='images/faq/info.png') }}" alt="Info Icon" style="width: 15px; height: 15px; margin-right: 10px;">
+                                Click to learn more
+                            </div>
+                            <img src="{{ url_for('static', filename='images/faq/canceled.png') }}" alt="Canceled Icon" style="width: 64px; height: 64px; margin-top: 25px;">
+                            <h3 style="font-size: 1.5em; font-weight: 700; color: #fff;">My quote got blocked</h3>
+                            <p style="font-size: 1em; font-weight: 400; color: #C0C0C0;">
+                                QuoteBot does not allow the following:
+                            </p>
+                            <ul style="list-style: none; padding: 0; margin: 0; color: #C0C0C0; text-align: left; display: inline-block;">
+                                <li style="margin-bottom: 5px;">
+                                    <span style="display: inline-block; width: 20px; text-align: right;">-</span> Personal Information of any kind
+                                </li>
+                                <li style="margin-bottom: 5px;">
+                                    <span style="display: inline-block; width: 20px; text-align: right;">-</span> Links of any kind
+                                </li>
+                            </ul>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+
+        <footer style="background: #3A4151; color: #ffffff; padding: 10px; text-align: center; border-radius: 3px;">
+            © 2023 QuoteBot, all rights reserved
+        </footer>
+    </div>
+<script type="text/javascript">
+    window.onload = function() {
+        fetch('/check_login')
+        .then(response => response.json())
+        .then(data => {
+            const profileArea = document.getElementById('profile-area');
+            if (data.logged_in) {
+            // User is logged in, display profile picture and username
+            profileArea.style.display = 'inline-flex'; // Make sure the profile area is visible
+            profileArea.innerHTML = `
+                <img src="${data.user_info.avatar_url}" alt="User Avatar" style="width: 32px; height: 32px; border-radius: 50%;">
+                <span>${data.user_info.username}</span>
+            `;
+            } else {
+            // User is not logged in, hide profile button
+            profileArea.style.display = 'none';
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    };
+</script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const faqItems = document.querySelectorAll('.faq-item');
+        const defaultHoverInfo = faqItems[0].querySelector('.hover-info');
+        let timeout;
+
+        defaultHoverInfo.style.display = 'flex';
+
+        faqItems.forEach(item => {
+            item.addEventListener('mouseover', function() {
+                clearTimeout(timeout); 
+                defaultHoverInfo.style.display = 'none';
+                this.querySelector('.hover-info').style.display = 'flex';
+            });
+
+            item.addEventListener('mouseout', function() {
+                this.querySelector('.hover-info').style.display = 'none';
+
+                timeout = setTimeout(() => {
+                    defaultHoverInfo.style.display = 'flex';
+                }, 100); 
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
