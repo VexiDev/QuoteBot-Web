@@ -91,12 +91,41 @@
               dropdownMenu.style.left = `${leftPosition}px`;
           });
 
-          dropdownMenu.addEventListener('mouseleave', () => {
-              dropdownMenu.style.display = 'none';
+          let hideDropdownTimeout;
+
+          loginArea.addEventListener('mouseenter', () => {
+              // Clear any existing timeout to prevent the dropdown from hiding
+              clearTimeout(hideDropdownTimeout);
+
+              dropdownMenu.style.display = 'block';
+              // Calculate and set the position of the dropdown menu
+              const loginAreaRect = loginArea.getBoundingClientRect();
+              const dropdownMenuRect = dropdownMenu.getBoundingClientRect();
+              const topPosition = loginAreaRect.bottom;
+              const leftPosition = loginAreaRect.right - dropdownMenuRect.width;
+              dropdownMenu.style.top = `${topPosition}px`;
+              dropdownMenu.style.left = `${leftPosition}px`;
           });
+
           loginArea.addEventListener('mouseleave', () => {
-              dropdownMenu.style.display = 'none';
+              // Set a timeout to hide the dropdown after 100 milliseconds
+              hideDropdownTimeout = setTimeout(() => {
+                  dropdownMenu.style.display = 'none';
+              }, 100);
           });
+
+          dropdownMenu.addEventListener('mouseenter', () => {
+              // Clear any existing timeout when entering the dropdown menu
+              clearTimeout(hideDropdownTimeout);
+          });
+
+          dropdownMenu.addEventListener('mouseleave', () => {
+              // Set a timeout to hide the dropdown after 100 milliseconds
+              hideDropdownTimeout = setTimeout(() => {
+                  dropdownMenu.style.display = 'none';
+              }, 100);
+          });
+
         }
       }).catch(error => {
         console.error('Error:', error);
@@ -106,15 +135,15 @@
 </head>
 <body>
 <!-- Dropdown menu content -->
-<div id="dropdownMenu" style="display: none; margin-top: 10px; position: absolute; background-color: #222937; padding: 20px; border-radius: 20px; width: 200px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); color: white;">
+<div id="dropdownMenu" style="display: none; margin-top: 5px; position: absolute; background-color: #222937; padding: 20px; border-radius: 20px; width: 200px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); color: white;">
   <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
     <a href="/profile" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 10px 45px; border-radius: 6px; margin-bottom: 10px;">My Profile</a>
     <hr style="border: 0; height: 2px; background-color: #C0C0C0; margin: 3px 0; width: 90%;">
     <div class="theme-switcher" style="display: flex; align-items: center; gap: 5px; margin: 10px 0 20px 0;">
       <img src="{{ url_for('static', filename='images/popups/sun.png') }}" alt="Light Mode" style="width: 24px; height: 24px;">
-      <label class="switch" style="position: relative; display: inline-block; width: 60px; height: 34px;">
-        <input type="checkbox" style="opacity: 0; width: 0; height: 0;">
-        <span class="slider round" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px;"></span>
+      <label class="switch" style="position: relative; display: inline-block; width: 40px; height: 20px; background-color: #545E74; border-radius: 20px;">
+        <input type="checkbox" checked style="opacity: 0; width: 0; height: 0;" onchange="toggleSwitch(this)">
+        <span id="sliderBall" style="position: absolute; cursor: pointer; top: 2px; left: 22px; background-color: #2196F3; transition: .4s; border-radius: 50%; width: 16px; height: 16px;"></span>
       </label>
       <img src="{{ url_for('static', filename='images/popups/moon.png') }}" alt="Dark Mode" style="width: 24px; height: 24px;">
     </div>
@@ -122,6 +151,25 @@
     <a href="/logout" class="btn" style="text-decoration: none; background-color: #3C81F6; color: white; padding: 8px 60px; border-radius: 6px;">Logout</a>
   </div>
 </div>
+
+<script>
+// Ensuring the slider ball is positioned correctly when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+  var checkbox = document.querySelector('.switch input[type="checkbox"]');
+  toggleSwitch(checkbox);
+});
+
+function toggleSwitch(checkbox) {
+  var sliderBall = document.getElementById('sliderBall');
+  if (checkbox.checked) {
+    sliderBall.style.backgroundColor = '#2196F3'; // Blue color for the ball
+    sliderBall.style.left = '22px'; // Move ball to the right, adjusted for smaller switch size
+  } else {
+    sliderBall.style.backgroundColor = 'yellow'; // Yellow color for the ball
+    sliderBall.style.left = '2px'; // Move ball to the left
+  }
+}
+</script>
 
 <script>
   // Function to show the dropdown menu
