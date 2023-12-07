@@ -6,6 +6,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QuoteBot</title>
 </head>
+<script>
+    // Ensuring the slider ball is positioned correctly when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      var checkbox = document.querySelector('.switch input[type="checkbox"]');
+      toggleSwitch(checkbox);
+    });
+    
+    function toggleSwitch(checkbox) {
+      var sliderBall = document.getElementById('sliderBall');
+      if (checkbox.checked) {
+        sliderBall.style.backgroundColor = '#2196F3'; // Blue color for the ball
+        sliderBall.style.left = '22px'; // Move ball to the right, adjusted for smaller switch size
+      } else {
+        sliderBall.style.backgroundColor = 'yellow'; // Yellow color for the ball
+        sliderBall.style.left = '2px'; // Move ball to the left
+      }
+    }
+    </script>
+    
+    <script>
+      // Function to show the dropdown menu
+      function showDropdown() {
+          var menu = document.getElementById("dropdown-menu");
+          menu.style.display = "block";
+      }
+    
+      // Function to hide the dropdown menu
+      function hideDropdown() {
+          var menu = document.getElementById("dropdown-menu");
+          setTimeout(function () {
+              if (!menu.matches(":hover")) {
+                  menu.style.display = "none";
+              }
+          }, 200); // Adjust the delay as needed
+      }
+    </script>
 <body style="margin: 0; font-family: Arial, sans-serif; background-color: #121726; color: #fff; padding: 0; box-sizing: border-box; height: 100vh;">
     <div style="min-height: 100vh; display: flex; flex-direction: column;">
         <header style="background: #3A4151; padding: 1% 0 1% 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 3px;">
@@ -18,10 +54,29 @@
                 <a href="/" class="back-button" style="background: #222937; color: #5865F2; padding: 17px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: inline-flex; align-items: center; gap: 10px; margin-right: 10px;">
                     Back
                 </a>
-                <a id="profile-area" class="login" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px; margin-right: 10px;">
-                    <!-- Profile content will be inserted by JavaScript -->
-                </a>
-            </div>
+                <div style="position: relative;">
+                    <a id="profile-area" class="login" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px; margin-right: 10px; cursor: pointer;">
+                      <!-- Profile content will be inserted by JavaScript -->
+                    </a>               
+                    <!-- Dropdown menu content -->
+                    <div id="dropdownMenu" style="display: none; transform: translateX(-52%); margin-top: 5px; position: absolute; background-color: #222937; padding: 20px; border-radius: 20px; width: 200px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); color: white; z-index: 10000;">
+                      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <a href="/profile" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 10px 45px; border-radius: 6px; margin-bottom: 10px;">My Profile</a>
+                        <hr style="border: 0; height: 2px; background-color: #C0C0C0; margin: 3px 0; width: 90%;">
+                        <div class="theme-switcher" style="display: flex; align-items: center; gap: 5px; margin: 10px 0 20px 0;">
+                          <img src="{{ url_for('static', filename='images/popups/sun.png') }}" alt="Light Mode" style="width: 24px; height: 24px;">
+                          <label class="switch" style="position: relative; cursor: pointer;display: inline-block; width: 40px; height: 20px; background-color: #545E74; border-radius: 20px;">
+                            <input type="checkbox" checked style="opacity: 0; width: 0; height: 0;" onchange="toggleSwitch(this)">
+                            <span id="sliderBall" style="position: absolute; cursor: pointer; top: 2px; left: 22px; background-color: #2196F3; transition: .4s; border-radius: 50%; width: 16px; height: 16px;"></span>
+                          </label>
+                          <img src="{{ url_for('static', filename='images/popups/moon.png') }}" alt="Dark Mode" style="width: 24px; height: 24px;">
+                        </div>
+                        <a href="/settings" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 8px 55px; border-radius: 6px; margin-bottom: 10px;">Settings</a>
+                        <a href="/logout" class="btn" style="text-decoration: none; background-color: #3C81F6; color: white; padding: 8px 60px; border-radius: 6px;">Logout</a>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
         </header>   
         
         <main style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
@@ -95,6 +150,8 @@
             .then(response => response.json())
             .then(data => {
               const profileArea = document.getElementById('profile-area');
+              const dropdownMenu = document.getElementById('dropdownMenu');
+    
               if (data.logged_in) {
                 // User is logged in, display profile picture and username
                 profileArea.style.display = 'inline-flex'; // Make sure the profile area is visible
@@ -109,7 +166,52 @@
             }).catch(error => {
               console.error('Error:', error);
             });
+    
+          setupDropdownHover();
         };
-      </script>   
-</body>
+    
+        function setupDropdownHover() {
+            const profileArea = document.getElementById('profile-area');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            let hideDropdownTimeout;
+
+            // Show the dropdown menu when the profile area is hovered
+            profileArea.addEventListener('mouseenter', function() {
+                clearTimeout(hideDropdownTimeout);
+                dropdownMenu.style.display = 'block';
+            });
+
+            // Hide the dropdown menu with a delay
+            function hideDropdownWithDelay() {
+                hideDropdownTimeout = setTimeout(function() {
+                dropdownMenu.style.display = 'none';
+                }, 200);
+            }
+
+            // Check if the mouse is over the dropdown or profile area
+            function isMouseOverElement(event) {
+                const isOverDropdown = dropdownMenu.contains(event.relatedTarget);
+                const isOverProfile = profileArea.contains(event.relatedTarget);
+                return isOverDropdown || isOverProfile;
+            }
+
+            profileArea.addEventListener('mouseleave', function(event) {
+                if (!isMouseOverElement(event)) {
+                hideDropdownWithDelay();
+                }
+            });
+
+            dropdownMenu.addEventListener('mouseenter', function() {
+                clearTimeout(hideDropdownTimeout);
+            });
+
+            dropdownMenu.addEventListener('mouseleave', function(event) {
+                if (!isMouseOverElement(event)) {
+                hideDropdownWithDelay();
+                }
+            });
+            }
+
+    </script>
+    </body>
 </html>
