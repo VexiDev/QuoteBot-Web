@@ -57,6 +57,11 @@
   height: auto;
 }
 </style>
+<script>
+  function openLogoutModal() {
+  document.getElementById('logout-modal').style.display = 'block';
+}
+</script>
 <script type="text/javascript">
   window.onload = function() {
     fetch('/check_login')
@@ -148,7 +153,7 @@
       <img src="{{ url_for('static', filename='images/popups/moon.png') }}" alt="Dark Mode" style="width: 24px; height: 24px;">
     </div>
     <a href="/settings" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 8px 55px; border-radius: 6px; margin-bottom: 10px;">Settings</a>
-    <a href="/logout" class="btn" style="text-decoration: none; background-color: #3C81F6; color: white; padding: 8px 60px; border-radius: 6px;">Logout</a>
+    <a href="#" class="btn" onclick="openLogoutModal(); return false;" style="text-decoration: none; background-color: #3C81F6; color: white; padding: 8px 60px; border-radius: 6px;">Logout</a>
   </div>
 </div>
 
@@ -188,6 +193,20 @@ function toggleSwitch(checkbox) {
       }, 200); // Adjust the delay as needed
   }
 </script>
+<!-- Logout Modal -->
+<div id="logout-modal" class="modal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+  <div class="modal-content" style="background-color: #222937; margin: 15% auto; padding: 20px; border-radius: 15px; width: 400px; position: relative; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center;">
+    <!-- Close Icon -->
+    <img src="{{ url_for('static', filename='images/popups/close.png') }}" alt="Close" onclick="document.getElementById('logout-modal').style.display='none';" style="width: 24px; height: 24px; position: absolute; right: 20px; top: 20px; cursor: pointer;">
+    <!-- Logout Confirmation -->
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Icon" style="width: 64px; height: 64px; margin-top: 20px;">
+    <h3 style="color: white; text-align: center;">Are you sure you want to log out?</h3>
+    <hr style="border: 0; height: 2px; background-color: #C0C0C0; margin-top: 3px; margin-bottom: 20px; margin-right: 0px; margin-left: 0px; width: 90%;">
+    <!-- Logout Button -->
+    <a href="/logout" style="text-decoration: none; background-color: #FF4742; color: white; padding: 10px 40px 10px 40px; border-radius: 10px; margin-top: 10px; margin-bottom: 20px; font-weight: bold; font-size: 24px;">Log out</a>
+
+  </div>
+</div>
 <!-- Content wrapper -->
 <div class="content-wrapper" style="flex-grow: 1; display: flex; flex-direction: column;">
   <!-- HEADER -->
@@ -207,7 +226,7 @@ function toggleSwitch(checkbox) {
 <!-- LOGO + STATS -->
 <div style="background: #121726; padding: 2% 0; text-align: center;">
     <!-- Logo and QuoteBot text, inline with no background box -->
-<img src="https://cdn.discordapp.com/attachments/916091272186454076/1017973024680579103/quote_botttt.png" alt="QuoteBot Logo" style="width: 250px; vertical-align: middle;">
+<img src="{{ url_for('static', filename='images/logo.png') }}" alt="QuoteBot Logo" style="width: 250px; vertical-align: middle;">
 <h1 style="color: #71CB70; display: inline; font-size: 4em; font-weight: 700; vertical-align: middle; margin: 0;">Quote</h1><!--
 --><h1 style="color: #F8F991; display: inline; font-size: 4em; font-weight: 700; vertical-align: middle; margin: 0;">Bot</h1>
 <div style="background: #121726; padding: 2% 0; text-align: center;">
@@ -251,28 +270,28 @@ function toggleSwitch(checkbox) {
 
         <!-- Custom Quotes -->
         <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
-            <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179097315244523650/quotes.png" alt="Custom Quotes Icon" style="margin-bottom: 5px; width: 50px">
+          <img src="{{ url_for('static', filename='images/home/quotes.png') }}" alt="Custom Quotes Icon" style="margin-bottom: 5px; width: 50px">
             <h2 style="color: #6998FB; font-size: 1.5em;">Custom Quotes</h2>
             <p style="color: white; font-size: 1em;">Save anything your friends say on QuoteBot!</p>
         </div>
         
         <!-- Quote Profiles -->
         <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
-            <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179097316016271400/user.png" alt="Quote Profiles Icon" style="margin-bottom: 5px; width: 50px">
+          <img src="{{ url_for('static', filename='images/home/user.png') }}" alt="Quote Profiles Icon" style="margin-bottom: 5px; width: 50px">
             <h2 style="color: #6998FB; font-size: 1.5em;">Quote Profiles</h2>
             <p style="color: white; font-size: 1em;">Easily view a user's quote with QuoteBot's streamline user profile interface!</p>
         </div>
         
         <!-- Random Quote -->
         <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
-            <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179097314481152101/dice.png" alt="Random Quote Icon" style="margin-bottom: 5px; width: 50px">
+          <img src="{{ url_for('static', filename='images/home/dice.png') }}" alt="Random Quote Icon" style="margin-bottom: 5px; width: 50px">
             <h2 style="color: #6998FB; font-size: 1.5em;">Random Quote</h2>
             <p style="color: white; font-size: 1em;">Find a random quote from a member's profile!</p>
         </div>
         
         <!-- Profile Customizer -->
         <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
-            <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179097314141421628/customization.png" alt="Profile Customizer Icon" style="margin-bottom: 5px; width: 50px">
+          <img src="{{ url_for('static', filename='images/home/customization.png') }}" alt="Profile Customizer Icon" style="margin-bottom: 5px; width: 50px">
             <h2 style="color: #6998FB; font-size: 1.5em;">Profile Customizer</h2>
             <p style="color: white; font-size: 1em;">Make your QuoteBot profile unique by pinning a quote and setting your bio!</p>
         </div>
@@ -282,7 +301,7 @@ function toggleSwitch(checkbox) {
             <div style="position: absolute; top: 10px; left: 10px; background: #58BC86; padding: 10px 10px; border-radius: 10px; color: white; font-size: 0.8em;">
                 Coming in version 5!
             </div>
-                        <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179097315701694474/translate.png" alt="Multiple Languages Icon" style="margin-bottom: 5px; width: 50px">
+            <img src="{{ url_for('static', filename='images/home/translate.png') }}" alt="Multiple Languages Icon" style="margin-bottom: 5px; width: 50px">
             <h2 style="color: #6998FB; font-size: 1.5em;">Multiple Languages</h2>
             <p style="color: white; font-size: 1em;">Use QuoteBot features in your primary language! Including content filtering!</p>
         </div>
@@ -292,7 +311,7 @@ function toggleSwitch(checkbox) {
             <div style="position: absolute; top: 10px; left: 10px; background: #58BC86; padding: 10px 10px; border-radius: 10px; color: white; font-size: 0.8em;">
                 Coming in version 5!
             </div>
-            <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179097314829283348/group.png" alt="Community Support Icon" style="margin-bottom: 5px; width: 50px">
+            <img src="{{ url_for('static', filename='images/home/group.png') }}" alt="Community Support Icon" style="margin-bottom: 5px; width: 50px">
             <h2 style="color: #6998FB; font-size: 1.5em;">Community Support</h2>
             <p style="color: white; font-size: 1em;">If your community is large don't worry! QuoteBot has a wide array of customizable settings to help you manage who, when and where it can be used!</p>
         </div>
