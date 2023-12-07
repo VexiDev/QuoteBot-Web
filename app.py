@@ -27,6 +27,13 @@ discord = OAuth2Session(CLIENT_ID, redirect_uri=REDIRECT_URI, scope=SCOPE)
 def home():
     return render_template('home_1.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()  # This clears all data in the session
+    # You can redirect to the home page or a logout confirmation page
+    return redirect(url_for('home'))
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')
