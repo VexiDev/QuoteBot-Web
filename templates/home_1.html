@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QuoteBot</title>
 <style>
+  @font-face {
+    font-family: 'OpenDyslexic';
+    src: url('static/fonts/dyslexic/OpenDyslexic-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  .span-dyslexic {
+    font-family: 'OpenDyslexic', sans-serif;
+  }
+
   body, html {
     margin: 0;
     padding: 0;
@@ -61,6 +72,31 @@
   function openLogoutModal() {
   document.getElementById('logout-modal').style.display = 'block';
 }
+
+  function openSettingsModal() {
+  document.getElementById('settings-modal').style.display = 'block';
+}
+
+function toggleDyslexie() {
+  var dyslexieStatus = document.getElementById('dyslexieStatus');
+  var isEnabled = dyslexieStatus.textContent.includes('Enabled');
+  dyslexieStatus.textContent = isEnabled ? 'Disabled' : 'Enabled';
+  dyslexieStatus.style.backgroundColor = isEnabled ? '#FF6F6F' : '#3ba844';
+}
+
+function updateLanguageStatus() {
+  var languageDropdown = document.getElementById('language-dropdown');
+  var languageStatus = document.getElementById('languageStatus');
+  languageStatus.textContent = languageDropdown.value;
+  languageDropdown.style.display = 'none';
+}
+
+
+  function showLanguageDropdown() {
+    // Implement the logic to show the dropdown when language status is clicked
+    var languageDropdown = document.getElementById('language-dropdown');
+    languageDropdown.style.display = 'block';
+  }
 </script>
 <script type="text/javascript">
   window.onload = function() {
@@ -152,7 +188,7 @@
       </label>
       <img src="{{ url_for('static', filename='images/popups/moon.png') }}" alt="Dark Mode" style="width: 24px; height: 24px;">
     </div>
-    <a href="/settings" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 8px 55px; border-radius: 6px; margin-bottom: 10px;">Settings</a>
+    <a href="#" onclick="openSettingsModal(); return false;" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 8px 55px; border-radius: 6px; margin-bottom: 10px;">Settings</a>
     <a href="#" class="btn" onclick="openLogoutModal(); return false;" style="text-decoration: none; background-color: #3C81F6; color: white; padding: 8px 60px; border-radius: 6px;">Logout</a>
   </div>
 </div>
@@ -207,6 +243,35 @@ function toggleSwitch(checkbox) {
 
   </div>
 </div>
+<!-- Settings Modal -->
+<div id="settings-modal" class="modal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+  <div class="modal-content" style="background-color: #23272A; margin: 15% auto; padding: 20px; border-radius: 15px; width: 80%; max-width: 300px; position: relative; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; text-align: center;">
+    <!-- Close Icon -->
+    <img src="{{ url_for('static', filename='images/popups/close.png') }}" alt="Close" onclick="document.getElementById('settings-modal').style.display='none';" style="width: 24px; height: 24px; position: absolute; right: 20px; top: 20px; cursor: pointer;">
+    <!-- Settings Header -->
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Icon" style="width: 64px; height: 64px; margin-top: 10px;">
+    <h2 style="color: white; font-size: 24px;margin-bottom: 20px; margin-top: 10px">Website Settings</h2>
+    <hr style="border: 0; height: 2px; background-color: #C0C0C0; margin-top: 3px; margin-bottom: 20px; width: 90%;">
+    <!-- Settings Options -->
+    <div style="width: 100%; padding: 0 20px; box-sizing: border-box;">
+      <!-- Dyslexie Font Setting -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <span class="span-dyslexic" style="font-family: 'OpenDyslexic', sans-serif; color: white; text-align: right; flex: 1; margin-right: 16px; user-select: none;">Dyslexie Font:</span>
+        <div id="dyslexieStatus" onclick="toggleDyslexie()" style="width: 100px; background-color: #FF6F6F; color: white; padding: 5px 10px; border-radius: 5px; text-align: center; cursor: pointer; user-select: none;">Disabled</div>
+      </div>
+      <!-- Language Setting -->
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="color: white; text-align: right; flex: 1; margin-right: 16px; user-select: none;">Language:</span>
+        <select id="languageStatus" onchange="updateLanguageStatus()" style="width: 120px; background-color: #3C81F6; color: white; padding: 5px 10px; border-radius: 5px; text-align: center; cursor: pointer; user-select: none;">
+          <option value="🇺🇸 English">🇺🇸 English</option>
+          <option value="🇫🇷 Français">🇫🇷 Français</option>
+          <option value="🇪🇸 Español">🇪🇸 Español</option>
+        </select>
+      </div>
+    </div>
+    </div>
+</div>
+
 <!-- Content wrapper -->
 <div class="content-wrapper" style="flex-grow: 1; display: flex; flex-direction: column;">
   <!-- HEADER -->
