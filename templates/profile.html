@@ -8,36 +8,38 @@ Profile - QuoteBot
 {% endblock %}
 
 {% block content %}
-<!-- Server List Header with Search Bar -->
-<div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5%; margin-top: 20px;">
-    <h2 style="color: #fff;">Your Servers</h2>
-    <input type="text" id="server-search" placeholder="Search servers..." oninput="searchServers()" style="padding: 10px; border-radius: 5px; border: none; min-width: 200px;">
-</div>
+<div style="background: #222937; border-radius: 10px; padding: 20px; margin: 30px">
+    <!-- Server List Header with Search Bar -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5%; margin-top: 10px;">
+        <h2 style="color: #fff; font-size: 32px; margin-left: 0">Your Servers</h2>
+        <input type="text" id="server-search" placeholder="Search servers..." oninput="searchServers()" style="padding: 10px; border-radius: 5px; border: none; min-width: 400px;">
+    </div>
 
-<!-- Server List Section -->
-<div id="server-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; align-items: start; justify-content: center; padding: 20px;">
-    {% for server_id, server in server_details.items() %}
-        <div class="server-card" style="background: #222937; border-radius: 10px; padding: 20px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px; text-align: center;">
-            <img src="{{ server.icon_url }}" alt="{{ server.name }}" style="width: 50px; height: 50px; border-radius: 50%; margin-bottom: 10px;">
-            <div class="server-name" style="max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 10px" title="{{ server.name }}">
-                {{ server.name }}
+    <!-- Server List Section -->
+    <div id="server-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; align-items: start; justify-content: center; padding: 20px; margin: 0 3.5%">
+        {% for server_id, server in server_details.items() %}
+            <div class="server-card" style="background: #3A4151; border-radius: 10px; padding: 20px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px; text-align: center;">
+                <img src="{{ server.icon_url }}" alt="{{ server.name }}" style="width: 50px; height: 50px; border-radius: 50%; margin-bottom: 10px;">
+                <div class="server-name" style="max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 10px" title="{{ server.name }}">
+                    {{ server.name }}
+                </div>
+                {% if server_id in quotebot_servers %}
+                    <!-- Server is in QuoteBot server list -->
+                    <div style="color: gold; font-size: 20px; margin-bottom: 5px; margin-top: 5px">{{ server.quotes }}</div>
+                    <div style="font-weight: bold; margin-bottom: 10px;">Quotes</div>
+                    <a href="{{ '/faq/add' if server.quotes == 0 else url_for('view_server', server_id=server_id) }}" style="background: #5865F2; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer; text-decoration: none; margin-top: 10px;">
+                        {{ 'Add Quotes!' if server.quotes == 0 else 'View Server' }}
+                    </a>
+                {% else %}
+                    <!-- Server is NOT in QuoteBot server list -->
+                    <div style="color: red; font-size: 20px; margin-bottom: 20px; margin-top: 10px;">Missing QuoteBot!</div>
+                    <a href="https://discord.com/oauth2/authorize?client_id=814379239930331157&permissions=139586825280&scope=bot%20applications.commands" target="_blank" style="background: #FF5555; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer; text-decoration: none; margin-top: 10px;">
+                        Invite QuoteBot
+                    </a>
+                {% endif %}
             </div>
-            {% if server_id in quotebot_servers %}
-                <!-- Server is in QuoteBot server list -->
-                <div style="color: gold; font-size: 20px; margin-bottom: 5px;">{{ server.quotes }}</div>
-                <div style="font-weight: bold; margin-bottom: 10px;">Quotes</div>
-                <a href="{{ '/faq/add' if server.quotes == 0 else url_for('view_server', server_id=server_id) }}" style="background: #5865F2; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer; text-decoration: none; margin-top: 10px;">
-                    {{ 'Add Quotes!' if server.quotes == 0 else 'View Server' }}
-                </a>
-            {% else %}
-                <!-- Server is NOT in QuoteBot server list -->
-                <div style="color: red; font-size: 20px; margin-bottom: 20px; margin-top: 10px;">Missing QuoteBot!</div>
-                <a href="https://discord.com/oauth2/authorize?client_id=814379239930331157&permissions=139586825280&scope=bot%20applications.commands" target="_blank" style="background: #FF5555; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer; text-decoration: none; margin-top: 10px;">
-                    Invite QuoteBot
-                </a>
-            {% endif %}
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
 
 <!-- Add a loading message div -->
@@ -72,7 +74,7 @@ Profile - QuoteBot
 
     // Call the function immediately and then set an interval to check periodically
     checkCacheUpdateStatus();
-    var cacheCheckInterval = setInterval(checkCacheUpdateStatus, 2000); // Check every 2 seconds and store the interval ID
+    // var cacheCheckInterval = setInterval(checkCacheUpdateStatus, 2000); // Check every 2 seconds and store the interval ID
 </script>
 <script>
     function searchServers() {
