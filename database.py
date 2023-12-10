@@ -18,7 +18,7 @@ def get_quote_counts(guild_ids):
     conn = connect()
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     formatted_guild_ids = ','.join(["%s"] * len(guild_ids))
-    cur.execute(f"SELECT guild_id, COUNT(*) as quote_count FROM quotes WHERE guild_id IN ({formatted_guild_ids}) GROUP BY guild_id", tuple(guild_ids))
+    cur.execute(f"SELECT guild_id, COUNT(*) as quote_count FROM quotes WHERE hidden=false AND guild_id IN ({formatted_guild_ids}) GROUP BY guild_id", tuple(guild_ids))
     quote_counts = cur.fetchall()
     cur.close()
     conn.close()
