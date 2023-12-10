@@ -30,47 +30,47 @@
             <input type="text" id="server-search" placeholder="Search servers..." oninput="searchServers()" style="padding: 10px; border-radius: 5px; border: none; min-width: 200px;">
         </div>
 
-<!-- Server List Section -->
-<div id="server-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; align-items: start; justify-content: center; padding: 20px;">
-    {% for server_id, server in server_details.items() %}
-        <div class="server-card" style="background: #222937; border-radius: 10px; padding: 20px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px; text-align: center;">
-            <img src="{{ server.icon_url }}" alt="{{ server.name }}" style="width: 50px; height: 50px; border-radius: 50%; margin-bottom: 10px;">
-            <div class="server-name" style="max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 10px" title="{{ server.name }}">
-                {{ server.name }}
-            </div>            
-            <div style="color: gold; font-size: 20px; margin-bottom: 5px;">{{ server.quotes }}</div>
-            <div style="font-weight: bold; margin-bottom: 20px;">Quotes</div>
-            <a href="{{ '/faq/add' if server.quotes == 0 else url_for('view_server', server_id=server_id) }}" style="background: #5865F2; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer; text-decoration: none; margin-top: 10px;">
-                {{ 'Add Quotes!' if server.quotes == 0 else 'View Server' }}
-            </a>                      
+        <!-- Server List Section -->
+        <div id="server-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; align-items: start; justify-content: center; padding: 20px;">
+            {% for server_id, server in server_details.items() %}
+                <div class="server-card" style="background: #222937; border-radius: 10px; padding: 20px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px; text-align: center;">
+                    <img src="{{ server.icon_url }}" alt="{{ server.name }}" style="width: 50px; height: 50px; border-radius: 50%; margin-bottom: 10px;">
+                    <div class="server-name" style="max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 10px" title="{{ server.name }}">
+                        {{ server.name }}
+                    </div>            
+                    <div style="color: gold; font-size: 20px; margin-bottom: 5px;">{{ server.quotes }}</div>
+                    <div style="font-weight: bold; margin-bottom: 20px;">Quotes</div>
+                    <a href="{{ '/faq/add' if server.quotes == 0 else url_for('view_server', server_id=server_id) }}" style="background: #5865F2; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer; text-decoration: none; margin-top: 10px;">
+                        {{ 'Add Quotes!' if server.quotes == 0 else 'View Server' }}
+                    </a>                      
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-</div>
 
-<script>
-function searchServers() {
-    var input, filter, serverList, cards, nameDiv, i, txtValue;
-    input = document.getElementById('server-search');
-    filter = input.value.toUpperCase();
-    serverList = document.getElementById('server-list');
-    cards = serverList.getElementsByClassName('server-card');
+        <script>
+        function searchServers() {
+            var input, filter, serverList, cards, nameDiv, i, txtValue;
+            input = document.getElementById('server-search');
+            filter = input.value.toUpperCase();
+            serverList = document.getElementById('server-list');
+            cards = serverList.getElementsByClassName('server-card');
 
-    for (i = 0; i < cards.length; i++) {
-        nameDiv = cards[i].getElementsByClassName("server-name")[0];
-        txtValue = nameDiv.getAttribute("title");
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            cards[i].style.display = "flex"; // Ensure the display style is set to flex
-            // Apply consistent styling for the search results
-            cards[i].style.justifyContent = "center";
-            cards[i].style.alignItems = "center";
-            cards[i].style.textAlign = "center";
-        } else {
-            cards[i].style.display = "none";
+            for (i = 0; i < cards.length; i++) {
+                nameDiv = cards[i].getElementsByClassName("server-name")[0];
+                txtValue = nameDiv.getAttribute("title");
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    cards[i].style.display = "flex"; // Ensure the display style is set to flex
+                    // Apply consistent styling for the search results
+                    cards[i].style.justifyContent = "center";
+                    cards[i].style.alignItems = "center";
+                    cards[i].style.textAlign = "center";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
         }
-    }
-}
 
-</script>
+        </script>
 
 
 
