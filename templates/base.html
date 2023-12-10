@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuoteBot - {% block title %}{% endblock %}</title>
+    <!-- Other common head elements -->
+</head>
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: #121726; color: #fff; padding: 0; box-sizing: border-box; height: 100vh;">
+    <div style="min-height: 100vh; display: flex; flex-direction: column;">
+        <!-- Common header with dropdown/login -->
+        <header style="background: #3A4151; padding: 1% 0 1% 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 3px; margin-bottom: 30px;">
+            <div style="display: flex; align-items: center; margin-left: 20px;">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="QuoteBot Logo" style="height: 75px;"> <!-- Adjust the size of the logo as needed -->
+                <h1 style="color: #71CB70; display: inline; font-size: 2em; font-weight: 700; margin-left: 10px;">Quote</h1>
+                <h1 style="color: #F8F991; display: inline; font-size: 2em; font-weight: 700;">Bot</h1>
+            </div>
+            <div style="display: flex; align-items: center; margin-right: 53px;">
+                <a href="/" class="back-button" style="background: #222937; color: #5865F2; padding: 17px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: inline-flex; align-items: center; gap: 10px; margin-right: 10px;">
+                    Back
+                </a>
+                <div style="position: relative;">
+                  <a id="profile-area" class="login" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px; margin-right: 10px; cursor: pointer;">
+                    <!-- Profile content will be inserted by JavaScript -->
+                  </a>   
+                    <!-- Dropdown menu content -->
+                    <div id="dropdownMenu" style="display: none; margin-top: 5px; right: 0; position: absolute; background-color: #222937; padding: 20px; border-radius: 20px; width: 200px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); color: white;">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <a href="/profile" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 10px 45px; border-radius: 6px; margin-bottom: 10px;">My Servers</a>
+                        <hr style="border: 0; height: 2px; background-color: #C0C0C0; margin: 3px 0; width: 90%;">
+                        <div class="theme-switcher" style="display: flex; align-items: center; gap: 5px; margin: 10px 0 20px 0;">
+                            <img src="{{ url_for('static', filename='images/popups/sun.png') }}" alt="Light Mode" style="width: 24px; height: 24px;">
+                            <label class="switch" style="position: relative; display: inline-block; cursor: pointer; width: 40px; height: 20px; background-color: #545E74; border-radius: 20px;">
+                            <input type="checkbox" checked style="opacity: 0; width: 0; height: 0;" onchange="toggleSwitch(this)">
+                            <span id="sliderBall" style="position: absolute; cursor: pointer; top: 2px; left: 22px; background-color: #2196F3; transition: .4s; border-radius: 50%; width: 16px; height: 16px;"></span>
+                            </label>
+                            <img src="{{ url_for('static', filename='images/popups/moon.png') }}" alt="Dark Mode" style="width: 24px; height: 24px;">
+                        </div>
+                        <a href="#" onclick="openSettingsModal(); return false;" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 8px 55px; border-radius: 6px; margin-bottom: 10px;">Settings</a>
+                        <a href="#" class="btn" onclick="openLogoutModal(); return false;" style="text-decoration: none; background-color: #3C81F6; color: white; padding: 8px 60px; border-radius: 6px;">Logout</a>
+                    </div>
+                </div>
+              </div>            
+              </div>
+        </header>    
+
+        <!-- Specific page content will go here -->
+        <main style="flex-grow: 1;">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <!-- Common footer -->
+        <footer style="background: #3A4151; color: #ffffff; padding: 10px; text-align: center; border-radius: 3px; margin-top: 30px;">
+            © 2023 QuoteBot, all rights reserved
+        </footer>
+    </div>
+
+    <!-- Logout Modal -->
+    <div id="logout-modal" class="modal" style="display:none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+        <div class="modal-content" style="background-color: #222937; margin: 15% auto; padding: 20px; border-radius: 15px; width: 400px; position: relative; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center;">
+        <!-- Close Icon -->
+        <img src="{{ url_for('static', filename='images/popups/close.png') }}" alt="Close" onclick="document.getElementById('logout-modal').style.display='none';" style="width: 24px; height: 24px; position: absolute; right: 20px; top: 20px; cursor: pointer;">
+        <!-- Logout Confirmation -->
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Icon" style="width: 64px; height: 64px; margin-top: 20px;">
+        <h3 style="color: white; text-align: center;">Are you sure you want to log out?</h3>
+        <hr style="border: 0; height: 2px; background-color: #C0C0C0; margin-top: 3px; margin-bottom: 20px; margin-right: 0px; margin-left: 0px; width: 90%;">
+        <!-- Logout Button -->
+        <a href="/logout" style="text-decoration: none; background-color: #FF4742; color: white; padding: 10px 40px 10px 40px; border-radius: 10px; margin-top: 10px; margin-bottom: 20px; font-weight: bold; font-size: 24px;">Log out</a>
+    
+        </div>
+    </div>
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal" style="display:none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+        <div class="modal-content" style="background-color: #23272A; margin: 15% auto; padding: 20px; border-radius: 15px; width: 80%; max-width: 300px; position: relative; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <!-- Close Icon -->
+        <img src="{{ url_for('static', filename='images/popups/close.png') }}" alt="Close" onclick="document.getElementById('settings-modal').style.display='none';" style="width: 24px; height: 24px; position: absolute; right: 20px; top: 20px; cursor: pointer;">
+        <!-- Settings Header -->
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo Icon" style="width: 64px; height: 64px; margin-top: 10px;">
+        <h2 style="color: white; font-size: 24px;margin-bottom: 20px; margin-top: 10px">Website Settings</h2>
+        <hr style="border: 0; height: 2px; background-color: #C0C0C0; margin-top: 3px; margin-bottom: 20px; width: 90%;">
+        <!-- Settings Options -->
+        <div style="width: 100%; padding: 0 20px; box-sizing: border-box;">
+            <!-- Dyslexie Font Setting -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span class="span-dyslexic" style="font-family: 'OpenDyslexic', sans-serif; color: white; text-align: right; flex: 1; margin-right: 16px; user-select: none;">Dyslexie Font:</span>
+            <div id="dyslexieStatus" onclick="toggleDyslexie()" style="width: 100px; background-color: #FF6F6F; color: white; padding: 5px 10px; border-radius: 5px; text-align: center; cursor: pointer; user-select: none;">Disabled</div>
+            </div>
+            <!-- Language Setting -->
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: white; text-align: right; flex: 1; margin-right: 16px; user-select: none;">Language:</span>
+            <select id="languageStatus" onchange="updateLanguageStatus()" style="width: 120px; background-color: #3C81F6; color: white; padding: 5px 10px; border-radius: 5px; text-align: center; cursor: pointer; user-select: none;">
+                <option value="🇺🇸 English">🇺🇸 English</option>
+                <option value="🇫🇷 Français">🇫🇷 Français</option>
+                <option value="🇪🇸 Español">🇪🇸 Español</option>
+            </select>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Common scripts -->
+    <script>
+        const profileArea = document.getElementById('profile-area');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        profileArea.addEventListener('click', () => {
+        dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
+    <script>
+        function openLogoutModal() {
+        document.getElementById('logout-modal').style.display = 'block';
+      }
+      
+        function openSettingsModal() {
+        document.getElementById('settings-modal').style.display = 'block';
+      }
+      
+      function toggleDyslexie() {
+        var dyslexieStatus = document.getElementById('dyslexieStatus');
+        var isEnabled = dyslexieStatus.textContent.includes('Enabled');
+        dyslexieStatus.textContent = isEnabled ? 'Disabled' : 'Enabled';
+        dyslexieStatus.style.backgroundColor = isEnabled ? '#FF6F6F' : '#3ba844';
+      }
+      
+      function updateLanguageStatus() {
+        var languageDropdown = document.getElementById('language-dropdown');
+        var languageStatus = document.getElementById('languageStatus');
+        languageStatus.textContent = languageDropdown.value;
+        languageDropdown.style.display = 'none';
+      }
+      
+      
+        function showLanguageDropdown() {
+          // Implement the logic to show the dropdown when language status is clicked
+          var languageDropdown = document.getElementById('language-dropdown');
+          languageDropdown.style.display = 'block';
+        }
+      </script>
+      <script type="text/javascript">
+        window.onload = function() {
+          fetch('/check_login')
+            .then(response => response.json())
+            .then(data => {
+              const profileArea = document.getElementById('profile-area');
+              const dropdownMenu = document.getElementById('dropdownMenu');
+    
+              if (data.logged_in) {
+                // User is logged in, display profile picture and username
+                profileArea.style.display = 'inline-flex'; // Make sure the profile area is visible
+                profileArea.innerHTML = `
+                  <img src="${data.user_info.avatar_url}" alt="User Avatar" style="width: 32px; height: 32px; border-radius: 50%;">
+                  <span>${data.user_info.username}</span>
+                `;
+              } else {
+                // User is not logged in, hide profile button
+                profileArea.style.display = 'none';
+              }
+            }).catch(error => {
+              console.error('Error:', error);
+            });
+    
+          setupDropdownHover();
+        };
+    
+        function setupDropdownHover() {
+              const profileArea = document.getElementById('profile-area');
+              const dropdownMenu = document.getElementById('dropdownMenu');
+              let hideDropdownTimeout;
+  
+              // Show the dropdown menu when the profile area is hovered
+              profileArea.addEventListener('mouseenter', function() {
+                  clearTimeout(hideDropdownTimeout);
+                  dropdownMenu.style.display = 'block';
+              });
+  
+              // Hide the dropdown menu with a delay
+              function hideDropdownWithDelay() {
+                  hideDropdownTimeout = setTimeout(function() {
+                  dropdownMenu.style.display = 'none';
+                  }, 200);
+              }
+  
+              // Check if the mouse is over the dropdown or profile area
+              function isMouseOverElement(event) {
+                  const isOverDropdown = dropdownMenu.contains(event.relatedTarget);
+                  const isOverProfile = profileArea.contains(event.relatedTarget);
+                  return isOverDropdown || isOverProfile;
+              }
+  
+              profileArea.addEventListener('mouseleave', function(event) {
+                  if (!isMouseOverElement(event)) {
+                  hideDropdownWithDelay();
+                  }
+              });
+  
+              dropdownMenu.addEventListener('mouseenter', function() {
+                  clearTimeout(hideDropdownTimeout);
+              });
+  
+              dropdownMenu.addEventListener('mouseleave', function(event) {
+                  if (!isMouseOverElement(event)) {
+                  hideDropdownWithDelay();
+                  }
+              });
+              }
+  
+      </script>
+  <script>
+    // Ensuring the slider ball is positioned correctly when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      var checkbox = document.querySelector('.switch input[type="checkbox"]');
+      toggleSwitch(checkbox);
+    });
+    
+    function toggleSwitch(checkbox) {
+      var sliderBall = document.getElementById('sliderBall');
+      if (checkbox.checked) {
+        sliderBall.style.backgroundColor = '#2196F3'; // Blue color for the ball
+        sliderBall.style.left = '22px'; // Move ball to the right, adjusted for smaller switch size
+      } else {
+        sliderBall.style.backgroundColor = 'yellow'; // Yellow color for the ball
+        sliderBall.style.left = '2px'; // Move ball to the left
+      }
+    }
+    </script>
+    
+    <script>
+      // Function to show the dropdown menu
+      function showDropdown() {
+          var menu = document.getElementById("dropdown-menu");
+          menu.style.display = "block";
+      }
+    
+      // Function to hide the dropdown menu
+      function hideDropdown() {
+          var menu = document.getElementById("dropdown-menu");
+          setTimeout(function () {
+              if (!menu.matches(":hover")) {
+                  menu.style.display = "none";
+              }
+          }, 200); // Adjust the delay as needed
+      }
+    </script>
+    <!-- Other scripts -->
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

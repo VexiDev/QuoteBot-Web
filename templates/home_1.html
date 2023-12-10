@@ -118,7 +118,10 @@ function updateLanguageStatus() {
           loginArea.appendChild(avatarImg);
           loginArea.append(data.user_info.username);
           // Change the href to the user's profile or logout link if you have one
-          loginArea.href = '/profile'; // Replace with the correct route
+          loginArea.href = '#';
+          loginArea.addEventListener('click', (e) => {
+            e.preventDefault();
+          });
 
           // Add event listeners to show/hide the dropdown menu on hover
           loginArea.addEventListener('mouseenter', () => {

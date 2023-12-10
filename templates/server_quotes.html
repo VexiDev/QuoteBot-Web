@@ -1,29 +1,13 @@
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QuoteBot</title>
-</head>
-<body style="margin: 0; font-family: Arial, sans-serif; background-color: #121726; color: #fff; padding: 0; box-sizing: border-box; height: 100vh;">
-    <div style="min-height: 100vh; display: flex; flex-direction: column;">
-        <header style="background: #3A4151; padding: 1% 0 1% 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 3px;">
-            <div style="display: flex; align-items: center; margin-left: 20px;">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="QuoteBot Logo" style="height: 75px;"> <!-- Adjust the size of the logo as needed -->
-                <h1 style="color: #71CB70; display: inline; font-size: 2em; font-weight: 700; margin-left: 10px;">Quote</h1>
-                <h1 style="color: #F8F991; display: inline; font-size: 2em; font-weight: 700;">Bot</h1>
-            </div>
-            <div style="display: flex; align-items: center; margin-right: 20px;">
-                <a href="/profile" class="back-button" style="background: #222937; color: #5865F2; padding: 17px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: inline-flex; align-items: center; gap: 10px; margin-right: 10px;">
-                    Back
-                </a>
-                <a id="profile-area" class="login" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px; margin-right: 10px;">
-                    <!-- Profile content will be inserted by JavaScript -->
-                </a>
-            </div>
-        </header>   
-        
+{% block title %}
+Profile - QuoteBot
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
 <!-- Main Content -->
 <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
     <div style="width: 90%; background: #222937; padding: 30px; border-radius: 10px; margin: 20px 0;">
@@ -66,97 +50,66 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script>
-function searchQuotes() {
-    var input, filter, quotesGrid, quoteCards, i, txtValue;
-    input = document.getElementById('quote-search');
-    filter = input.value.toUpperCase();
-    quotesGrid = document.getElementById('quotes-grid');
-    quoteCards = quotesGrid.getElementsByClassName('quote-card');
-
-    for (i = 0; i < quoteCards.length; i++) {
-        // Assuming <p> tags are in order: username, date, quote text
-        var author = quoteCards[i].getElementsByTagName("p")[0].textContent || quoteCards[i].getElementsByTagName("p")[0].innerText;
-        var date = quoteCards[i].getElementsByTagName("p")[1].textContent || quoteCards[i].getElementsByTagName("p")[1].innerText;
-        var quoteText = quoteCards[i].getElementsByTagName("p")[2].textContent || quoteCards[i].getElementsByTagName("p")[2].innerText;
-
-        // Check if any of the text values match the filter
-        if (author.toUpperCase().indexOf(filter) > -1 || date.toUpperCase().indexOf(filter) > -1 || quoteText.toUpperCase().indexOf(filter) > -1) {
-            quoteCards[i].style.display = ""; // Show the card
-        } else {
-            quoteCards[i].style.display = "none"; // Hide the card
-        }
-    }
-}
-</script>
-
-
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var cards = document.querySelectorAll('#quotes-grid .quote-card');
-    var rowCount = Math.ceil(cards.length / 3);
+    function searchQuotes() {
+        var input, filter, quotesGrid, quoteCards, i, txtValue;
+        input = document.getElementById('quote-search');
+        filter = input.value.toUpperCase();
+        quotesGrid = document.getElementById('quotes-grid');
+        quoteCards = quotesGrid.getElementsByClassName('quote-card');
     
-    for (var i = 0; i < rowCount; i++) {
-      var colorOffset = i / (rowCount - 1);
-      var startColor = interpolateColor("#737F9C", "#3A4151", colorOffset);
-
-      for (var j = 0; j < 3; j++) {
-        var cardIndex = i * 3 + j;
-        if (cardIndex < cards.length) {
-          cards[cardIndex].style.background = startColor;
+        for (i = 0; i < quoteCards.length; i++) {
+            // Assuming <p> tags are in order: username, date, quote text
+            var author = quoteCards[i].getElementsByTagName("p")[0].textContent || quoteCards[i].getElementsByTagName("p")[0].innerText;
+            var date = quoteCards[i].getElementsByTagName("p")[1].textContent || quoteCards[i].getElementsByTagName("p")[1].innerText;
+            var quoteText = quoteCards[i].getElementsByTagName("p")[2].textContent || quoteCards[i].getElementsByTagName("p")[2].innerText;
+    
+            // Check if any of the text values match the filter
+            if (author.toUpperCase().indexOf(filter) > -1 || date.toUpperCase().indexOf(filter) > -1 || quoteText.toUpperCase().indexOf(filter) > -1) {
+                quoteCards[i].style.display = ""; // Show the card
+            } else {
+                quoteCards[i].style.display = "none"; // Hide the card
+            }
         }
-      }
     }
-
-    function interpolateColor(color1, color2, factor) {
-      if (arguments.length < 3) { 
-        factor = 0.5; 
-      }
-      var result = color1.slice(1).match(/.{2}/g).map(function(hex){
-        return parseInt(hex, 16)
-      }).map(function(value, i){
-        return Math.round(value + (parseInt(color2.slice(1).match(/.{2}/g)[i], 16) - value) * factor)
+    </script>
+    
+    
+    
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var cards = document.querySelectorAll('#quotes-grid .quote-card');
+        var rowCount = Math.ceil(cards.length / 3);
+        
+        for (var i = 0; i < rowCount; i++) {
+          var colorOffset = i / (rowCount - 1);
+          var startColor = interpolateColor("#737F9C", "#3A4151", colorOffset);
+    
+          for (var j = 0; j < 3; j++) {
+            var cardIndex = i * 3 + j;
+            if (cardIndex < cards.length) {
+              cards[cardIndex].style.background = startColor;
+            }
+          }
+        }
+    
+        function interpolateColor(color1, color2, factor) {
+          if (arguments.length < 3) { 
+            factor = 0.5; 
+          }
+          var result = color1.slice(1).match(/.{2}/g).map(function(hex){
+            return parseInt(hex, 16)
+          }).map(function(value, i){
+            return Math.round(value + (parseInt(color2.slice(1).match(/.{2}/g)[i], 16) - value) * factor)
+          });
+          return '#' + result.map(function(value){
+            return value.toString(16).padStart(2, '0')
+          }).join('');
+        }
       });
-      return '#' + result.map(function(value){
-        return value.toString(16).padStart(2, '0')
-      }).join('');
-    }
-  });
-</script>
-
-
-
-
-        <footer style="background: #3A4151; color: #ffffff; padding: 10px; text-align: center; border-radius: 3px;">
-            © 2023 QuoteBot, all rights reserved
-        </footer>
-    </div>
-
-    
-    <script type="text/javascript">
-        window.onload = function() {
-          fetch('/check_login')
-            .then(response => response.json())
-            .then(data => {
-              const profileArea = document.getElementById('profile-area');
-              if (data.logged_in) {
-                // User is logged in, display profile picture and username
-                profileArea.style.display = 'inline-flex'; // Make sure the profile area is visible
-                profileArea.innerHTML = `
-                  <img src="${data.user_info.avatar_url}" alt="User Avatar" style="width: 32px; height: 32px; border-radius: 50%;">
-                  <span>${data.user_info.username}</span>
-                `;
-              } else {
-                // User is not logged in, hide profile button
-                profileArea.style.display = 'none';
-              }
-            }).catch(error => {
-              console.error('Error:', error);
-            });
-        };
-      </script>   
-</body>
-</html>
+    </script>
+{% endblock %}

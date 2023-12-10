@@ -1,34 +1,18 @@
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QuoteBot</title>
-</head>
-<body style="margin: 0; font-family: Arial, sans-serif; background-color: #121726; color: #fff; padding: 0; box-sizing: border-box; height: 100vh;">
-    <div style="min-height: 100vh; display: flex; flex-direction: column;">
-        <header style="background: #3A4151; padding: 1% 0 1% 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 3px;">
-            <div style="display: flex; align-items: center; margin-left: 20px;">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="QuoteBot Logo" style="height: 75px;"> <!-- Adjust the size of the logo as needed -->
-                <h1 style="color: #71CB70; display: inline; font-size: 2em; font-weight: 700; margin-left: 10px;">Quote</h1>
-                <h1 style="color: #F8F991; display: inline; font-size: 2em; font-weight: 700;">Bot</h1>
-            </div>
-            <div style="display: flex; align-items: center; margin-right: 20px;">
-                <a href="/" class="back-button" style="background: #222937; color: #5865F2; padding: 17px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: inline-flex; align-items: center; gap: 10px; margin-right: 10px;">
-                    Back
-                </a>
-                <a id="profile-area" class="login" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px; margin-right: 10px;">
-                    <!-- Profile content will be inserted by JavaScript -->
-                </a>
-            </div>
-        </header>   
+{% block title %}
+Profile - QuoteBot
+{% endblock %}
 
-        <!-- Server List Header with Search Bar -->
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5%; margin-top: 20px;">
-            <h2 style="color: #fff;">Your Servers</h2>
-            <input type="text" id="server-search" placeholder="Search servers..." oninput="searchServers()" style="padding: 10px; border-radius: 5px; border: none; min-width: 200px;">
-        </div>
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<!-- Server List Header with Search Bar -->
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5%; margin-top: 20px;">
+    <h2 style="color: #fff;">Your Servers</h2>
+    <input type="text" id="server-search" placeholder="Search servers..." oninput="searchServers()" style="padding: 10px; border-radius: 5px; border: none; min-width: 200px;">
+</div>
 
 <!-- Server List Section -->
 <div id="server-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; align-items: start; justify-content: center; padding: 20px;">
@@ -61,7 +45,9 @@
     <h2>Loading servers, please wait...</h2>
     <!-- Add more styling or a loading spinner as needed -->
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script>
     // Function to check cache update status
     function checkCacheUpdateStatus() {
@@ -86,63 +72,29 @@
 
     // Call the function immediately and then set an interval to check periodically
     checkCacheUpdateStatus();
-    var cacheCheckInterval = setInterval(checkCacheUpdateStatus, 5000); // Check every 5 seconds and store the interval ID
-
+    var cacheCheckInterval = setInterval(checkCacheUpdateStatus, 2000); // Check every 2 seconds and store the interval ID
 </script>
+<script>
+    function searchServers() {
+        var input, filter, serverList, cards, nameDiv, i, txtValue;
+        input = document.getElementById('server-search');
+        filter = input.value.toUpperCase();
+        serverList = document.getElementById('server-list');
+        cards = serverList.getElementsByClassName('server-card');
 
-
-        <script>
-        function searchServers() {
-            var input, filter, serverList, cards, nameDiv, i, txtValue;
-            input = document.getElementById('server-search');
-            filter = input.value.toUpperCase();
-            serverList = document.getElementById('server-list');
-            cards = serverList.getElementsByClassName('server-card');
-
-            for (i = 0; i < cards.length; i++) {
-                nameDiv = cards[i].getElementsByClassName("server-name")[0];
-                txtValue = nameDiv.getAttribute("title");
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    cards[i].style.display = "flex"; // Ensure the display style is set to flex
-                    // Apply consistent styling for the search results
-                    cards[i].style.justifyContent = "center";
-                    cards[i].style.alignItems = "center";
-                    cards[i].style.textAlign = "center";
-                } else {
-                    cards[i].style.display = "none";
-                }
+        for (i = 0; i < cards.length; i++) {
+            nameDiv = cards[i].getElementsByClassName("server-name")[0];
+            txtValue = nameDiv.getAttribute("title");
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                cards[i].style.display = "flex"; // Ensure the display style is set to flex
+                // Apply consistent styling for the search results
+                cards[i].style.justifyContent = "center";
+                cards[i].style.alignItems = "center";
+                cards[i].style.textAlign = "center";
+            } else {
+                cards[i].style.display = "none";
             }
         }
-
-        </script>
-
-
-
-        <footer style="background: #3A4151; color: #ffffff; padding: 10px; text-align: center; border-radius: 3px; margin-top: 25px;">
-            © 2023 QuoteBot, all rights reserved
-        </footer>
-    </div>
-    <script type="text/javascript">
-        window.onload = function() {
-          fetch('/check_login')
-            .then(response => response.json())
-            .then(data => {
-              const profileArea = document.getElementById('profile-area');
-              if (data.logged_in) {
-                // User is logged in, display profile picture and username
-                profileArea.style.display = 'inline-flex'; // Make sure the profile area is visible
-                profileArea.innerHTML = `
-                  <img src="${data.user_info.avatar_url}" alt="User Avatar" style="width: 32px; height: 32px; border-radius: 50%;">
-                  <span>${data.user_info.username}</span>
-                `;
-              } else {
-                // User is not logged in, hide profile button
-                profileArea.style.display = 'none';
-              }
-            }).catch(error => {
-              console.error('Error:', error);
-            });
-        };
-      </script>   
-</body>
-</html>
+    }
+</script>
+{% endblock %}
