@@ -1,10 +1,11 @@
-from flask import Flask, redirect, request, session, jsonify, render_template, url_for, flash
+from flask import Flask, redirect, request, session, jsonify, render_template, url_for, flash, current_app
 from requests_oauthlib import OAuth2Session
 import os
 from dotenv import load_dotenv
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import database
+import threading
 import requests
 import time
 
@@ -23,6 +24,9 @@ CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 REDIRECT_URI = os.getenv('REDIRECT_URI')
 SCOPE = ['identify', 'guilds']
+
+# recache in progress flag
+cache_update_in_progress = False
 
 discord = OAuth2Session(CLIENT_ID, redirect_uri=REDIRECT_URI, scope=SCOPE)
 
@@ -157,6 +161,91 @@ def logout():
     # You can redirect to the home page or a logout confirmation page
     return redirect(url_for('home'))
 
+@app.route('/get_cache_update_status')
+def get_cache_update_status():
+    global cache_update_in_progress
+    return jsonify({'cache_update_in_progress': cache_update_in_progress})
+
+
+def get_quotebot_server_cache_path():
+    return os.path.join(app.root_path, 'data', 'quotebot_servers.json')
+
+def _update_quotebot_servers_cache_thread():
+    global cache_update_in_progress
+    with app.app_context():
+        cache_path = get_quotebot_server_cache_path()
+        server_list = []
+        last_id = None  # Used for pagination
+        headers = {"Authorization": f"Bot {os.getenv('qb_token')}"}
+
+        while True:
+            params = {'limit': 200}
+            if last_id:
+                params['after'] = last_id
+
+            response = requests.get('https://discord.com/api/v9/users/@me/guilds', headers=headers, params=params)
+
+            if response.status_code == 200:
+                servers = response.json()
+                if not servers:
+                    break
+                server_list.extend([server['id'] for server in servers])
+                last_id = servers[-1]['id']
+            else:
+                print(f"Failed to fetch quotebot servers: {response.status_code}, {response.text}")
+                break
+            
+            # Implementing rate limit handling
+            if 'X-RateLimit-Remaining' in response.headers and int(response.headers['X-RateLimit-Remaining']) == 0:
+                reset_after = float(response.headers.get('X-RateLimit-Reset-After', 0))
+                time.sleep(reset_after)
+            
+        # Cache the new data
+        with open(cache_path, 'w') as cache_file:
+            json.dump({'servers': server_list, 'last_updated': time.time()}, cache_file, indent=4)
+
+        cache_update_in_progress = False
+        #reload users page
+        return redirect(url_for('profile'))
+
+
+def is_cache_up_to_date():
+    cache_path = get_quotebot_server_cache_path()
+    try:
+        with open(cache_path, 'r') as cache_file:
+            cache_data = json.load(cache_file)
+            last_updated = cache_data.get('last_updated')
+
+            # Check if last_updated is not None and within the 2-hour window
+            if last_updated is not None:
+                return datetime.now() - datetime.fromtimestamp(last_updated) < timedelta(hours=2)
+            else:
+                # last_updated is None or not present, indicating an empty or invalid cache
+                return False
+    except (FileNotFoundError, json.JSONDecodeError):
+        # If the file doesn't exist or is corrupted, return False
+        return False
+
+def update_quotebot_servers_cache():
+    global cache_update_in_progress
+
+    # Only start a new thread if one isn't already running
+    if not is_cache_up_to_date() and not cache_update_in_progress:
+        cache_update_in_progress = True
+        print('Updating quotebot server cache')
+        thread = threading.Thread(target=_update_quotebot_servers_cache_thread)
+        thread.start()
+
+def get_quotebot_servers():
+    cache_path = get_quotebot_server_cache_path()
+    try:
+        # Try to read from the cache file
+        with open(cache_path, 'r') as cache_file:
+            cache_data = json.load(cache_file)
+            return cache_data.get('servers', [])
+    except (FileNotFoundError, json.JSONDecodeError):
+        # If the file doesn't exist or is corrupted, we'll return an empty list
+        return []
 
 @app.route('/profile')
 def profile():
@@ -166,12 +255,16 @@ def profile():
 
     # Load the server details from the JSON file
     server_details = load_server_details(user_id)
-
     # Sort by highest quote count
     server_details = dict(sorted(server_details.items(), key=lambda x: x[1]['quotes'], reverse=True))
 
+    # Check if the cache is up to date
+    update_quotebot_servers_cache()
+    # Fetch QuoteBot server list
+    quotebot_servers = get_quotebot_servers()
+
     # Pass the updated server details to the template
-    return render_template('profile.html', server_details=server_details)
+    return render_template('profile.html', server_details=server_details, quotebot_servers=quotebot_servers)
 
 @app.route('/about')
 def about():
