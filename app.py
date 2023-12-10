@@ -26,16 +26,6 @@ SCOPE = ['identify', 'guilds']
 
 discord = OAuth2Session(CLIENT_ID, redirect_uri=REDIRECT_URI, scope=SCOPE)
 
-@app.template_filter('dateformat')
-def dateformat_filter(s, format='%Y-%m-%d'):
-    if isinstance(s, int):
-        # Assuming `s` is a timestamp
-        return datetime.fromtimestamp(s).strftime(format)
-    elif isinstance(s, str):
-        # If `s` is already a string, return as it is or convert it to date object and format
-        return s  # Or return datetime.strptime(s, '%Y-%m-%d').strftime(format)
-    return s
-
 def get_server_details_file_path():
     return os.path.join(app.root_path, 'data', 'server_details.json')
 
@@ -82,8 +72,10 @@ def load_or_refresh_server_quotes(server_id):
             last_refreshed = server_quotes.get("date_refreshed", 0)
             # Check if data is older than 2 hours
             if time.time() - last_refreshed > 7200:
-                raise ValueError("Data is old, needs refresh.")
-            return server_quotes.get("quotes", [])
+                server_quotes = refresh_server_quotes(server_id)
+                return server_quotes
+            else:
+                return server_quotes.get("quotes", [])
     except (FileNotFoundError, ValueError):
         server_quotes = refresh_server_quotes(server_id)
         return server_quotes
@@ -103,17 +95,45 @@ def refresh_server_quotes(server_id):
             # If user data could not be fetched, create a default UserProfile
             user_profiles[user_id] = UserProfile({"username": "Unknown", "avatar": None})
 
-    
-    formatted_quotes = []
+
+    sorted_quotes = []
+    legacy_quotes = []
+
     for quote in quotes:
         user_profile = user_profiles[quote['uid']]
-        formatted_quote = {
-            'text': quote['quote'],
-            'author': user_profile.username,
-            'profile_pic': user_profile.avatar_url,
-            'date': quote['date_added'],
-        }
-        formatted_quotes.append(formatted_quote)
+
+        if quote['date_added'] != 'legacy':
+            # Parse and format the date
+            date_obj = datetime.strptime(quote['date_added'], '%d/%m/%Y %H:%M:%S')
+            formatted_date = date_obj.strftime('%m/%d/%y')
+
+            # Create the formatted quote
+            formatted_quote = {
+                'text': quote['quote'],
+                'author': user_profile.username,
+                'profile_pic': user_profile.avatar_url,
+                'date': formatted_date,
+            }
+
+            # Insert the formatted quote into the sorted list based on its date
+            index = 0
+            for sorted_quote in sorted_quotes:
+                if date_obj > datetime.strptime(sorted_quote['date'], '%m/%d/%y'):
+                    break
+                index += 1
+            sorted_quotes.insert(index, formatted_quote)
+        else:
+            # Add "legacy" quotes to a separate list
+            legacy_quotes.append({
+                'text': quote['quote'],
+                'author': user_profile.username,
+                'profile_pic': user_profile.avatar_url,
+                'date': 'legacy',
+            })
+
+    # Combine sorted and legacy quotes
+    formatted_quotes = sorted_quotes + legacy_quotes
+
     
     # Save the refreshed data
     server_quotes_data = {
@@ -172,12 +192,12 @@ def fetch_user_data(user_id):
         print(f"Error fetching user data: {e}")
         return {}
 
-def fetch_server_data(server_id):
+def fetch_server_data(server_id, user_id):
     # Fetch server data from ../data/server_details.json
     with open('data/server_details.json', 'r') as f:
         server_details = json.load(f)
         
-    return server_details.get(server_id, {})
+    return server_details[user_id][server_id]
 
 @app.route('/quotes/<server_id>')
 def view_server(server_id):
@@ -201,9 +221,9 @@ def view_server(server_id):
     quotes = load_or_refresh_server_quotes(server_id)
     
     # Fetch server details
-    server_profile = ServerProfile(fetch_server_data(server_id))
+    server_profile = ServerProfile(fetch_server_data(server_id, user_info['id']))
     
-    return render_template('server_quotes.html', server_id=server_id, server_quotes=quotes)
+    return render_template('server_quotes.html', server_id=server_id, server_quotes=quotes, server_name=server_profile.name, server_icon_url=server_profile.icon_url)
 
 
 @app.route('/faq')
