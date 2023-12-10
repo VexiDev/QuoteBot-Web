@@ -263,6 +263,16 @@ def profile():
     # Fetch QuoteBot server list
     quotebot_servers = get_quotebot_servers()
 
+    # sort server details by quote count where servers that aren't in quotebot server are at the bottom
+    quotebot_server_details = {}
+    non_quotebot_server_details = {}
+    for server_id, details in server_details.items():
+        if server_id in quotebot_servers:
+            quotebot_server_details[server_id] = details
+        else:
+            non_quotebot_server_details[server_id] = details
+    server_details = {**quotebot_server_details, **non_quotebot_server_details}
+
     # Pass the updated server details to the template
     return render_template('profile.html', server_details=server_details, quotebot_servers=quotebot_servers)
 
