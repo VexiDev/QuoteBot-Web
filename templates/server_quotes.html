@@ -31,7 +31,7 @@ Profile - QuoteBot
                             </div>
                             <p style="margin: 0; margin-right: 15px; font-size: 18px; color: #fff; font-style: italic;">{{ quote['date'] }}</p>
                         </div>
-                        <p style="margin-top: 20px; font-size: 18px;">"{{ quote['text'] }}"</p>
+                        <p id="quote-text" style="margin-top: 20px; font-size: 18px; max-height: 50px; overflow-y: auto;">"{{ quote['text'] }}"</p>
                     </div>
                 {% endfor %}
             </div>
@@ -76,40 +76,44 @@ Profile - QuoteBot
         }
     }
     </script>
-    
-    
-    
-    
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var cards = document.querySelectorAll('#quotes-grid .quote-card');
-        var rowCount = Math.ceil(cards.length / 3);
-        
-        for (var i = 0; i < rowCount; i++) {
-          var colorOffset = i / (rowCount - 1);
-          var startColor = interpolateColor("#737F9C", "#3A4151", colorOffset);
-    
-          for (var j = 0; j < 3; j++) {
-            var cardIndex = i * 3 + j;
-            if (cardIndex < cards.length) {
-              cards[cardIndex].style.background = startColor;
+        document.addEventListener('DOMContentLoaded', function() {
+          var cards = document.querySelectorAll('#quotes-grid .quote-card');
+          var rowCount = Math.ceil(cards.length / 3);
+      
+          // Check if there are fewer than 4 quotes
+          if (cards.length < 4) {
+            // Apply the initial color to all cards
+            cards.forEach(function(card) {
+              card.style.background = "#737F9C"; // Initial color
+            });
+          } else {
+            for (var i = 0; i < rowCount; i++) {
+              var colorOffset = i / (rowCount - 1);
+              var startColor = interpolateColor("#737F9C", "#3A4151", colorOffset);
+      
+              for (var j = 0; j < 3; j++) {
+                var cardIndex = i * 3 + j;
+                if (cardIndex < cards.length) {
+                  cards[cardIndex].style.background = startColor;
+                }
+              }
             }
           }
-        }
-    
-        function interpolateColor(color1, color2, factor) {
-          if (arguments.length < 3) { 
-            factor = 0.5; 
+      
+          function interpolateColor(color1, color2, factor) {
+            if (arguments.length < 3) { 
+              factor = 0.5; 
+            }
+            var result = color1.slice(1).match(/.{2}/g).map(function(hex){
+              return parseInt(hex, 16)
+            }).map(function(value, i){
+              return Math.round(value + (parseInt(color2.slice(1).match(/.{2}/g)[i], 16) - value) * factor)
+            });
+            return '#' + result.map(function(value){
+              return value.toString(16).padStart(2, '0')
+            }).join('');
           }
-          var result = color1.slice(1).match(/.{2}/g).map(function(hex){
-            return parseInt(hex, 16)
-          }).map(function(value, i){
-            return Math.round(value + (parseInt(color2.slice(1).match(/.{2}/g)[i], 16) - value) * factor)
-          });
-          return '#' + result.map(function(value){
-            return value.toString(16).padStart(2, '0')
-          }).join('');
-        }
-      });
-    </script>
+        });
+      </script>
 {% endblock %}
