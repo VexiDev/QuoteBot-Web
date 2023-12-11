@@ -164,14 +164,16 @@ def logout():
 @app.route('/get_cache_update_status')
 def get_cache_update_status():
     global cache_update_in_progress
+    print(f"Cache update in progress: {cache_update_in_progress}")
     return jsonify({'cache_update_in_progress': cache_update_in_progress})
 
 
 def get_quotebot_server_cache_path():
     return os.path.join(app.root_path, 'data', 'quotebot_servers.json')
 
-def _update_quotebot_servers_cache_thread():
+def _update_quotebot_servers_cache_thread(app):
     global cache_update_in_progress
+    print("Starting cache update thread.")  # Debug statement
     with app.app_context():
         cache_path = get_quotebot_server_cache_path()
         server_list = []
@@ -179,18 +181,21 @@ def _update_quotebot_servers_cache_thread():
         headers = {"Authorization": f"Bot {os.getenv('qb_token')}"}
 
         while True:
-            params = {'limit': 200}
+            params = {'limit': 100}
             if last_id:
                 params['after'] = last_id
 
             response = requests.get('https://discord.com/api/v9/users/@me/guilds', headers=headers, params=params)
+            print(f"Fetching servers, last_id: {last_id}")  # Debug statement
 
             if response.status_code == 200:
                 servers = response.json()
                 if not servers:
+                    print("No more servers to fetch.")  # Debug statement
                     break
                 server_list.extend([server['id'] for server in servers])
                 last_id = servers[-1]['id']
+                print(f"Added {len(servers)} servers to the list.")  # Debug statement
             else:
                 print(f"Failed to fetch quotebot servers: {response.status_code}, {response.text}")
                 break
@@ -198,15 +203,17 @@ def _update_quotebot_servers_cache_thread():
             # Implementing rate limit handling
             if 'X-RateLimit-Remaining' in response.headers and int(response.headers['X-RateLimit-Remaining']) == 0:
                 reset_after = float(response.headers.get('X-RateLimit-Reset-After', 0))
+                print(f"Rate limit reached. Sleeping for {reset_after} seconds.")  # Debug statement
                 time.sleep(reset_after)
             
         # Cache the new data
         with open(cache_path, 'w') as cache_file:
             json.dump({'servers': server_list, 'last_updated': time.time()}, cache_file, indent=4)
+            print("Cache updated successfully.")  # Debug statement
 
         cache_update_in_progress = False
-        #reload users page
-        return redirect(url_for('profile'))
+        print("Cache update completed. Setting cache_update_in_progress to False.")  # Debug statement
+
 
 
 def is_cache_up_to_date():
@@ -233,7 +240,7 @@ def update_quotebot_servers_cache():
     if not is_cache_up_to_date() and not cache_update_in_progress:
         cache_update_in_progress = True
         print('Updating quotebot server cache')
-        thread = threading.Thread(target=_update_quotebot_servers_cache_thread)
+        thread = threading.Thread(target=_update_quotebot_servers_cache_thread, args=(app,))
         thread.start()
 
 def get_quotebot_servers():
