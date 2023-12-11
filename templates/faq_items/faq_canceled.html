@@ -1,13 +1,52 @@
 {% extends 'base.html' %}
 
 {% block title %}
-FAQ canceled - QuoteBot
+FAQ Cancelled - QuoteBot
 {% endblock %}
 
 {% block head %}
 {% endblock %}
 
 {% block content %}
+<main style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
+    <div style="background: #222937; border-radius: 18px; padding-top: 40px; padding-bottom: 40px; padding-left: 80px; padding-right: 80px; width: 80%; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+        <div style="background: #3A4151; border-radius: 18px; padding-right: 50px; padding-left: 50px; padding-top: 20px; padding-bottom: 20px; display: inline-block; text-align: center;">
+          <div style="display: flex; align-items: center;">
+          <img src="{{ url_for('static', filename='images/faq/canceled.png') }}" alt="Warning Icon" style="width: 36px; height: 36px; margin-left: 18px; margin-right: 10px;">
+          <h2 style="font-size: 2em; font-weight: 700; color: #ffffff; margin: 0;">Blocked Quotes</h2>
+        </div>
+      </div>
+      
+      <div style="background: #3A4151; border-radius: 18px; padding: 20px; width: 90%;">
+        
+        <div style="display: flex; align-items: center;">
+          <img src="{{ url_for('static', filename='images/faq/WARNING.png') }}" alt="Warning Icon" style="width: 36px; height: 36px; margin-left: 18px; margin-right: 10px;">
+          <h3 style="font-size: 1.8em; font-weight: 700; margin: 22px 0 20px 0; text-align: left;">Attempting to bypass QuoteBot filters can result in a global blacklist</h3>
+      </div>      
+      
+        <p style="font-size: 1.5em; font-weight: 5; text-align: left; padding: 0 20px; margin-bottom: 0;">
+          While QuoteBot does not have any strict rules on what can and can't be added as a quote, there are two exceptions:<br><br>
+          
+          <ul style="font-size: 1.5em;list-style: none; padding: 0; margin: 0; color: #fff; text-align: left; display: inline-block;">
+              <li style="margin-bottom: 5px;">
+                  <span style="font-size: 1.5em; display: inline-block; width: 20px; text-align: right; color: #fff;margin-left: 20px;">-</span> Personal Information of any kind
+              </li>
+              <li style="margin-bottom: 5px;">
+                  <span style="font-size: 1.5em; display: inline-block; width: 20px; text-align: right; color: #fff;margin-left: 20px;">-</span> Links of any kind
+              </li>
+          </ul><br>
+        </p>
+        <p style="font-size: 1.5em; font-weight: 5; text-align: left; padding: 0 20px;">
+          If your quote was blocked from being added, it is because it was found that your quote contained one of the two.<br><br>
+          </p>
+          <p style="font-size: 1.5em; text-align: left; padding: 0 20px; font-style: italic; margin-top: 0;">
+          Additionally, your quote may also be blocked if the server you're attempting to add quotes to has custom filter settings. Please refer to that server's staff if you have any questions.
+      </p>
+      
+      
+      </div>
+    </div>
+</main>
 {% endblock %}
 
 {% block scripts %}

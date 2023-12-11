@@ -1,13 +1,67 @@
 {% extends 'base.html' %}
 
 {% block title %}
-FAQ delete - QuoteBot
-{% endblock %}
-
-{% block head %}
+How to Add Quotes - QuoteBot
 {% endblock %}
 
 {% block content %}
+<main style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
+    <div style="background: #222937; border-radius: 18px; padding-top: 40px; padding-bottom: 40px; padding-left: 100px; padding-right: 100px; width: 80%; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+      <div style="background: #3A4151; border-radius: 10px; padding: 20px 30px; min-width: none; margin-top: 20px;">
+        <div style="display: flex; align-items: center;">
+          <img src="{{ url_for('static', filename='images/faq/delete.png') }}" alt="Add Icon" style="width: 36px; height: 36px; margin-left: 10px; margin-right: 10px;">
+          <h2 style="font-size: 2em; font-weight: 700; text-align: center; color: #ffffff; margin: 0;">How to Delete Quotes</h2>
+        </div>
+      </div>  
+      
+      <!-- Video Player -->
+        <div style="padding: 20px; text-align: center; width: 100%;">
+            <video controls style="width: 100%; max-width: 640px; height: auto; border-radius: 10px;">
+                <source src="path_to_your_video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <!-- Instructions and Additional Information -->
+        <div style="background: none; border-radius: 18px; padding: 20px; display: flex; gap: 20px; justify-content: space-between; align-items: flex-start;">
+          <div style="display: flex; gap: 20px; flex: 1;">
+          <!-- Command Usage Column -->
+          <div style="background: #3A4151; border-radius: 18px; padding: 20px; flex: 1; margin-right: 10px; text-align: center;">
+            <div style="background: #57627B; border-radius: 20px; padding: 0 15px; display: inline-block; text-align: center;">
+              <h3 style="color: #fff; font-size: 1.2em; margin-bottom: 20px;">Delete Command Format</h3>
+            </div>
+            
+            
+            <h3 style="color: #fff; font-size: 1.3em; text-align: center; margin-top: 26px">/delete &lt;user&gt;</h3>
+            <ul style="list-style: none; padding-left: 0; color: #fff; font-size: 1em; text-align: left;">
+              <li><strong>/delete :</strong>
+                <ul>
+                  <li>The command name, type this into a channel on Discord to start deleting a quote.</li><br>
+                </ul>
+              </li>
+              <li><strong>&lt;user&gt; :</strong>
+                <ul>
+                  <li>The discord user you wish to delete a quote from.</li><br>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        
+          <!-- Additional Information Column -->
+          <div style="background: #3A4151; border-radius: 18px; padding: 20px; flex: 1; margin-left: 10px; text-align: center;">
+            <div style="background: #57627B; border-radius: 20px; padding: 0 15px; display: inline-block; text-align: center;">
+              <h3 style="color: #fff; font-size: 1.2em; margin-bottom: 20px;">Additional Information</h3>
+            </div>
+            <p style="color: #fff; font-size: 1em; text-align: left; margin-bottom: 20px; margin-top: 20px;margin-left: 20px; margin-right: 20px;">Select the quote you wish to delete from the dropdown menu, quotes are sorted by most recent:</p>
+            <img src="{{ url_for('static', filename='images/faq/examples/delete_example.png') }}" alt="Quote Example" style="width: 100%; max-width: 400px; height: auto; border-radius: 5px;">
+            <p style="color: #fff; font-size: 1em; text-align: center; font-style: italic; margin-top: 10px; margin-left: 20px; margin-right: 20px;">25 quotes per page, use the navigation buttons to find the quote you want</p>
+            
+          </div>
+        </div>
+      </div>
+        
+
+    </div>
+</main>
 {% endblock %}
 
 {% block scripts %}

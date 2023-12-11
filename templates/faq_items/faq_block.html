@@ -1,13 +1,68 @@
 {% extends 'base.html' %}
 
 {% block title %}
-FAQ block - QuoteBot
-{% endblock %}
-
-{% block head %}
+How to block a user - QuoteBot
 {% endblock %}
 
 {% block content %}
+<main style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
+    <div style="background: #222937; border-radius: 18px; padding-top: 40px; padding-bottom: 40px; padding-left: 100px; padding-right: 100px; width: 80%; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+      <div style="background: #3A4151; border-radius: 10px; padding: 20px 30px; min-width: none; margin-top: 20px;">
+        <div style="display: flex; align-items: center;">
+          <img src="{{ url_for('static', filename='images/faq/block.png') }}" alt="block Icon" style="width: 36px; height: 36px; margin-left: 10px; margin-right: 10px;">
+          <h2 style="font-size: 2em; font-weight: 700; text-align: center; color: #ffffff; margin: 0;">How to Block a User</h2>
+        </div>
+      </div>  
+      
+      <!-- Video Player -->
+        <div style="padding: 20px; text-align: center; width: 100%;">
+            <video controls style="width: 100%; max-width: 640px; height: auto; border-radius: 10px;">
+                <source src="path_to_your_video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <!-- Instructions and Additional Information -->
+        <div style="background: none; border-radius: 18px; padding: 20px; display: flex; gap: 20px; justify-content: space-between; align-items: flex-start;">
+          <div style="display: flex; gap: 20px; flex: 1;">
+          <!-- Command Usage Column -->
+          <div style="background: #3A4151; border-radius: 18px; padding: 20px; flex: 1; margin-right: 10px; text-align: center;">
+            <div style="background: #57627B; border-radius: 20px; padding: 0 15px; display: inline-block; text-align: center;">
+              <h3 style="color: #fff; font-size: 1.2em; margin-bottom: 20px;">Block Command Format</h3>
+            </div>
+            
+            
+            <h3 style="color: #fff; font-size: 1em; text-align: center; margin-top: 26px">/block &lt;user&gt;</h3>
+            <ul style="list-style: none; padding-left: 0; color: #fff; font-size: 1em; text-align: left;">
+              <li><strong>/block :</strong>
+                <ul>
+                  <li>The command name, type this into a channel on Discord to start blocking a user.</li><br>
+                </ul>
+              </li>
+              <li><strong>&lt;user&gt; :</strong>
+                <ul>
+                  <li>The discord user you wish to block from adding to your profile.</li><br>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        
+          <!-- Additional Information Column -->
+          <div style="background: #3A4151; border-radius: 18px; padding: 20px; flex: 1; margin-left: 10px; text-align: center;">
+            <div style="background: #57627B; border-radius: 20px; padding: 0 15px; display: inline-block; text-align: center;">
+              <h3 style="color: #fff; font-size: 1.2em; margin-bottom: 20px;">Additional Information</h3>
+            </div>
+            <p style="color: #fff; font-size: 1em; text-align: left; margin-bottom: 10px; margin-top: 20px;margin-left: 20px; margin-right: 20px;">If a user is abusing QuoteBot please join the support discord and report them:</p>
+            <a href="https://discord.gg/invite/bf4tWcNFJW" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; background-color: #5865F2; color: #FFFFFF; text-decoration: none; padding: 20px 20px; border-radius: 5px; font-weight: bold; margin-top: 20px; margin-bottom: 20px;">
+              <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Profile Example" style="width: 64px; height: 64px; border-radius: 5px; margin-right: 8px;">
+              Join Now!
+            </a>
+          </div>
+        </div>
+      </div>
+        
+
+    </div>
+</main>
 {% endblock %}
 
 {% block scripts %}
