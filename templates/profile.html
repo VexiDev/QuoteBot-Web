@@ -42,39 +42,53 @@ Profile - QuoteBot
     </div>
 </div>
 
-<!-- Add a loading message div -->
-<div id="loading-message" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-    <h2>Loading servers, please wait...</h2>
-    <!-- Add more styling or a loading spinner as needed -->
+<!-- Syncing Message Div -->
+<div id="loading-message" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;align-items: center;">
+    <h2 id="sync-message-text">QuoteBot is currently syncing, Please wait ~5 seconds!</h2>
+    <button id="refresh-button" onclick="location.reload();" style="display: none; padding: 10px 20px; margin-top: 20px; border-radius: 5px; background-color: #5865F2; color: white; border: none; cursor: pointer;">Click to refresh</button>
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script>
-    // Function to check cache update status
-    function checkCacheUpdateStatus() {
-        fetch('/get_cache_update_status')
-            .then(response => response.json())
-            .then(data => {
-                if (data.cache_update_in_progress) {
-                    // Show loading message
-                    document.getElementById('loading-message').style.display = 'block';
-                } else {
-                    // Hide loading message and reload page if it was previously shown
-                    const loadingMessage = document.getElementById('loading-message');
-                    if (loadingMessage.style.display === 'block') {
-                        loadingMessage.style.display = 'none';
-                        clearInterval(cacheCheckInterval); // Clear the interval
-                        location.reload(); // Reload the page
-                    }
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    }
+let isInitialCheck = true;
+let wasCacheUpdatingInitially = false;
 
-    // Call the function immediately and then set an interval to check periodically
-    checkCacheUpdateStatus();
-    // var cacheCheckInterval = setInterval(checkCacheUpdateStatus, 2000); // Check every 2 seconds and store the interval ID
+function checkCacheUpdateStatus() {
+    fetch('/get_cache_update_status')
+        .then(response => response.json())
+        .then(data => {
+            const loadingMessage = document.getElementById('loading-message');
+            const refreshButton = document.getElementById('refresh-button');
+            const syncMessageText = document.getElementById('sync-message-text');
+            const serverBrowser = document.getElementById('server-list');
+            if (data.cache_update_in_progress) {
+                // Show loading message
+                loadingMessage.style.display = 'block';
+                // Hide the server browser
+                serverBrowser.style.display = 'none';
+                
+                if (isInitialCheck) {
+                    wasCacheUpdatingInitially = true;
+                }
+            } else {
+                // Change the loading message
+                syncMessageText.innerText = 'QuoteBot has finished syncing! Please refresh your page.';
+                // Show refresh button
+                refreshButton.style.display = 'block';
+
+                clearInterval(cacheCheckInterval); // Clear the interval
+            }
+        })
+        .catch(error => console.error('Error:', error));
+
+    isInitialCheck = false;
+}
+
+// Call the function immediately and then set an interval to check periodically
+checkCacheUpdateStatus();
+var cacheCheckInterval = setInterval(checkCacheUpdateStatus, 2000); // Check every 2 seconds
+
 </script>
 <script>
     function searchServers() {
