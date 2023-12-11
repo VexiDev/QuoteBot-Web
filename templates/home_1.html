@@ -181,7 +181,7 @@ function updateLanguageStatus() {
 <!-- Dropdown menu content -->
 <div id="dropdownMenu" style="display: none; margin-top: 5px; position: absolute; background-color: #222937; padding: 20px; border-radius: 20px; width: 200px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); color: white;">
   <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    <a href="/profile" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 10px 45px; border-radius: 6px; margin-bottom: 10px;">My Profile</a>
+    <a href="/profile" class="btn" onmouseover="this.style.backgroundColor='#038cfc'" onmouseout="this.style.backgroundColor='#1D4ED8'" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 10px 45px; border-radius: 6px; margin-bottom: 10px;">My Servers</a>
     <hr style="border: 0; height: 2px; background-color: #C0C0C0; margin: 3px 0; width: 90%;">
     <div class="theme-switcher" style="display: flex; align-items: center; gap: 5px; margin: 10px 0 20px 0;">
       <img src="{{ url_for('static', filename='images/popups/sun.png') }}" alt="Light Mode" style="width: 24px; height: 24px;">
@@ -191,8 +191,8 @@ function updateLanguageStatus() {
       </label>
       <img src="{{ url_for('static', filename='images/popups/moon.png') }}" alt="Dark Mode" style="width: 24px; height: 24px;">
     </div>
-    <a href="#" onclick="openSettingsModal(); return false;" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 8px 55px; border-radius: 6px; margin-bottom: 10px;">Settings</a>
-    <a href="#" class="btn" onclick="openLogoutModal(); return false;" style="text-decoration: none; background-color: #3C81F6; color: white; padding: 8px 60px; border-radius: 6px;">Logout</a>
+    <a href="#" onclick="openSettingsModal(); return false;" class="btn" onmouseover="this.style.backgroundColor='#038cfc'" onmouseout="this.style.backgroundColor='#1D4ED8'" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 8px 55px; border-radius: 6px; margin-bottom: 10px;">Settings</a>
+                        <a href="#" class="btn" onclick="openLogoutModal(); return false;" onmouseover="this.style.backgroundColor='#c93838'" onmouseout="this.style.backgroundColor='#3C81F6'" style="text-decoration: none; background-color: #3C81F6; color: white; padding: 8px 60px; border-radius: 6px;">Logout</a>
   </div>
 </div>
 
@@ -281,9 +281,9 @@ function toggleSwitch(checkbox) {
   <header style="background: #3A4151; padding: 1% 0; display: flex; justify-content: space-between; align-items: center; border-radius: 3px;">
     <div class="nav-container" style="display: flex; justify-content: center; flex-grow: 1;">
       <nav style="display: flex; gap: 20%;">
-        <a href="/about" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">About</a>
-        <a href="/faq" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">FAQ</a>
-        <a href="/changelog" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">Changelog</a>
+        <a href="/about" onmouseover="this.style.backgroundColor='#273552'" onmouseout="this.style.backgroundColor='#222937'" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">About</a>
+        <a href="/faq" onmouseover="this.style.backgroundColor='#273552'" onmouseout="this.style.backgroundColor='#222937'" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">FAQ</a>
+        <a href="/changelog" onmouseover="this.style.backgroundColor='#273552'" onmouseout="this.style.backgroundColor='#222937'" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">Changelog</a>        
       </nav>
     </div>
     <a href="/login" class="login" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; gap: 10px; margin-right: 20px;">
@@ -295,15 +295,15 @@ function toggleSwitch(checkbox) {
 <div style="background: #121726; padding: 2% 0; text-align: center;">
     <!-- Logo and QuoteBot text, inline with no background box -->
 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="QuoteBot Logo" style="width: 250px; vertical-align: middle;">
-<h1 style="color: #71CB70; display: inline; font-size: 4em; font-weight: 700; vertical-align: middle; margin: 0;">Quote</h1><!--
---><h1 style="color: #F8F991; display: inline; font-size: 4em; font-weight: 700; vertical-align: middle; margin: 0;">Bot</h1>
+<h1 style="color: #71CB70; display: inline; font-size: 5em; font-weight: 700; vertical-align: middle; margin: 0;">Quote</h1><!--
+--><h1 style="color: #F8F991; display: inline; font-size: 5em; font-weight: 700; vertical-align: middle; margin: 0;">Bot</h1>
 <div style="background: #121726; padding: 2% 0; text-align: center;">
 
     
     <!-- Stats section -->
-    <div style="margin: 10px; background: #222937; padding: 20px; border-radius: 34px;">
+    <div style="margin: 10px; background: #222937; padding: 20px; border-radius: 34px;; margin-bottom: 10px; margin-left: 20px; margin-right: 20px; margin-top: 20px">
         <p style="color: #6589C7; font-size: 1.5em;">The go to tool for saving and organizing quotes in servers!</p>
-        <div style="display: flex; justify-content: center; gap: 10%; margin-top: 10px; flex-wrap: wrap; margin-bottom: 20px">
+        <div style="display: flex; justify-content: center; gap: 10%; flex-wrap: wrap; margin-bottom: 20px">
             <div style="color: white; font-size: 2em;">
                 <strong>425</strong> Servers
             </div>
@@ -317,12 +317,13 @@ function toggleSwitch(checkbox) {
     </div>
     
     <!-- RATING + INVITE -->
-    <div style="margin: 10px; background: #222937; padding:10px; border-radius: 34px; display: flex; justify-content: center; gap: 20%; align-items: center; margin-top: 20px">
+    <div style="background: #222937; padding:10px; border-radius: 34px; display: flex; justify-content: center; gap: 20%; align-items: center; margin-bottom: 10px; margin-left: 20px; margin-right: 20px; margin-top: 40px">
         <div>
             <div style="margin-top: 20px;color: #FFD700; font-size: 2em;">★★★★★</div>
             <p style="color: white; font-size: 1.5em;">Rated 4.7 Stars on Top.gg</p>
         </div>
         <button onclick="window.open('https:/\/discord.com/oauth2/authorize?client_id=814379239930331157&permissions=139586825280&scope=bot%20applications.commands', '_blank');" 
+        onmouseover="this.style.backgroundColor='#183ca3'" onmouseout="this.style.backgroundColor='#3662E4'"
         style="background: #3662E4; color: white; padding: 1em 2em; font-size: 1.5em; border-radius: 20px; border: none; cursor: pointer;">
             Add QuoteBot to Discord
         </button>
@@ -330,8 +331,8 @@ function toggleSwitch(checkbox) {
     </div>
 </div>
 
-<!-- FEATURE LIST -->
-    <div style="margin: 10px; background: #222937; padding:10px; border-radius: 34px; display: flex; justify-content: center; gap: 20%; align-items: center; margin-top: 0px">
+    <!-- FEATURE LIST -->
+    <div style="background: #222937; padding:10px; border-radius: 34px; display: flex; justify-content: center; gap: 20%; align-items: center;; margin-bottom: 10px; margin-left: 20px; margin-right: 20px; margin-top: 10px">
 
     <!-- Features container -->
     <div style="background: #222937; padding: 20px; border-radius: 34px; text-align: center; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;">
