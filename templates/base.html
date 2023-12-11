@@ -34,8 +34,8 @@
                         <div class="theme-switcher" style="display: flex; align-items: center; gap: 5px; margin: 10px 0 20px 0;">
                             <img src="{{ url_for('static', filename='images/popups/sun.png') }}" alt="Light Mode" style="width: 24px; height: 24px;">
                             <label class="switch" style="position: relative; display: inline-block; cursor: pointer; width: 40px; height: 20px; background-color: #545E74; border-radius: 20px;">
-                            <input type="checkbox" checked style="opacity: 0; width: 0; height: 0;" onchange="toggleSwitch(this)">
-                            <span id="sliderBall" style="position: absolute; cursor: pointer; top: 2px; left: 22px; background-color: #2196F3; transition: .4s; border-radius: 50%; width: 16px; height: 16px;"></span>
+                                <input type="checkbox" id='checkbox' checked style="opacity: 0; width: 0; height: 0;" onchange="toggleSwitch(this)">
+                                <span id="sliderBall" style="position: absolute; cursor: pointer; top: 2px; left: 22px; background-color: #2196F3; transition: .4s; border-radius: 50%; width: 16px; height: 16px;"></span>
                             </label>
                             <img src="{{ url_for('static', filename='images/popups/moon.png') }}" alt="Dark Mode" style="width: 24px; height: 24px;">
                         </div>
@@ -103,7 +103,7 @@
         </div>
     </div>
 
-    <!-- Common scripts -->
+    <!-- Common scripts -->      
     <script>
         const profileArea = document.getElementById('profile-area');
         const dropdownMenu = document.getElementById('dropdownMenu');
