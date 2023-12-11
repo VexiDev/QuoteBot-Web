@@ -764,11 +764,6 @@
             "name": "Imagine SMP",
             "icon_url": "https://cdn.discordapp.com/icons/1126179942091198485/c7d612d0ceba32d8561d61366caae2c8.png",
             "quotes": 0
-        },
-        "1183521366603997345": {
-            "name": "test_server",
-            "icon_url": "/static/images/default_icon.png",
-            "quotes": 0
         }
     }
-}
+} 
