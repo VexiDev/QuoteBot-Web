@@ -25,9 +25,9 @@
                     <!-- Profile content will be inserted by JavaScript -->
                   </a>   
                     <!-- Dropdown menu content -->
-                    <div id="dropdownMenu" style="display: none; margin-top: 5px; right: 0; position: absolute; background-color: #222937; padding: 20px; border-radius: 20px; width: 200px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); color: white;">
+                    <div id="dropdownMenu" style="display: none; margin-top: 5px; right: 0; position: absolute; background-color: #222937; padding: 20px; border-radius: 20px; width: 200px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); color: white; z-index: 99999;">
                         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                        <a href="/profile" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 10px 45px; border-radius: 6px; margin-bottom: 10px;">My Servers</a>
+                        <a href="/profile" class="btn" onmouseover="this.style.backgroundColor='#038cfc'" onmouseout="this.style.backgroundColor='#1D4ED8'" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 10px 45px; border-radius: 6px; margin-bottom: 10px;">My Servers</a>
                         <hr style="border: 0; height: 2px; background-color: #C0C0C0; margin: 3px 0; width: 90%;">
                         <div class="theme-switcher" style="display: flex; align-items: center; gap: 5px; margin: 10px 0 20px 0;">
                             <img src="{{ url_for('static', filename='images/popups/sun.png') }}" alt="Light Mode" style="width: 24px; height: 24px;">
@@ -37,8 +37,9 @@
                             </label>
                             <img src="{{ url_for('static', filename='images/popups/moon.png') }}" alt="Dark Mode" style="width: 24px; height: 24px;">
                         </div>
-                        <a href="#" onclick="openSettingsModal(); return false;" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 8px 55px; border-radius: 6px; margin-bottom: 10px;">Settings</a>
-                        <a href="#" class="btn" onclick="openLogoutModal(); return false;" style="text-decoration: none; background-color: #3C81F6; color: white; padding: 8px 60px; border-radius: 6px;">Logout</a>
+                        <a href="#" onclick="openSettingsModal(); return false;" class="btn" onmouseover="this.style.backgroundColor='#038cfc'" onmouseout="this.style.backgroundColor='#1D4ED8'" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 8px 55px; border-radius: 6px; margin-bottom: 10px;">Settings</a>
+                        <a href="#" class="btn" onclick="openLogoutModal(); return false;" onmouseover="this.style.backgroundColor='#c93838'" onmouseout="this.style.backgroundColor='#3C81F6'" style="text-decoration: none; background-color: #3C81F6; color: white; padding: 8px 60px; border-radius: 6px;">Logout</a>
+
                     </div>
                 </div>
               </div>            
