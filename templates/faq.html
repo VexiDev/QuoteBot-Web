@@ -5,6 +5,18 @@ FAQ - QuoteBot
 {% endblock %}
 
 {% block head %}
+.hover-info {
+    display: none; /* Hide by default */
+    position: absolute;
+    top: 1;
+    left: 50%;
+    transform: translateX(-50%);
+    font-style: italic;
+    font-size: 1em;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+  }
 {% endblock %}
 
 {% block content %}
@@ -117,5 +129,34 @@ FAQ - QuoteBot
 {% endblock %}
 
 {% block scripts %}
-<!-- Page-specific scripts -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get all FAQ items
+    var faqItems = document.querySelectorAll('.faq-item');
+    // Show the hover-info for the first FAQ item by default
+    faqItems[0].querySelector('.hover-info').style.display = 'flex';
+
+    // Add hover event listeners to all FAQ items
+    faqItems.forEach(function(item, index) {
+      item.addEventListener('mouseover', function() {
+        // Hide the default hover-info text
+        faqItems[0].querySelector('.hover-info').style.display = 'none';
+        // Show the hover-info for the current item
+        this.querySelector('.hover-info').style.display = 'flex';
+      });
+      item.addEventListener('mouseout', function() {
+        // Hide the hover-info for the current item
+        this.querySelector('.hover-info').style.display = 'none';
+        // Use setTimeout to add delay before showing hover-info on the first item
+        setTimeout(function() {
+          // Check if no other item is hovered, then show hover-info for the first item
+          if (![...faqItems].some((el) => el.querySelector('.hover-info').style.display === 'flex')) {
+            faqItems[0].querySelector('.hover-info').style.display = 'flex';
+          }
+        }, 200); // 200ms delay
+      });
+    });
+  });
+</script>
 {% endblock %}
+
