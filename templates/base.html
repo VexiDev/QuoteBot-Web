@@ -11,17 +11,19 @@
     <div style="min-height: 100vh; display: flex; flex-direction: column;">
         <!-- Common header with dropdown/login -->
         <header style="background: #3A4151; padding: 1% 0 1% 10px; display: flex; justify-content: space-between; align-items: center; border-radius: 3px; margin-bottom: 30px;">
-            <div style="display: flex; align-items: center; margin-left: 20px;">
-                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="QuoteBot Logo" style="height: 75px;"> <!-- Adjust the size of the logo as needed -->
-                <h1 style="color: #71CB70; display: inline; font-size: 2em; font-weight: 700; margin-left: 10px;">Quote</h1>
-                <h1 style="color: #F8F991; display: inline; font-size: 2em; font-weight: 700;">Bot</h1>
-            </div>
+            <a href="/" style="text-decoration: none; color: inherit;">
+                <div style="display: flex; align-items: center; margin-left: 20px;">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="QuoteBot Logo" style="height: 75px;"> <!-- Adjust the size of the logo as needed -->
+                    <h1 style="color: #71CB70; display: inline; font-size: 2em; font-weight: 700; margin-left: 10px;">Quote</h1>
+                    <h1 style="color: #F8F991; display: inline; font-size: 2em; font-weight: 700;">Bot</h1>
+                </div>
+            </a>            
             <div style="display: flex; align-items: center; margin-right: 53px;">
-                <a href="javascript:history.back();" class="back-button" style="background: #222937; color: #5865F2; padding: 17px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: inline-flex; align-items: center; gap: 10px; margin-right: 10px;">
+                <a href="javascript:history.back();" class="back-button" onmouseover="this.style.backgroundColor='#273552'" onmouseout="this.style.backgroundColor='#222937'" style="background: #222937; color: #5865F2; padding: 17px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: inline-flex; align-items: center; gap: 10px; margin-right: 10px;">
                     Back
                 </a>                
                 <div style="position: relative;">
-                  <a id="profile-area" class="login" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px; margin-right: 10px; cursor: pointer;">
+                  <a id="profile-area" class="login" onmouseover="this.style.backgroundColor='#273552'" onmouseout="this.style.backgroundColor='#222937'" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px; margin-right: 10px; cursor: pointer;">
                     <!-- Profile content will be inserted by JavaScript -->
                   </a>   
                     <!-- Dropdown menu content -->
@@ -68,7 +70,7 @@
         <h3 style="color: white; text-align: center;">Are you sure you want to log out?</h3>
         <hr style="border: 0; height: 2px; background-color: #C0C0C0; margin-top: 3px; margin-bottom: 20px; margin-right: 0px; margin-left: 0px; width: 90%;">
         <!-- Logout Button -->
-        <a href="/logout" style="text-decoration: none; background-color: #FF4742; color: white; padding: 10px 40px 10px 40px; border-radius: 10px; margin-top: 10px; margin-bottom: 20px; font-weight: bold; font-size: 24px;">Log out</a>
+        <a href="/logout" onmouseover="this.style.backgroundColor='#d12c28'" onmouseout="this.style.backgroundColor='#FF4742'" style="text-decoration: none; background-color: #FF4742; color: white; padding: 10px 40px 10px 40px; border-radius: 10px; margin-top: 10px; margin-bottom: 20px; font-weight: bold; font-size: 24px;">Log out</a>
     
         </div>
     </div>
