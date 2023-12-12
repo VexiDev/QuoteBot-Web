@@ -5,13 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QuoteBot</title>
 <style>
-  @font-face {
-    font-family: 'OpenDyslexic';
-    src: url('static/fonts/dyslexic/OpenDyslexic-Bold.otf') format('opentype');
-    font-weight: bold;
-    font-style: normal;
+   @font-face {
+      font-family: 'OpenDyslexic';
+      src: url('/static/fonts/dyslexic/OpenDyslexic-Regular.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
   }
 
+  @font-face {
+      font-family: 'OpenDyslexic';
+      src: url('/static/fonts/dyslexic/OpenDyslexic-Bold.otf') format('opentype');
+      font-weight: bold;
+      font-style: normal;
+  }
+
+  @font-face {
+      font-family: 'OpenDyslexic';
+      src: url('/static/fonts/dyslexic/OpenDyslexic-Italic.otf') format('opentype');
+      font-weight: normal;
+      font-style: italic;
+  }
+
+  @font-face {
+      font-family: 'OpenDyslexic';
+      src: url('/static/fonts/dyslexic/OpenDyslexic-BoldItalic.otf') format('opentype');
+      font-weight: bold;
+      font-style: italic;
+  }
   .span-dyslexic {
     font-family: 'OpenDyslexic', sans-serif;
   }
@@ -181,37 +201,237 @@ function updateLanguageStatus() {
 <!-- Dropdown menu content -->
 <div id="dropdownMenu" style="display: none; margin-top: 5px; position: absolute; background-color: #222937; padding: 20px; border-radius: 20px; width: 200px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); color: white;">
   <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    <a href="/profile" class="btn" onmouseover="this.style.backgroundColor='#038cfc'" onmouseout="this.style.backgroundColor='#1D4ED8'" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 10px 45px; border-radius: 6px; margin-bottom: 10px;">My Servers</a>
+    <a href="/profile" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 10px 45px; border-radius: 6px; margin-bottom: 10px;">My Servers</a>
     <hr style="border: 0; height: 2px; background-color: #C0C0C0; margin: 3px 0; width: 90%;">
     <div class="theme-switcher" style="display: flex; align-items: center; gap: 5px; margin: 10px 0 20px 0;">
       <img src="{{ url_for('static', filename='images/popups/sun.png') }}" alt="Light Mode" style="width: 24px; height: 24px;">
       <label class="switch" style="position: relative; display: inline-block; cursor: pointer; width: 40px; height: 20px; background-color: #545E74; border-radius: 20px;">
-        <input type="checkbox" checked style="opacity: 0; width: 0; height: 0;" onchange="toggleSwitch(this)">
+        <input id="checkbox" type="checkbox" checked style="opacity: 0; width: 0; height: 0;" onchange="toggleSwitch(this)">
         <span id="sliderBall" style="position: absolute; cursor: pointer; top: 2px; left: 22px; background-color: #2196F3; transition: .4s; border-radius: 50%; width: 16px; height: 16px;"></span>
       </label>
       <img src="{{ url_for('static', filename='images/popups/moon.png') }}" alt="Dark Mode" style="width: 24px; height: 24px;">
     </div>
-    <a href="#" onclick="openSettingsModal(); return false;" class="btn" onmouseover="this.style.backgroundColor='#038cfc'" onmouseout="this.style.backgroundColor='#1D4ED8'" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 8px 55px; border-radius: 6px; margin-bottom: 10px;">Settings</a>
-                        <a href="#" class="btn" onclick="openLogoutModal(); return false;" onmouseover="this.style.backgroundColor='#c93838'" onmouseout="this.style.backgroundColor='#3C81F6'" style="text-decoration: none; background-color: #3C81F6; color: white; padding: 8px 60px; border-radius: 6px;">Logout</a>
+    <a href="#" onclick="openSettingsModal(); return false;" class="btn" style="text-decoration: none; background-color: #1D4ED8; color: white; padding: 8px 55px; border-radius: 6px; margin-bottom: 10px;">Settings</a>
+    <a href="#" class="btn" onclick="openLogoutModal(); return false;" style="text-decoration: none; background-color: #3C81F6; color: white; padding: 8px 60px; border-radius: 6px;">Logout</a>
   </div>
 </div>
 
 <script>
-// Ensuring the slider ball is positioned correctly when the page loads
+const darkModeColors = {
+    bodyBg: '#121726',
+    headerBg: '#3A4151',
+    navLinkBg: '#222937',
+    navLinkText: '#6589C7',
+    quoteTextColor: '#71CB70',
+    botTextColor: '#F8F991',
+    contentBg: '#222937',
+    contentText: '#ffffff',
+    modalBg: '#222937',
+    modalContentBg: '#23272A',
+    footerBg: '#3A4151',
+    footerText: '#ffffff',
+    sliderBallChecked: '#2196F3',
+    sliderBallUnchecked: 'yellow',
+    logoBackground: '#121726',
+    statsBackground: '#222937',
+    serverStatsColor: 'white',
+    quoteStatsColor: 'white',
+    userStatsColor: 'white',
+    ratingBackground: '#222937',
+    featureListBackground: '#222937',
+    containerBackground: '#333A4D',
+    containerText:'#ffffff',
+    logoQuoteText: '#71CB70', // Default dark mode color for "Quote"
+    logoBotText: '#F8F991',   // Default dark mode color for "Bot"
+    navLinkHoverBg: '#333A4D', // Example hover color for dark mode
+    buttonHoverBg: '#333A4D', // Example hover color for dark mode
+    dropdownMenuBg: '#222937',
+    dropdownButtonBg: '#1D4ED8',
+    dropdownButtonHoverBg: '#1658B2', // Darker shade for hover effect in dark mode
+    logoutButtonBg: '#3C81F6',
+    logoutButtonHoverBg: '#2A62D4' // Darker shade for hover effect in dark mode
+};
+const lightModeColors = {
+    bodyBg: '#E0E0E0',
+    headerBg: '#F0F0F0',
+    navLinkBg: '#D1D7E0',
+    navLinkText: '#1A237E',
+    quoteTextColor: '#4D865C',
+    botTextColor: '#D1C87F',
+    contentBg: '#D1D7E0',
+    contentText: '#000000',
+    modalBg: '#D1D7E0',
+    modalContentBg: '#F5F5F5',
+    footerBg: '#F0F0F0',
+    footerText: '#000000',
+    sliderBallChecked: '#757575',
+    sliderBallUnchecked: '#757575',
+    logoBackground: '#FFFFFF', // Example color for light mode
+    statsBackground: '#F0F0F0', // Example color for light mode
+    serverStatsColor: 'black',
+    quoteStatsColor: 'black',
+    userStatsColor: 'black',
+    ratingBackground: '#F0F0F0', // Example color for light mode
+    featureListBackground: '#F0F0F0', // Example color for light mode
+    containerBackground: '#E0E0E0',
+    containerText:'#000000',
+    logoQuoteText: '#4D865C', // Default dark mode color for "Quote"
+    logoBotText: '#D1C87F',   // Default dark mode color for "Bot"
+    navLinkHoverBg: '#B0BEC5', // Example hover color for light mode
+    buttonHoverBg: '#B0BEC5', // Example hover color for light mode
+    dropdownMenuBg: '#E0E0E0', // Lighter shade for dropdown background
+    dropdownButtonBg: '#1D4ED8', // Lighter shade for buttons
+    dropdownButtonHoverBg: '#3A85CC', // Slightly darker for hover effect in light mode
+    logoutButtonBg: '#3C81F6', // Lighter shade for logout button
+    logoutButtonHoverBg: '#4590D8' // Slightly darker for hover effect in light mode
+
+};
+
+function applyTheme(themeColors) {
+    // Body and global text color
+    document.body.style.backgroundColor = themeColors.bodyBg;
+    document.body.style.color = themeColors.contentText;
+
+    // Header
+    const header = document.querySelector('header');
+    if (header) {
+        header.style.backgroundColor = themeColors.headerBg;
+    }
+
+    // Nav Links
+    const navLinks = document.querySelectorAll('nav a, .profile-button');
+    navLinks.forEach(link => {
+        link.style.backgroundColor = themeColors.navLinkBg;
+        link.style.color = themeColors.navLinkText;
+    });
+
+
+    // Login Area
+    const loginArea = document.querySelector('.login');
+    if (loginArea) {
+        loginArea.style.backgroundColor = themeColors.navLinkBg; // Assuming you want to change the background color
+    }
+
+    // New style applications based on IDs
+    document.getElementById('logo-background').style.backgroundColor = themeColors.logoBackground;
+    document.getElementById('stats-background').style.backgroundColor = themeColors.statsBackground;
+    document.getElementById('server-stats').style.color = themeColors.serverStatsColor;
+    document.getElementById('quote-stats').style.color = themeColors.quoteStatsColor;
+    document.getElementById('user-stats').style.color = themeColors.userStatsColor;
+    document.getElementById('rating-background').style.backgroundColor = themeColors.ratingBackground;
+    document.getElementById('feature-list-background').style.backgroundColor = themeColors.featureListBackground;
+    document.getElementById('rating-invite-background').style.backgroundColor = themeColors.logoBackground;
+    document.getElementById('rating-text').style.color = themeColors.serverStatsColor;
+    document.getElementById('logo-quote-text').style.color = themeColors.logoQuoteText;
+    document.getElementById('logo-bot-text').style.color = themeColors.logoBotText;
+    //dropdownMenu
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    if (dropdownMenu) {
+        dropdownMenu.style.backgroundColor = themeColors.dropdownMenuBg;
+    }
+    
+
+    // Apply styles to all elements with 'container-background' ID
+    document.querySelectorAll('#container-background').forEach(item => {
+        item.style.backgroundColor = themeColors.containerBackground;
+    });
+
+    // Apply styles to all elements with 'container-text' ID
+    document.querySelectorAll('#container-text').forEach(item => {
+        item.style.color = themeColors.containerText;
+    });
+
+    // Footer
+    const footer = document.querySelector('footer');
+    if (footer) {
+        footer.style.backgroundColor = themeColors.footerBg;
+        footer.style.color = themeColors.footerText;
+    }
+
+    updateHoverStyles(themeColors);
+
+    
+  // Function to call when theme is switched
+  function onThemeChange(themeColors) {
+      updateThemeColors(themeColors);
+      
+      // Update colors of already rendered elements
+      document.querySelectorAll('.nav-link').forEach(link => {
+          link.style.backgroundColor = currentNavLinkBg;
+      });
+      document.querySelectorAll('.btn').forEach(button => {
+          button.style.backgroundColor = currentBtnBg;
+      });
+  }
+
+}
+
+function updateHoverStyles(themeColors) {
+    // Function to set hover styles for nav links
+    const setNavLinkHoverStyle = (element) => {
+        element.onmouseover = () => element.style.backgroundColor = themeColors.navLinkHoverBg;
+        element.onmouseout = () => element.style.backgroundColor = themeColors.navLinkBg;
+    };
+
+    function setDropdownButtonHoverStyle(element) {
+        // Determine if the button is the logout button
+        const isLogoutButton = element.getAttribute('onclick') && element.getAttribute('onclick').includes('openLogoutModal');
+
+        element.onmouseover = () => element.style.backgroundColor = themeColors.dropdownButtonHoverBg;
+        element.onmouseout = () => element.style.backgroundColor = isLogoutButton ? themeColors.logoutButtonBg : themeColors.dropdownButtonBg;
+    }
+
+    // Apply hover styles to nav links
+    document.querySelectorAll('nav a, .profile-button').forEach(setNavLinkHoverStyle);
+
+    // Apply hover styles to dropdown menu buttons
+    document.querySelectorAll('#dropdownMenu a').forEach(setDropdownButtonHoverStyle);
+}
+
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
-  var checkbox = document.querySelector('.switch input[type="checkbox"]');
-  toggleSwitch(checkbox);
-});
+    const storedTheme = localStorage.getItem('theme');
+      const isDarkMode = storedTheme === 'dark';
+      const checkbox = document.getElementById('checkbox');
+      checkbox.checked = isDarkMode;
+
+      if (isDarkMode) {;
+        toggleSwitch(checkbox);
+        applyTheme(darkModeColors);
+      } else {
+        toggleSwitch(checkbox)
+        applyTheme(lightModeColors);
+      }
+
+      checkbox.addEventListener('change', function() {
+        localStorage.setItem('theme', checkbox.checked ? 'dark' : 'light');
+          
+          window.dispatchEvent(new CustomEvent('themeChanged', {
+              detail: { theme: checkbox.checked ? 'dark' : 'light' }
+          }));
+
+          console.log('Theme changed to ' + (checkbox.checked ? 'dark' : 'light'));
+          applyTheme(checkbox.checked ? darkModeColors : lightModeColors);
+
+
+      });
+
+      toggleSwitch(checkbox);
+  });
 
 function toggleSwitch(checkbox) {
-  var sliderBall = document.getElementById('sliderBall');
-  if (checkbox.checked) {
-    sliderBall.style.backgroundColor = '#2196F3'; // Blue color for the ball
-    sliderBall.style.left = '22px'; // Move ball to the right, adjusted for smaller switch size
-  } else {
-    sliderBall.style.backgroundColor = 'yellow'; // Yellow color for the ball
-    sliderBall.style.left = '2px'; // Move ball to the left
-  }
+    var sliderBall = document.getElementById('sliderBall');
+    if (checkbox.checked) {
+        sliderBall.style.backgroundColor = '#2196F3'; // Blue color for the ball
+        sliderBall.style.left = '22px'; // Move ball to the right
+    } else {
+        sliderBall.style.backgroundColor = 'yellow'; // Yellow color for the ball
+        sliderBall.style.left = '2px'; // Move ball to the left
+    }
 }
 </script>
 
@@ -232,6 +452,46 @@ function toggleSwitch(checkbox) {
       }, 200); // Adjust the delay as needed
   }
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // Apply the stored dyslexia font setting on page load
+      const dyslexiaFontEnabled = sessionStorage.getItem('dyslexiaFontEnabled') === 'true';
+      applyDyslexicFonts(dyslexiaFontEnabled);
+      updateDyslexiaButton(dyslexiaFontEnabled);
+  });
+  
+  function toggleDyslexie() {
+      var dyslexieStatus = document.getElementById('dyslexieStatus');
+      var isEnabled = sessionStorage.getItem('dyslexiaFontEnabled') === 'true';
+      
+      // Toggle the enabled state
+      isEnabled = !isEnabled;
+      sessionStorage.setItem('dyslexiaFontEnabled', isEnabled.toString());
+      
+      // Update the button text and color
+      dyslexieStatus.textContent = isEnabled ? 'Enabled' : 'Disabled';
+      dyslexieStatus.style.backgroundColor = isEnabled ? '#3ba844' : '#FF6F6F';
+  
+      // Apply or remove the dyslexic font based on the toggle state
+      applyDyslexicFonts(isEnabled);
+  }
+  
+  
+  function applyDyslexicFonts(enable) {
+      if (enable) {
+          document.body.style.fontFamily = 'OpenDyslexic, Arial, sans-serif';
+      } else {
+          document.body.style.fontFamily = 'Arial, sans-serif';
+      }
+  }
+  
+  function updateDyslexiaButton(enabled) {
+      var dyslexieStatusDiv = document.getElementById('dyslexieStatus');
+      dyslexieStatusDiv.textContent = enabled ? 'Enabled' : 'Disabled';
+      dyslexieStatusDiv.style.backgroundColor = enabled ? '#3ba844' : '#FF6F6F';
+  }
+  
+  </script>
 <!-- Logout Modal -->
 <div id="logout-modal" class="modal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
   <div class="modal-content" style="background-color: #222937; margin: 15% auto; padding: 20px; border-radius: 15px; width: 400px; position: relative; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center;">
@@ -266,9 +526,10 @@ function toggleSwitch(checkbox) {
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <span style="color: white; text-align: right; flex: 1; margin-right: 16px; user-select: none;">Language:</span>
         <select id="languageStatus" onchange="updateLanguageStatus()" style="width: 120px; background-color: #3C81F6; color: white; padding: 5px 10px; border-radius: 5px; text-align: center; cursor: pointer; user-select: none;">
-          <option value="🇺🇸 English">🇺🇸 English</option>
-          <option value="🇫🇷 Français">🇫🇷 Français</option>
-          <option value="🇪🇸 Español">🇪🇸 Español</option>
+          <option selected value="🇺🇸 English">🇺🇸 English</option>
+          <option value="coming soon" disabled>Coming Soon...</option>
+          <!-- <option value="🇫🇷 Français">🇫🇷 Français</option> -->
+          <!-- <option value="🇪🇸 Español">🇪🇸 Español</option> -->
         </select>
       </div>
     </div>
@@ -281,49 +542,49 @@ function toggleSwitch(checkbox) {
   <header style="background: #3A4151; padding: 1% 0; display: flex; justify-content: space-between; align-items: center; border-radius: 3px;">
     <div class="nav-container" style="display: flex; justify-content: center; flex-grow: 1;">
       <nav style="display: flex; gap: 20%;">
-        <a href="/about" onmouseover="this.style.backgroundColor='#273552'" onmouseout="this.style.backgroundColor='#222937'" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">About</a>
-        <a href="/faq" onmouseover="this.style.backgroundColor='#273552'" onmouseout="this.style.backgroundColor='#222937'" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">FAQ</a>
-        <a href="/changelog" onmouseover="this.style.backgroundColor='#273552'" onmouseout="this.style.backgroundColor='#222937'" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">Changelog</a>        
+        <a href="/about" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">About</a>
+        <a href="/faq" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">FAQ</a>
+        <a href="/changelog" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; min-width: 80px;">Changelog</a>        
       </nav>
     </div>
-    <a href="/login" class="login" onmouseover="this.style.backgroundColor='#273552'" onmouseout="this.style.backgroundColor='#222937'" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; gap: 10px; margin-right: 20px;">
+    <a href="/login" class="login" style="background: #222937; color: #6589C7; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: flex; align-items: center; justify-content: center; gap: 10px; margin-right: 20px;">
       <img src="https://cdn.discordapp.com/attachments/1044880151017705512/1179098284560760842/discord-mark-blue.png" alt="Login Icon" style="width: 20px; height: auto;">
       <span>Login</span>
     </a>
   </header>
 <!-- LOGO + STATS -->
-<div style="background: #121726; padding: 2% 0; text-align: center;">
+<div id="logo-background" style="background: #121726; padding: 2% 0; text-align: center;">
     <!-- Logo and QuoteBot text, inline with no background box -->
 <img src="{{ url_for('static', filename='images/logo.png') }}" alt="QuoteBot Logo" style="width: 250px; vertical-align: middle;">
-<h1 style="color: #71CB70; display: inline; font-size: 5em; font-weight: 700; vertical-align: middle; margin: 0;">Quote</h1><!--
---><h1 style="color: #F8F991; display: inline; font-size: 5em; font-weight: 700; vertical-align: middle; margin: 0;">Bot</h1>
-<div style="background: #121726; padding: 2% 0; text-align: center;">
+<h1 id="logo-quote-text" style="color: #71CB70; display: inline; font-size: 5em; font-weight: 700; vertical-align: middle; margin: 0;">Quote</h1>
+<h1 id="logo-bot-text" style="color: #F8F991; display: inline; font-size: 5em; font-weight: 700; vertical-align: middle; margin: 0;">Bot</h1>
+
+<div id="rating-invite-background" style="background: #121726; padding: 2% 0; text-align: center;">
 
     
     <!-- Stats section -->
-    <div style="margin: 10px; background: #222937; padding: 20px; border-radius: 34px;; margin-bottom: 10px; margin-left: 20px; margin-right: 20px; margin-top: 20px">
+    <div id="stats-background" style="margin: 10px; background: #222937; padding: 20px; border-radius: 34px;; margin-bottom: 10px; margin-left: 20px; margin-right: 20px; margin-top: 20px">
         <p style="color: #6589C7; font-size: 1.5em;">The go to tool for saving and organizing quotes in servers!</p>
         <div style="display: flex; justify-content: center; gap: 10%; flex-wrap: wrap; margin-bottom: 20px">
-            <div style="color: white; font-size: 2em;">
+            <div id="server-stats" style="color: white; font-size: 2em;">
                 <strong>425</strong> Servers
             </div>
-            <div style="color: white; font-size: 2em;">
+            <div id="quote-stats" style="color: white; font-size: 2em;">
                 <strong>8500+</strong> Quotes
             </div>
-            <div style="color: white; font-size: 2em;">
+            <div id="user-stats" style="color: white; font-size: 2em;">
                 <strong>1200+</strong> Users
             </div>
         </div>
     </div>
     
     <!-- RATING + INVITE -->
-    <div style="background: #222937; padding:10px; border-radius: 34px; display: flex; justify-content: center; gap: 20%; align-items: center; margin-bottom: 10px; margin-left: 20px; margin-right: 20px; margin-top: 40px">
+    <div id="rating-background" style="background: #222937; padding:10px; border-radius: 34px; display: flex; justify-content: center; gap: 20%; align-items: center; margin-bottom: 10px; margin-left: 20px; margin-right: 20px; margin-top: 40px">
         <div>
-            <div style="margin-top: 20px;color: #FFD700; font-size: 2em;">★★★★★</div>
-            <p style="color: white; font-size: 1.5em;">Rated 4.7 Stars on Top.gg</p>
+            <div id="rating-stars" style="margin-top: 20px;color: #FFD700; font-size: 2em;">★★★★★</div>
+            <p id="rating-text" style="color: white; font-size: 1.5em;">Rated 4.7 Stars on Top.gg</p>
         </div>
         <button onclick="window.open('https:/\/discord.com/oauth2/authorize?client_id=814379239930331157&permissions=139586825280&scope=bot%20applications.commands', '_blank');" 
-        onmouseover="this.style.backgroundColor='#183ca3'" onmouseout="this.style.backgroundColor='#3662E4'"
         style="background: #3662E4; color: white; padding: 1em 2em; font-size: 1.5em; border-radius: 20px; border: none; cursor: pointer;">
             Add QuoteBot to Discord
         </button>
@@ -332,57 +593,57 @@ function toggleSwitch(checkbox) {
 </div>
 
     <!-- FEATURE LIST -->
-    <div style="background: #222937; padding:10px; border-radius: 34px; display: flex; justify-content: center; gap: 20%; align-items: center;; margin-bottom: 10px; margin-left: 20px; margin-right: 20px; margin-top: 10px">
+    <div id="feature-list-background" style="background: #222937; padding:10px; border-radius: 34px; display: flex; justify-content: center; gap: 20%; align-items: center;; margin-bottom: 10px; margin-left: 20px; margin-right: 20px; margin-top: 10px">
 
     <!-- Features container -->
-    <div style="background: #222937; padding: 20px; border-radius: 34px; text-align: center; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;">
+    <div style="background: none; padding: 20px; border-radius: 34px; text-align: center; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;">
 
         <!-- Custom Quotes -->
-        <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
+        <div id="container-background" style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
           <img src="{{ url_for('static', filename='images/home/quotes.png') }}" alt="Custom Quotes Icon" style="margin-bottom: 5px; width: 50px">
             <h2 style="color: #6998FB; font-size: 1.5em;">Custom Quotes</h2>
-            <p style="color: white; font-size: 1em;">Save anything your friends say on QuoteBot!</p>
+            <p id="container-text" style="color: white; font-size: 1em;">Save anything your friends say on QuoteBot!</p>
         </div>
         
         <!-- Quote Profiles -->
-        <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
+        <div id="container-background" style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
           <img src="{{ url_for('static', filename='images/home/user.png') }}" alt="Quote Profiles Icon" style="margin-bottom: 5px; width: 50px">
             <h2 style="color: #6998FB; font-size: 1.5em;">Quote Profiles</h2>
-            <p style="color: white; font-size: 1em;">Easily view a user's quote with QuoteBot's streamline user profile interface!</p>
+            <p id="container-text" style="color: white; font-size: 1em;">Easily view a user's quote with QuoteBot's streamline user profile interface!</p>
         </div>
         
         <!-- Random Quote -->
-        <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
+        <div id="container-background" style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
           <img src="{{ url_for('static', filename='images/home/dice.png') }}" alt="Random Quote Icon" style="margin-bottom: 5px; width: 50px">
             <h2 style="color: #6998FB; font-size: 1.5em;">Random Quote</h2>
-            <p style="color: white; font-size: 1em;">Find a random quote from a member's profile!</p>
+            <p id="container-text" style="color: white; font-size: 1em;">Find a random quote from a member's profile!</p>
         </div>
         
         <!-- Profile Customizer -->
-        <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
+        <div id="container-background" style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
           <img src="{{ url_for('static', filename='images/home/customization.png') }}" alt="Profile Customizer Icon" style="margin-bottom: 5px; width: 50px">
             <h2 style="color: #6998FB; font-size: 1.5em;">Profile Customizer</h2>
-            <p style="color: white; font-size: 1em;">Make your QuoteBot profile unique by pinning a quote and setting your bio!</p>
+            <p id="container-text" style="color: white; font-size: 1em;">Make your QuoteBot profile unique by pinning a quote and setting your bio!</p>
         </div>
         
         <!-- Multiple Languages -->
-        <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
+        <div id="container-background" style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
             <div style="position: absolute; top: 10px; left: 10px; background: #58BC86; padding: 10px 10px; border-radius: 10px; color: white; font-size: 0.8em;">
                 Coming in version 5!
             </div>
             <img src="{{ url_for('static', filename='images/home/translate.png') }}" alt="Multiple Languages Icon" style="margin-bottom: 5px; width: 50px">
             <h2 style="color: #6998FB; font-size: 1.5em;">Multiple Languages</h2>
-            <p style="color: white; font-size: 1em;">Use QuoteBot features in your primary language! Including content filtering!</p>
+            <p id="container-text" style="color: white; font-size: 1em;">Use QuoteBot features in your primary language! Including content filtering!</p>
         </div>
 
         <!-- Community Support -->
-        <div style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
+        <div id="container-background" style="width: 45%; background: #333A4D; padding: 20px; border-radius: 20px; position: relative;">
             <div style="position: absolute; top: 10px; left: 10px; background: #58BC86; padding: 10px 10px; border-radius: 10px; color: white; font-size: 0.8em;">
                 Coming in version 5!
             </div>
             <img src="{{ url_for('static', filename='images/home/group.png') }}" alt="Community Support Icon" style="margin-bottom: 5px; width: 50px">
             <h2 style="color: #6998FB; font-size: 1.5em;">Community Support</h2>
-            <p style="color: white; font-size: 1em;">If your community is large don't worry! QuoteBot has a wide array of customizable settings to help you manage who, when and where it can be used!</p>
+            <p id="container-text" style="color: white; font-size: 1em;">If your community is large don't worry! QuoteBot has a wide array of customizable settings to help you manage who, when and where it can be used!</p>
         </div>
 
     </div>
