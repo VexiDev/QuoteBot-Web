@@ -6,8 +6,8 @@ How to Add Quotes - QuoteBot
 
 {% block content %}
 <main style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
-    <div style="background: #222937; border-radius: 18px; padding-top: 40px; padding-bottom: 40px; padding-left: 100px; padding-right: 100px; width: 80%; display: flex; flex-direction: column; align-items: center; gap: 20px;">
-      <div style="background: #3A4151; border-radius: 10px; padding: 20px 30px; min-width: none; margin-top: 20px;">
+    <div id="content-background" style="background: #222937; border-radius: 18px; padding-top: 40px; padding-bottom: 40px; padding-left: 100px; padding-right: 100px; width: 80%; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+      <div id="title-background" style="background: #3A4151; border-radius: 10px; padding: 20px 30px; min-width: none; margin-top: 20px;">
         <div style="display: flex; align-items: center;">
           <img src="{{ url_for('static', filename='images/faq/user.png') }}" alt="Add Icon" style="width: 36px; height: 36px; margin-left: 10px; margin-right: 10px;">
           <h2 style="font-size: 2em; font-weight: 700; text-align: center; color: #ffffff; margin: 0;">How to View Quotes</h2>
@@ -25,14 +25,14 @@ How to Add Quotes - QuoteBot
         <div style="background: none; border-radius: 18px; padding: 20px; display: flex; gap: 20px; justify-content: space-between; align-items: flex-start;">
           <div style="display: flex; gap: 20px; flex: 1;">
           <!-- Command Usage Column -->
-          <div style="background: #3A4151; border-radius: 18px; padding: 20px; flex: 1; margin-right: 10px; text-align: center;">
-            <div style="background: #57627B; border-radius: 20px; padding: 0 15px; display: inline-block; text-align: center;">
-              <h3 style="color: #fff; font-size: 1.2em; margin-bottom: 20px;">Profile Command Format</h3>
+          <div id="command-background" style="background: #3A4151; border-radius: 18px; padding: 20px; flex: 1; margin-right: 10px; text-align: center;">
+            <div id="command-title-background" style="background: #57627B; border-radius: 20px; padding: 0 15px; display: inline-block; text-align: center;">
+              <h3 id="command-title-text" style="color: #fff; font-size: 1.2em; margin-bottom: 20px;">Profile Command Format</h3>
             </div>
             
             
-            <h3 style="color: #fff; font-size: 1em; text-align: center; margin-top: 26px">/profile &lt;user&gt;</h3>
-            <ul style="list-style: none; padding-left: 0; color: #fff; font-size: 1em; text-align: left;">
+            <h3 id="command-format-text" style="color: #fff; font-size: 1em; text-align: center; margin-top: 26px">/profile &lt;user&gt;</h3>
+            <ul id="command-format-list" style="list-style: none; padding-left: 0; color: #fff; font-size: 1em; text-align: left;">
               <li><strong>/profile :</strong>
                 <ul>
                   <li>The command name, type this into a channel on Discord to start viewing a user's quotes.</li><br>
@@ -47,13 +47,13 @@ How to Add Quotes - QuoteBot
           </div>
         
           <!-- Additional Information Column -->
-          <div style="background: #3A4151; border-radius: 18px; padding: 20px; flex: 1; margin-left: 10px; text-align: center;">
-            <div style="background: #57627B; border-radius: 20px; padding: 0 15px; display: inline-block; text-align: center;">
-              <h3 style="color: #fff; font-size: 1.2em; margin-bottom: 20px;">Additional Information</h3>
+          <div id="information-background" style="background: #3A4151; border-radius: 18px; padding: 20px; flex: 1; margin-left: 10px; text-align: center;">
+            <div id="information-title-background" style="background: #57627B; border-radius: 20px; padding: 0 15px; display: inline-block; text-align: center;">
+              <h3 id="information-title-text" style="color: #fff; font-size: 1.2em; margin-bottom: 20px;">Additional Information</h3>
             </div>
-            <p style="color: #fff; font-size: 1em; text-align: left; margin-bottom: 20px; margin-top: 20px;margin-left: 20px; margin-right: 20px;">QuoteBot stores quotes into two categories, Quotes and NSFW Quotes, set your bio and pinned quotes using <span style="color: #68ADFE;">/bio</span> and <span style="color: #68ADFE;">/pin</span>:</p>
+            <p id="information-text" style="color: #fff; font-size: 1em; text-align: left; margin-bottom: 20px; margin-top: 20px;margin-left: 20px; margin-right: 20px;">QuoteBot stores quotes into two categories, Quotes and NSFW Quotes, set your bio and pinned quotes using <span style="color: #68ADFE;">/bio</span> and <span style="color: #68ADFE;">/pin</span>:</p>
             <img src="{{ url_for('static', filename='images/faq/examples/profile_example.png') }}" alt="Profile Example" style="width: 100%; max-width: 400px; height: auto; border-radius: 5px;">
-            <p style="color: #fff; font-size: 1em; text-align: center; font-style: italic; margin-top: 10px; margin-left: 20px; margin-right: 20px;">Some servers may have the NSFW category disabled</p>
+            <p id="information-text" style="color: #fff; font-size: 1em; text-align: center; font-style: italic; margin-top: 10px; margin-left: 20px; margin-right: 20px;">Some servers may have the NSFW category disabled</p>
             
           </div>
         </div>
@@ -65,5 +65,101 @@ How to Add Quotes - QuoteBot
 {% endblock %}
 
 {% block scripts %}
-<!-- Page-specific scripts -->
+<script>
+const viewQuotesPageDarkModeColors = {
+    mainBackground: "#222937",
+    titleBackground: "#3A4151",
+    textColor: "#ffffff",
+    commandBackground: "#3A4151",
+    informationBackground: "#3A4151",
+    commandTitleBackground: "#57627B",
+    informationTitleBackground: "#57627B",
+    linkColor: "#68ADFE", // Color for links
+};
+
+const viewQuotesPageLightModeColors = {
+    mainBackground: "#D1D7E0",
+    titleBackground: "#F0F0F0",
+    textColor: "#000000",
+    commandBackground: "#F0F0F0",
+    informationBackground: "#F0F0F0",
+    commandTitleBackground: "#B0BEC5",
+    informationTitleBackground: "#B0BEC5",
+    linkColor: "#0047AB", // Color for links
+};
+
+function applyViewQuotesPageTheme(themeColors) {
+    const setContentBackground = document.getElementById('content-background');
+    if (setContentBackground) {
+        setContentBackground.style.backgroundColor = themeColors.mainBackground;
+    }
+
+    const setTitleBackground = document.getElementById('title-background');
+    if (setTitleBackground) {
+        setTitleBackground.style.backgroundColor = themeColors.titleBackground;
+        setTitleBackground.querySelectorAll('h2').forEach(element => {
+            element.style.color = themeColors.textColor;
+        });
+    }
+
+    const setCommandBackground = document.getElementById('command-background');
+    if (setCommandBackground) {
+        setCommandBackground.style.backgroundColor = themeColors.commandBackground;
+    }
+
+    const setCommandTitleBackground = document.getElementById('command-title-background');
+    if (setCommandTitleBackground) {
+        setCommandTitleBackground.style.backgroundColor = themeColors.commandTitleBackground;
+    }
+
+    const setCommandTitleText = document.getElementById('command-title-text');
+    if (setCommandTitleText) {
+        setCommandTitleText.style.color = themeColors.textColor;
+    }
+
+    const setCommandFormatText = document.getElementById('command-format-text');
+    if (setCommandFormatText) {
+        setCommandFormatText.style.color = themeColors.textColor;
+    }
+
+    const setCommandFormatList = document.getElementById('command-format-list');
+    if (setCommandFormatList) {
+        setCommandFormatList.style.color = themeColors.textColor;
+    }
+
+    const setInformationBackground = document.getElementById('information-background');
+    if (setInformationBackground) {
+        setInformationBackground.style.backgroundColor = themeColors.informationBackground;
+    }
+
+    const setInformationTitleBackground = document.getElementById('information-title-background');
+    if (setInformationTitleBackground) {
+        setInformationTitleBackground.style.backgroundColor = themeColors.informationTitleBackground;
+    }
+
+    const setInformationTitleText = document.getElementById('information-title-text');
+    if (setInformationTitleText) {
+        setInformationTitleText.style.color = themeColors.textColor;
+    }
+
+    const setInformationTexts = document.querySelectorAll('#information-text');
+    setInformationTexts.forEach(element => {
+        element.style.color = themeColors.textColor;
+        const links = element.querySelectorAll('a');
+        links.forEach(link => {
+            link.style.color = themeColors.linkColor;
+        });
+    });
+}
+
+// Listen for theme changes
+window.addEventListener('themeChanged', function(e) {
+    let currentTheme = e.detail.theme === 'light' ? viewQuotesPageLightModeColors : viewQuotesPageDarkModeColors;
+    applyViewQuotesPageTheme(currentTheme);
+});
+
+// Apply the initial theme based on localStorage
+let initialTheme = localStorage.getItem('theme') === 'light' ? viewQuotesPageLightModeColors : viewQuotesPageDarkModeColors;
+applyViewQuotesPageTheme(initialTheme);
+</script>
 {% endblock %}

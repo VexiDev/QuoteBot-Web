@@ -6,8 +6,8 @@ How to block a user - QuoteBot
 
 {% block content %}
 <main style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
-    <div style="background: #222937; border-radius: 18px; padding-top: 40px; padding-bottom: 40px; padding-left: 100px; padding-right: 100px; width: 80%; display: flex; flex-direction: column; align-items: center; gap: 20px;">
-      <div style="background: #3A4151; border-radius: 10px; padding: 20px 30px; min-width: none; margin-top: 20px;">
+    <div id="content-background" style="background: #222937; border-radius: 18px; padding-top: 40px; padding-bottom: 40px; padding-left: 100px; padding-right: 100px; width: 80%; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+      <div id="title-background" style="background: #3A4151; border-radius: 10px; padding: 20px 30px; min-width: none; margin-top: 20px;">
         <div style="display: flex; align-items: center;">
           <img src="{{ url_for('static', filename='images/faq/block.png') }}" alt="block Icon" style="width: 36px; height: 36px; margin-left: 10px; margin-right: 10px;">
           <h2 style="font-size: 2em; font-weight: 700; text-align: center; color: #ffffff; margin: 0;">How to Block a User</h2>
@@ -25,14 +25,14 @@ How to block a user - QuoteBot
         <div style="background: none; border-radius: 18px; padding: 20px; display: flex; gap: 20px; justify-content: space-between; align-items: flex-start;">
           <div style="display: flex; gap: 20px; flex: 1;">
           <!-- Command Usage Column -->
-          <div style="background: #3A4151; border-radius: 18px; padding: 20px; flex: 1; margin-right: 10px; text-align: center;">
-            <div style="background: #57627B; border-radius: 20px; padding: 0 15px; display: inline-block; text-align: center;">
-              <h3 style="color: #fff; font-size: 1.2em; margin-bottom: 20px;">Block Command Format</h3>
+          <div id="command-background" style="background: #3A4151; border-radius: 18px; padding: 20px; flex: 1; margin-right: 10px; text-align: center;">
+            <div id="command-title-background" style="background: #57627B; border-radius: 20px; padding: 0 15px; display: inline-block; text-align: center;">
+              <h3 id="command-title-text" style="color: #fff; font-size: 1.2em; margin-bottom: 20px;">Block Command Format</h3>
             </div>
             
             
-            <h3 style="color: #fff; font-size: 1em; text-align: center; margin-top: 26px">/block &lt;user&gt;</h3>
-            <ul style="list-style: none; padding-left: 0; color: #fff; font-size: 1em; text-align: left;">
+            <h3 id="command-format-text" style="color: #fff; font-size: 1em; text-align: center; margin-top: 26px">/block &lt;user&gt;</h3>
+            <ul id="command-format-list" style="list-style: none; padding-left: 0; color: #fff; font-size: 1em; text-align: left;">
               <li><strong>/block :</strong>
                 <ul>
                   <li>The command name, type this into a channel on Discord to start blocking a user.</li><br>
@@ -47,11 +47,11 @@ How to block a user - QuoteBot
           </div>
         
           <!-- Additional Information Column -->
-          <div style="background: #3A4151; border-radius: 18px; padding: 20px; flex: 1; margin-left: 10px; text-align: center;">
-            <div style="background: #57627B; border-radius: 20px; padding: 0 15px; display: inline-block; text-align: center;">
-              <h3 style="color: #fff; font-size: 1.2em; margin-bottom: 20px;">Additional Information</h3>
+          <div id="information-background" style="background: #3A4151; border-radius: 18px; padding: 20px; flex: 1; margin-left: 10px; text-align: center;">
+            <div id="information-title-background" style="background: #57627B; border-radius: 20px; padding: 0 15px; display: inline-block; text-align: center;">
+              <h3 id="information-title-text" style="color: #fff; font-size: 1.2em; margin-bottom: 20px;">Additional Information</h3>
             </div>
-            <p style="color: #fff; font-size: 1em; text-align: left; margin-bottom: 10px; margin-top: 20px;margin-left: 20px; margin-right: 20px;">If a user is abusing QuoteBot please join the support discord and report them:</p>
+            <p id="information-text" style="color: #fff; font-size: 1em; text-align: left; margin-bottom: 10px; margin-top: 20px;margin-left: 20px; margin-right: 20px;">If a user is abusing QuoteBot please join the support discord and report them:</p>
             <a href="https://discord.gg/invite/bf4tWcNFJW" onmouseover="this.style.backgroundColor='#3e47a8'" onmouseout="this.style.backgroundColor='#5865F2'" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; background-color: #5865F2; color: #FFFFFF; text-decoration: none; padding: 5px 20px; border-radius: 15px; font-weight: bold; margin-top: 20px; margin-bottom: 20px;">
               <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Profile Example" style="width: 64px; height: 64px; border-radius: 5px; margin-right: 8px;">
               Join Now!
@@ -66,5 +66,103 @@ How to block a user - QuoteBot
 {% endblock %}
 
 {% block scripts %}
-<!-- Page-specific scripts -->
+<script>
+const blockPageDarkModeColors = {
+    mainBackground: "#222937",
+    titleBackground: "#3A4151",
+    textColor: "#ffffff",
+    commandBackground: "#3A4151",
+    commandTitleBackground: "#57627B",
+    informationBackground: "#3A4151",
+    informationTitleBackground: "#57627B",
+    linkHoverColor: "#3e47a8",
+    linkColor: "#5865F2"
+};
+
+const blockPageLightModeColors = {
+    mainBackground: "#D1D7E0",
+    titleBackground: "#F0F0F0",
+    textColor: "#000000",
+    commandBackground: "#F0F0F0",
+    commandTitleBackground: "#B0BEC5",
+    informationBackground: "#F0F0F0",
+    informationTitleBackground: "#B0BEC5",
+    linkHoverColor: "#3e47a8",
+    linkColor: "#1A237E"
+};
+
+function applyBlockPageTheme(themeColors) {
+    const setContentBackground = document.getElementById('content-background');
+    if (setContentBackground) {
+        setContentBackground.style.backgroundColor = themeColors.mainBackground;
+    }
+
+    const setTitleBackground = document.getElementById('title-background');
+    if (setTitleBackground) {
+        setTitleBackground.style.backgroundColor = themeColors.titleBackground;
+        setTitleBackground.querySelectorAll('h2').forEach(element => {
+            element.style.color = themeColors.textColor;
+        });
+    }
+
+    const setCommandBackground = document.getElementById('command-background');
+    if (setCommandBackground) {
+        setCommandBackground.style.backgroundColor = themeColors.commandBackground;
+    }
+
+    const setCommandTitleBackground = document.getElementById('command-title-background');
+    if (setCommandTitleBackground) {
+        setCommandTitleBackground.style.backgroundColor = themeColors.commandTitleBackground;
+    }
+
+    const setCommandTitleText = document.getElementById('command-title-text');
+    if (setCommandTitleText) {
+        setCommandTitleText.style.color = themeColors.textColor;
+    }
+
+    const setCommandFormatText = document.getElementById('command-format-text');
+    if (setCommandFormatText) {
+        setCommandFormatText.style.color = themeColors.textColor;
+    }
+
+    const setCommandFormatList = document.getElementById('command-format-list');
+    if (setCommandFormatList) {
+        setCommandFormatList.style.color = themeColors.textColor;
+    }
+
+    const setInformationBackground = document.getElementById('information-background');
+    if (setInformationBackground) {
+        setInformationBackground.style.backgroundColor = themeColors.informationBackground;
+    }
+
+    const setInformationTitleBackground = document.getElementById('information-title-background');
+    if (setInformationTitleBackground) {
+        setInformationTitleBackground.style.backgroundColor = themeColors.informationTitleBackground;
+    }
+
+    const setInformationTexts = document.querySelectorAll('#information-title-text, #information-text');
+    setInformationTexts.forEach(element => {
+        if (element) {
+            element.style.color = themeColors.textColor;
+        }
+    });
+
+    // Link hover effects
+    const links = document.querySelectorAll('a');
+    links.forEach(link => {
+        link.onmouseover = () => link.style.backgroundColor = themeColors.linkHoverColor;
+        link.onmouseout = () => link.style.backgroundColor = themeColors.linkColor;
+    });
+}
+
+// Listen for theme changes
+window.addEventListener('themeChanged', function(e) {
+    let currentTheme = e.detail.theme === 'light' ? blockPageLightModeColors : blockPageDarkModeColors;
+    applyBlockPageTheme(currentTheme);
+});
+
+// Apply the initial theme based on localStorage
+let initialTheme = localStorage.getItem('theme') === 'light' ? blockPageLightModeColors : blockPageDarkModeColors;
+applyBlockPageTheme(initialTheme);
+</script>
 {% endblock %}

@@ -9,29 +9,29 @@ FAQ NSFW - QuoteBot
 
 {% block content %}
 <main style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
-    <div style="background: #222937; border-radius: 18px; padding-top: 40px; padding-bottom: 40px; padding-left: 80px; padding-right: 80px; width: 80%; display: flex; flex-direction: column; align-items: center; gap: 20px;">
-        <div style="background: #3A4151; border-radius: 18px; padding-right: 50px; padding-left: 50px; padding-top: 20px; padding-bottom: 20px; display: inline-block; text-align: center;">
+    <div id='background' style="background: #222937; border-radius: 18px; padding-top: 40px; padding-bottom: 40px; padding-left: 80px; padding-right: 80px; width: 80%; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+        <div id='title-background' style="background: #3A4151; border-radius: 18px; padding-right: 50px; padding-left: 50px; padding-top: 20px; padding-bottom: 20px; display: inline-block; text-align: center;">
           <div style="display: flex; align-items: center;">
           <img src="{{ url_for('static', filename='images/faq/nsfw.png') }}" alt="NSFW Icon" style="width: 36px; height: 36px; margin-left: 18px; margin-right: 10px;">
-          <h2 style="font-size: 2em; font-weight: 700; color: #ffffff; margin: 0;">NSFW Quotes</h2>
+          <h2 id='title-text' style="font-size: 2em; font-weight: 700; color: #ffffff; margin: 0;">NSFW Quotes</h2>
         </div>
       </div>
       
-      <div style="background: #3A4151; border-radius: 18px; padding: 20px; width: 90%;">
+      <div id='information-background' style="background: #3A4151; border-radius: 18px; padding: 20px; width: 90%;">
         
         <div style="display: flex; align-items: center;">
           <img src="{{ url_for('static', filename='images/faq/WARNING.png') }}" alt="Warning Icon" style="width: 36px; height: 36px; margin-left: 18px; margin-right: 10px;">
-          <h3 style="font-size: 1.8em; font-weight: 700; margin: 22px 0 20px 0; text-align: left;">Attempting to bypass QuoteBot filters can result in a global blacklist</h3>
+          <h3 id='warning-text' style="font-size: 1.8em; font-weight: 700; margin: 22px 0 20px 0; text-align: left;">Attempting to bypass QuoteBot filters can result in a global blacklist</h3>
       </div>      
       
-        <p style="font-size: 1.5em; font-weight: 5; text-align: left; padding: 0 20px; margin-bottom: 0;">
+        <p id='information-text' style="font-size: 1.5em; font-weight: 5; text-align: left; padding: 0 20px; margin-bottom: 0;">
           There are no strict rules on what can and can't be added to QuoteBot but we do separate quotes that we detect contain vulgar terms into a different section in an effort to have quotes be more neatly organized based on their content.
         </p>
-        <p style="font-size: 1.5em; font-weight: 5; text-align: left; padding: 0 20px;">
+        <p id='information-text' style="font-size: 1.5em; font-weight: 5; text-align: left; padding: 0 20px;">
           Generally if your quote contains slurs, sensitive topics, or extremely sexual language, it will be placed into the NSFW category in your profile. If you believe a quote was falsely flagged, report it in the <a href="https://discord.gg/invite/bf4tWcNFJW" target="_blank" style="color: #68ADFE; text-decoration: underline;">Support Discord</a>.<br><br>You can find the NSFW category in your profile by clicking on the "NSFW" button after running the <span style="font-weight: bold; color: #68ADFE;">/profile</span> command.
         </p>
         
-          <p style="font-size: 1.5em; text-align: left; padding: 0 20px; font-style: italic; margin-top: 0;">
+          <p id='information-text' style="font-size: 1.5em; text-align: left; padding: 0 20px; font-style: italic; margin-top: 0;">
           Additionally, your quote may also be placed in the NSFW category if the server you're attempting to add quotes to has custom filter settings. Please refer to that server's staff if you have any questions.
       </p>
       
@@ -42,5 +42,65 @@ FAQ NSFW - QuoteBot
 {% endblock %}
 
 {% block scripts %}
-<!-- Page-specific scripts -->
+<script>
+const nsfwPageDarkModeColors = {
+    background: "#222937",
+    titleBackground: "#3A4151",
+    textColor: "#ffffff",
+    linkColor: "#68ADFE", // Color for links within text
+    warningTextColor: "#ffffff", // Text color for warning sections
+};
+
+const nsfwPageLightModeColors = {
+    background: "#D1D7E0",
+    titleBackground: "#F0F0F0",
+    textColor: "#000000",
+    linkColor: "#0047AB", // Color for links within text
+    warningTextColor: "#000000", // Text color for warning sections
+};
+
+function applyNSFWPageTheme(themeColors) {
+    const background = document.getElementById('background');
+    if (background) {
+        background.style.backgroundColor = themeColors.background;
+    }
+
+    const titleBackground = document.getElementById('title-background');
+    if (titleBackground) {
+        titleBackground.style.backgroundColor = themeColors.titleBackground;
+        const titleText = document.getElementById('title-text');
+        if (titleText) {
+            titleText.style.color = themeColors.textColor;
+        }
+    }
+
+    const informationBackground = document.getElementById('information-background');
+    if (informationBackground) {
+        informationBackground.style.backgroundColor = themeColors.titleBackground;
+        const warningText = document.getElementById('warning-text');
+        if (warningText) {
+            warningText.style.color = themeColors.warningTextColor;
+        }
+
+        const informationTexts = document.querySelectorAll('#information-text');
+        informationTexts.forEach(element => {
+            element.style.color = themeColors.textColor;
+            const links = element.querySelectorAll('a');
+            links.forEach(link => {
+                link.style.color = themeColors.linkColor;
+            });
+        });
+    }
+}
+
+// Listen for theme changes
+window.addEventListener('themeChanged', function(e) {
+    let currentTheme = e.detail.theme === 'light' ? nsfwPageLightModeColors : nsfwPageDarkModeColors;
+    applyNSFWPageTheme(currentTheme);
+});
+
+// Apply the initial theme based on localStorage
+let initialTheme = localStorage.getItem('theme') === 'light' ? nsfwPageLightModeColors : nsfwPageDarkModeColors;
+applyNSFWPageTheme(initialTheme);
+</script>
 {% endblock %}
