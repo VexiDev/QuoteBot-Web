@@ -158,5 +158,68 @@ FAQ - QuoteBot
     });
   });
 </script>
-{% endblock %}
+<script>
+    const faqDarkModeColors = {
+    mainBackground: "#222937", // Dark blue for the main background
+    sectionBackground: "#3A4151", // Darker gray-blue for section backgrounds
+    textColor: "#ffffff", // White for primary text
+    linkColor: "#C0C0C0", // Light gray for links
+    specialTextColor: "#68ADFE", // Blue for special text
+    hoverInfoBackground: "#3A4151", // Background color for hover info sections
+};
+const faqLightModeColors = {
+    mainBackground: "#D1D7E0", // Light gray-blue for the main background
+    sectionBackground: "#F0F0F0", // Very light gray for section backgrounds
+    textColor: "#000000", // Black for primary text
+    linkColor: "#333333", // Darker color for links
+    specialTextColor: "#0047AB", // Darker blue for special text
+    hoverInfoBackground: "#000000", // Lighter gray for hover info sections
+};
 
+
+function applyFaqTheme(themeColors) {
+    // Main content area
+    const mainContent = document.querySelector('main > div');
+    if (mainContent) {
+        mainContent.style.background = themeColors.mainBackground;
+    }
+
+    // FAQ title header
+    const faqTitleSection = document.querySelector('main > div > div:first-child');
+    const faqTitle = faqTitleSection.querySelector('h2');
+    if (faqTitleSection && faqTitle) {
+        faqTitleSection.style.background = themeColors.sectionBackground;
+        faqTitle.style.color = themeColors.textColor;
+    }
+
+    // FAQ items and hover-info
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        item.style.background = themeColors.sectionBackground;
+        item.querySelector('h3').style.color = themeColors.textColor;
+        item.querySelector('p').style.color = themeColors.linkColor;
+        item.querySelector('a').style.color = themeColors.linkColor;
+
+        const hoverInfo = item.querySelector('.hover-info');
+        const hoverInfoImage = hoverInfo.querySelector('img');
+        if (hoverInfo && hoverInfoImage) {
+            hoverInfo.style.color = themeColors.textColor;
+            // Apply circular background only to the image
+            hoverInfoImage.style.backgroundColor = themeColors.hoverInfoBackground;
+            hoverInfoImage.style.borderRadius = '50%';
+            hoverInfoImage.style.padding = '5px'; // Optional, adjust padding for visual appeal
+        }
+    });
+}
+
+    // Listen for theme changes
+    window.addEventListener('themeChanged', function(e) {
+        let currentTheme = e.detail.theme === 'light' ? faqLightModeColors : faqDarkModeColors;
+        applyFaqTheme(currentTheme);
+    });
+
+    // Apply the initial theme based on localStorage
+    let initialTheme = localStorage.getItem('theme') === 'light' ? faqLightModeColors : faqDarkModeColors;
+    applyFaqTheme(initialTheme);
+</script>
+{% endblock %}

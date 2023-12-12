@@ -39,5 +39,69 @@ About - QuoteBot
 {% endblock %}
 
 {% block scripts %}
-<!-- Page-specific scripts -->
+<script>
+  const aboutDarkModeColors = {
+    mainBackground: "#222937",
+    sectionBackground: "#3A4151",
+    textColor: "#ffffff",
+  };
+
+  const aboutLightModeColors = {
+    mainBackground: "#D1D7E0",
+    sectionBackground: "#F0F0F0",
+    textColor: "#000000",
+  };
+
+  function applyAboutTheme(themeColors) {
+    // Select the main content area
+    const mainContent = document.querySelector('main > div');
+    if (mainContent) {
+        mainContent.style.background = themeColors.mainBackground;
+    }
+
+    // Apply styles to the sections
+    const aboutAndCreditsSections = mainContent.querySelectorAll('div');
+    aboutAndCreditsSections.forEach(section => {
+        section.style.background = themeColors.sectionBackground;
+    });
+
+    // Apply styles to all headings (h2, h3)
+    const headings = mainContent.querySelectorAll('h2, h3');
+    headings.forEach(heading => {
+        heading.style.color = themeColors.textColor;
+    });
+
+    // Apply styles to all text spans within the credit section
+    const textSpans = mainContent.querySelectorAll('div > div > span');
+    textSpans.forEach(span => {
+        span.style.color = themeColors.textColor;
+    });
+
+  // Apply styles to all paragraphs
+  const paragraphs = mainContent.querySelectorAll('p');
+  paragraphs.forEach(p => {
+      p.style.color = themeColors.textColor;
+  });
+
+}
+
+
+  // Function to update theme based on changes
+  function updateTheme() {
+    let currentTheme = localStorage.getItem('theme') === 'light' ? aboutLightModeColors : aboutDarkModeColors;
+    applyAboutTheme(currentTheme);
+  }
+
+
+  window.addEventListener('themeChanged', function(e) {
+    let aboutCurrentTheme = e.detail.theme === 'light' ? aboutLightModeColors : aboutDarkModeColors;
+    applyAboutTheme(aboutCurrentTheme);
+  });
+  
+  // Initial theme application
+  let initialTheme = localStorage.getItem('theme') === 'light' ? aboutLightModeColors : aboutDarkModeColors;
+  applyAboutTheme(initialTheme);
+
+</script>
 {% endblock %}
+

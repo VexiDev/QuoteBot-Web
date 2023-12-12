@@ -8,7 +8,7 @@ Profile - QuoteBot
 {% endblock %}
 
 {% block content %}
-<div style="background: #222937; border-radius: 10px; padding: 20px; margin: 30px">
+<div id="mainBackground" style="background: #222937; border-radius: 10px; padding: 20px; margin: 30px">
     <!-- Server List Header with Search Bar -->
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5%; margin-top: 10px;">
         <h2 style="color: #fff; font-size: 32px; margin-left: 0">Your Servers</h2>
@@ -48,6 +48,71 @@ Profile - QuoteBot
 {% endblock %}
 
 {% block scripts %}
+<script>
+    // Define the color themes
+    const profileDarkModeColors = {
+    mainBackground: "#222937", // Dark blue for the main background
+    cardBackground: "#3A4151", // Darker gray-blue for card backgrounds
+    textColor: "#ffffff", // White for text
+    linkColor: "#5865F2", // Blue for links
+    missingBotColor: "#FF5555", // Red for the "Missing QuoteBot" text
+    specialTextColor: "#68ADFE", // Special text color (not explicitly used in the provided code)
+};
+
+const profileLightModeColors = {
+    mainBackground: "#D1D7E0", // Light gray-blue for the main background
+    cardBackground: "#F0F0F0", // Very light gray for card backgrounds
+    textColor: "#000000", // Black for text
+    linkColor: "#1A237E", // Darker blue for links
+    missingBotColor: "#E57373", // Lighter red for the "Missing QuoteBot" text
+    specialTextColor: "#0047AB", // Darker blue for special text (not explicitly used in the provided code)
+};
+
+
+function applyProfileTheme(themeColors) {
+    // Main background using the div's ID
+    const mainBg = document.getElementById('mainBackground');
+    if (mainBg) {
+        mainBg.style.background = themeColors.mainBackground;
+    }
+
+    // "Your Servers" header
+    const serverHeader = document.querySelector('div[style*="justify-content: space-between"] h2');
+    if (serverHeader) {
+        serverHeader.style.color = themeColors.textColor;
+    }
+
+    // Server cards
+    const serverCards = document.querySelectorAll('.server-card');
+    serverCards.forEach(card => {
+        card.style.background = themeColors.cardBackground;
+        card.style.color = themeColors.textColor;
+
+        // Links inside the server card
+        const links = card.querySelectorAll('a');
+        links.forEach(link => {
+            if (link.style.background !== 'rgb(255, 85, 85)') { // Check if it's not the red button
+                // Maintain white text color for non-red buttons
+                link.style.color = '#ffffff';
+            }
+            // For red buttons, only change text color to maintain visibility
+            else {
+                link.style.color = themeColors.textColor;
+            }
+        });
+    });
+}
+
+    // Listen for theme changes
+    window.addEventListener('themeChanged', function(e) {
+        let currentTheme = e.detail.theme === 'light' ? profileLightModeColors : profileDarkModeColors;
+        applyProfileTheme(currentTheme);
+    });
+
+    // Apply the initial theme based on localStorage
+    let initialTheme = localStorage.getItem('theme') === 'light' ? profileLightModeColors : profileDarkModeColors;
+    applyProfileTheme(initialTheme);
+</script>
 <script>
 let isInitialCheck = true;
 let wasCacheUpdatingInitially = false;

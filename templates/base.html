@@ -5,6 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuoteBot - {% block title %}{% endblock %}</title>
+    <style>
+        @font-face {
+            font-family: 'OpenDyslexic';
+            src: url('/static/fonts/dyslexic/OpenDyslexic-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'OpenDyslexic';
+            src: url('/static/fonts/dyslexic/OpenDyslexic-Bold.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'OpenDyslexic';
+            src: url('/static/fonts/dyslexic/OpenDyslexic-Italic.otf') format('opentype');
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        @font-face {
+            font-family: 'OpenDyslexic';
+            src: url('/static/fonts/dyslexic/OpenDyslexic-BoldItalic.otf') format('opentype');
+            font-weight: bold;
+            font-style: italic;
+        }
+        </style>
     <!-- Other common head elements -->
 </head>
 <body style="margin: 0; font-family: Arial, sans-serif; background-color: #121726; color: #fff; padding: 0; box-sizing: border-box; height: 100vh;">
@@ -19,11 +48,11 @@
                 </div>
             </a>            
             <div style="display: flex; align-items: center; margin-right: 53px;">
-                <a href="javascript:history.back();" class="back-button" onmouseover="this.style.backgroundColor='#273552'" onmouseout="this.style.backgroundColor='#222937'" style="background: #222937; color: #5865F2; padding: 17px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: inline-flex; align-items: center; gap: 10px; margin-right: 10px;">
+                <a href="javascript:history.back();" class="back-button" style="background: #222937; color: #5865F2; padding: 17px 30px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: inline-flex; align-items: center; gap: 10px; margin-right: 10px;">
                     Back
                 </a>                
                 <div style="position: relative;">
-                  <a id="profile-area" class="login" onmouseover="this.style.backgroundColor='#273552'" onmouseout="this.style.backgroundColor='#222937'" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px; margin-right: 10px; cursor: pointer;">
+                    <a id="profile-area" class="login" style="background: #222937; color: #5865F2; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1em; display: none; align-items: center; gap: 10px; margin-right: 10px; cursor: pointer;">
                     <!-- Profile content will be inserted by JavaScript -->
                   </a>   
                     <!-- Dropdown menu content -->
@@ -94,9 +123,10 @@
             <div style="display: flex; justify-content: space-between; align-items: center;">
             <span style="color: white; text-align: right; flex: 1; margin-right: 16px; user-select: none;">Language:</span>
             <select id="languageStatus" onchange="updateLanguageStatus()" style="width: 120px; background-color: #3C81F6; color: white; padding: 5px 10px; border-radius: 5px; text-align: center; cursor: pointer; user-select: none;">
-                <option value="🇺🇸 English">🇺🇸 English</option>
-                <option value="🇫🇷 Français">🇫🇷 Français</option>
-                <option value="🇪🇸 Español">🇪🇸 Español</option>
+                <option selected value="🇺🇸 English">🇺🇸 English</option>
+                <option value="coming soon" disabled>Coming Soon...</option>
+                <!-- <option value="🇫🇷 Français">🇫🇷 Français</option> -->
+                <!-- <option value="🇪🇸 Español">🇪🇸 Español</option> -->
             </select>
             </div>
         </div>
@@ -104,6 +134,240 @@
     </div>
 
     <!-- Common scripts -->      
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Apply the stored dyslexia font setting on page load
+    const dyslexiaFontEnabled = sessionStorage.getItem('dyslexiaFontEnabled') === 'true';
+    applyDyslexicFonts(dyslexiaFontEnabled);
+    updateDyslexiaButton(dyslexiaFontEnabled);
+});
+
+function toggleDyslexie() {
+    var dyslexieStatus = document.getElementById('dyslexieStatus');
+    var isEnabled = sessionStorage.getItem('dyslexiaFontEnabled') === 'true';
+    
+    // Toggle the enabled state
+    isEnabled = !isEnabled;
+    sessionStorage.setItem('dyslexiaFontEnabled', isEnabled.toString());
+    
+    // Update the button text and color
+    dyslexieStatus.textContent = isEnabled ? 'Enabled' : 'Disabled';
+    dyslexieStatus.style.backgroundColor = isEnabled ? '#3ba844' : '#FF6F6F';
+
+    // Apply or remove the dyslexic font based on the toggle state
+    applyDyslexicFonts(isEnabled);
+}
+
+
+function applyDyslexicFonts(enable) {
+    if (enable) {
+        document.body.style.fontFamily = 'OpenDyslexic, Arial, sans-serif';
+    } else {
+        document.body.style.fontFamily = 'Arial, sans-serif';
+    }
+}
+
+function updateDyslexiaButton(enabled) {
+    var dyslexieStatusDiv = document.getElementById('dyslexieStatus');
+    dyslexieStatusDiv.textContent = enabled ? 'Enabled' : 'Disabled';
+    dyslexieStatusDiv.style.backgroundColor = enabled ? '#3ba844' : '#FF6F6F';
+}
+
+</script>
+<script>
+    const darkModeColors = {
+    bodyBg: '#121726',
+    headerBg: '#3A4151',
+    quoteText: '#71CB70',
+    botText: '#F8F991',
+    BackButtonBackground: "#222937",
+    BackButtonText: "#5865F2",
+    DropdownMenuBackground: "#222937",
+    DropdownMenuButtonBackground: "#1D4ED8",
+    LogoutButtonBackground: "#3C81F6",
+    LogoutModalBackground: "#222937",
+    SettingsModalBackground: "#23272A",
+    SliderBallchecked: "#2196F3",
+    SliderBallunchecked: "yellow",
+    FooterBackground: "#3A4151",
+    backButtonHover: '#273552',
+    profileAreaHover: '#273552'
+};
+
+const lightModeColors = {
+    bodyBg: '#E0E0E0',
+    headerBg: '#F0F0F0',
+    quoteText: '#4D865C',
+    botText: '#D1C87F',
+    BackButtonBackground: "#D1D7E0",
+    BackButtonText: "#1A237E",
+    DropdownMenuBackground: "#D1D7E0",
+    DropdownMenuButtonBackground: "#0D47A1",
+    LogoutButtonBackground: "#0D47A1",
+    LogoutModalBackground: "#D1D7E0",
+    SettingsModalBackground: "#F5F5F5",
+    SliderBallchecked: "#757575",
+    SliderBallunchecked:"#757575",
+    FooterBackground: "#F0F0F0",
+    backButtonHover: '#C0C0C0',
+    profileAreaHover: '#C0C0C0'
+
+};
+
+function applyHoverStyle(element, hoverColor) {
+    element.style.backgroundColor = hoverColor;
+}
+
+function setupHoverEvents() {
+    const backButton = document.querySelector('.back-button');
+    const profileArea = document.getElementById('profile-area');
+
+    if (backButton) {
+        backButton.onmouseover = () => applyHoverStyle(backButton, currentTheme.backButtonHover);
+        backButton.onmouseout = () => applyHoverStyle(backButton, currentTheme.BackButtonBackground);
+    }
+
+    if (profileArea) {
+        profileArea.onmouseover = () => applyHoverStyle(profileArea, currentTheme.profileAreaHover);
+        profileArea.onmouseout = () => applyHoverStyle(profileArea, currentTheme.BackButtonBackground);
+    }
+}
+
+// Call this function after defining currentTheme and applying the initial theme
+setupHoverEvents();
+
+function applyTheme(themeColors) {
+    // Applying theme to body
+    document.body.style.backgroundColor = themeColors.bodyBg;
+    document.body.style.color = themeColors.textColor;
+
+    // Applying theme to header
+    const header = document.querySelector('header');
+    if (header) {
+        header.style.backgroundColor = themeColors.headerBg;
+    }
+
+    // Applying theme to QuoteBot logo
+    const quoteText = document.querySelector('h1:first-of-type');
+    const botText = document.querySelector('h1:last-of-type');
+    if (quoteText) {
+        quoteText.style.color = themeColors.quoteText;
+    }
+    if (botText) {
+        botText.style.color = themeColors.botText;
+    }
+
+    // Applying theme to back button and profile area
+    const backButton = document.querySelector('.back-button');
+    const profileArea = document.getElementById('profile-area');
+    if (backButton) {
+        backButton.style.backgroundColor = themeColors.BackButtonBackground;
+        backButton.style.color = themeColors.BackButtonText;
+    }
+    if (profileArea) {
+        profileArea.style.backgroundColor = themeColors.BackButtonBackground;
+        profileArea.style.color = themeColors.BackButtonText;
+    }
+
+    // Applying theme to dropdown menu
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    if (dropdownMenu) {
+        dropdownMenu.style.backgroundColor = themeColors.DropdownMenuBackground;
+    }
+
+    // Applying theme to buttons within dropdown menu
+    const dropdownButtons = document.querySelectorAll('#dropdownMenu .btn');
+    dropdownButtons.forEach(btn => {
+        btn.style.backgroundColor = themeColors.DropdownMenuButtonBackground;
+    });
+
+    // Applying theme to modal contents
+    const logoutModalContent = document.querySelector('#logout-modal .modal-content');
+    const settingsModalContent = document.querySelector('#settings-modal .modal-content');
+    if (logoutModalContent) {
+        logoutModalContent.style.backgroundColor = themeColors.LogoutModalBackground;
+    }
+    if (settingsModalContent) {
+        settingsModalContent.style.backgroundColor = themeColors.SettingsModalBackground;
+    }
+
+    // Applying theme to slider ball
+    const sliderBall = document.getElementById('sliderBall');
+    if (sliderBall) {
+        sliderBall.style.backgroundColor = checkbox.checked ? themeColors.SliderBallchecked : themeColors.SliderBallunchecked;
+    }
+
+    // Applying theme to footer
+    const footer = document.querySelector('footer');
+    if (footer) {
+        footer.style.backgroundColor = themeColors.FooterBackground;
+    }
+}
+
+// Toggle theme function and event listener setup
+let currentTheme = darkModeColors; // Default theme
+function toggleMode() {
+    var checkBox = document.getElementById('checkbox');
+    currentTheme = checkBox.checked ? lightModeColors : darkModeColors;
+    applyTheme(currentTheme);
+
+    // Store the theme preference in localStorage
+    localStorage.setItem('theme', checkBox.checked ? 'light' : 'dark');
+    // Dispatch a custom event for theme change
+    window.dispatchEvent(new CustomEvent('themeChanged', {
+        detail: { theme: checkBox.checked ? 'light' : 'dark' }
+    }));
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var checkBox = document.getElementById('checkbox');
+    checkBox.addEventListener('change', toggleMode);
+
+    // Initialize theme based on localStorage
+    const storedTheme = localStorage.getItem('theme');
+    checkBox.checked = storedTheme === 'light';
+    toggleMode();
+});
+
+// Function to update the slider ball position and color
+function updateSliderBall(checkbox, sliderBall) {
+        if (checkbox.checked) {
+            // Light mode
+            sliderBall.style.left = '2px';
+            sliderBall.style.backgroundColor = 'yellow';
+        } else {
+            // Dark mode
+            sliderBall.style.left = '22px';
+            sliderBall.style.backgroundColor = '#2196F3'; // Blue color for dark mode
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const storedTheme = localStorage.getItem('theme');
+        const checkBox = document.getElementById('checkbox');
+        const sliderBall = document.getElementById('sliderBall');
+
+        // Set the initial state of the checkbox and slider ball
+        const isDarkMode = storedTheme !== 'light';
+        checkBox.checked = !isDarkMode;
+        updateSliderBall(checkBox, sliderBall);
+
+        // Apply the theme
+        currentTheme = isDarkMode ? darkModeColors : lightModeColors;
+        applyTheme(currentTheme);
+
+        // Setup event listener for the checkbox
+        checkBox.addEventListener('change', function() {
+            // Toggle theme based on the checkbox and update the slider ball
+            currentTheme = checkBox.checked ? lightModeColors : darkModeColors;
+            applyTheme(currentTheme);
+            updateSliderBall(checkBox, sliderBall);
+            // Store the theme preference in localStorage
+            localStorage.setItem('theme', checkBox.checked ? 'light' : 'dark');
+        });
+    });
+</script>
+
     <script>
         const profileArea = document.getElementById('profile-area');
         const dropdownMenu = document.getElementById('dropdownMenu');
@@ -119,13 +383,6 @@
       
         function openSettingsModal() {
         document.getElementById('settings-modal').style.display = 'block';
-      }
-      
-      function toggleDyslexie() {
-        var dyslexieStatus = document.getElementById('dyslexieStatus');
-        var isEnabled = dyslexieStatus.textContent.includes('Enabled');
-        dyslexieStatus.textContent = isEnabled ? 'Disabled' : 'Enabled';
-        dyslexieStatus.style.backgroundColor = isEnabled ? '#FF6F6F' : '#3ba844';
       }
       
       function updateLanguageStatus() {
@@ -211,25 +468,6 @@
               }
   
       </script>
-  <script>
-    // Ensuring the slider ball is positioned correctly when the page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      var checkbox = document.querySelector('.switch input[type="checkbox"]');
-      toggleSwitch(checkbox);
-    });
-    
-    function toggleSwitch(checkbox) {
-      var sliderBall = document.getElementById('sliderBall');
-      if (checkbox.checked) {
-        sliderBall.style.backgroundColor = '#2196F3'; // Blue color for the ball
-        sliderBall.style.left = '22px'; // Move ball to the right, adjusted for smaller switch size
-      } else {
-        sliderBall.style.backgroundColor = 'yellow'; // Yellow color for the ball
-        sliderBall.style.left = '2px'; // Move ball to the left
-      }
-    }
-    </script>
-    
     <script>
       // Function to show the dropdown menu
       function showDropdown() {

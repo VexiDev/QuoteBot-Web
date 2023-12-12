@@ -43,7 +43,7 @@ Changelog - QuoteBot
             </div>
             <!-- Feature updates will be hidden by default -->
             <div class="feature-updates" style="display: none;">
-                <p style="font-size: 1em; font-weight: 400; color: #C0C0C0; margin-top: 10px;">Feature updates:</p>
+                <p style="font-size: 1em; font-weight: 400; color: #fff; margin-top: 10px;">Feature updates:</p>
                 <ul style="list-style: inside; padding-left: 20px; color: #C0C0C0;">
                     {% for item in update.feature_updates %}
                     <li>{{ item }}</li>
@@ -71,5 +71,91 @@ Changelog - QuoteBot
 {% endblock %}
 
 {% block scripts %}
-<!-- Page-specific scripts -->
+<script>
+  const changelogDarkModeColors = {
+      mainBackground: "#222937", // Dark blue for the main background
+      sectionBackground: "#3A4151", // Darker gray-blue for section backgrounds
+      textColor: "#ffffff", // White for text
+      linkColor: "#C0C0C0", // Light gray for links
+      specialTextColor: "#68ADFE", // Blue for special text (like commands or highlights)
+      hoverInfoBackground: "#3A4151", // Background color for hover info sections
+  };
+
+
+  const changelogLightModeColors = {
+  mainBackground: "#D1D7E0", // Light gray-blue for the main background
+  sectionBackground: "#F0F0F0", // Very light gray for section backgrounds
+  textColor: "#000000", // Black for text
+  linkColor: "#333333", // Dark gray for links
+  specialTextColor: "#0047AB", // Darker blue for special text
+  hoverInfoBackground: "#E0E0E0", // Lighter gray for hover info sections
+  };
+
+
+  function applyChangelogTheme(themeColors) {
+    // Main content area
+    const mainContent = document.querySelector('main > div');
+    if (mainContent) {
+        mainContent.style.background = themeColors.mainBackground;
+    }
+
+    // Section with "Changelog" heading
+    const changelogSection = document.querySelector('main > div > div:first-child');
+    const changelogHeading = changelogSection.querySelector('h2');
+    if (changelogSection && changelogHeading) {
+        changelogSection.style.background = themeColors.sectionBackground;
+        changelogHeading.style.color = themeColors.textColor;
+    }
+
+    // Target the "Latest Update" heading
+    const latestUpdateHeading = document.querySelector('main > div > h3');
+    if (latestUpdateHeading) {
+        latestUpdateHeading.style.color = themeColors.textColor;
+    }
+
+    // Latest Update Section
+    const latestUpdateSection = document.querySelector('main > div > div:nth-child(3)');
+    if (latestUpdateSection) {
+          latestUpdateSection.style.background = themeColors.sectionBackground;
+          latestUpdateSection.querySelectorAll('h4, p, ul').forEach(el => {
+              el.style.color = themeColors.textColor;
+          });
+    }
+
+    // Previous Updates Section
+    const previousUpdates = document.querySelectorAll('.update-section');
+    previousUpdates.forEach(section => {
+        section.style.background = themeColors.sectionBackground;
+
+        // Apply color to h4, update.added text, and Feature Updates text
+        section.querySelectorAll('h4, p, ul').forEach(el => {
+            el.style.color = themeColors.textColor;
+        });
+    });
+
+    // Update the color for "Feature updates:" text specifically
+    const featureUpdateTexts = document.querySelectorAll('.feature-updates p:first-of-type');
+    featureUpdateTexts.forEach(p => {
+        p.style.color = themeColors.textColor;
+    });
+
+    // Horizontal Rule Styling
+    const horizontalRules = document.querySelectorAll('hr');
+    horizontalRules.forEach(hr => {
+        hr.style.backgroundColor = themeColors.subTextColor;
+    });
+}
+
+
+
+  // Listen for the custom themeChanged event
+  window.addEventListener('themeChanged', function(e) {
+        let currentTheme = e.detail.theme === 'light' ? changelogLightModeColors : changelogDarkModeColors;
+        applyChangelogTheme(currentTheme);
+    });
+
+    // Initial theme application based on localStorage
+    let initialTheme = localStorage.getItem('theme') === 'light' ? changelogLightModeColors : changelogDarkModeColors;
+    applyChangelogTheme(initialTheme);
+</script>
 {% endblock %}
