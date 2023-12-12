@@ -159,7 +159,7 @@ FAQ - QuoteBot
   });
 </script>
 <script>
-    const faqDarkModeColors = {
+const faqDarkModeColors = {
     mainBackground: "#222937", // Dark blue for the main background
     sectionBackground: "#3A4151", // Darker gray-blue for section backgrounds
     textColor: "#ffffff", // White for primary text
@@ -210,6 +210,11 @@ function applyFaqTheme(themeColors) {
             hoverInfoImage.style.padding = '5px'; // Optional, adjust padding for visual appeal
         }
     });
+
+    //List for block item
+    const list = document.querySelector('ul');
+    list.style.color = themeColors.linkColor;
+
 }
 
     // Listen for theme changes
