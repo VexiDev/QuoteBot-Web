@@ -457,5 +457,30 @@ class UserProfile:
         else:
             return None
 
+@app.route('/devlock', methods=['GET'])
+def devlock():
+    return render_template('devlock.html')
+
+@app.route('/devlock_login', methods=['POST'])
+def devlock_login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    valid_credentials = (
+        (username == os.getenv('DEV_LOGIN') and password == os.getenv('DEV_PASSWORD')) or
+        (username == os.getenv('TESTER_LOGIN') and password == os.getenv('TESTER_PASSWORD'))
+    )
+
+    if valid_credentials:
+        session['authenticated'] = True
+        return redirect(url_for('home'))
+    else:
+        return "Invalid Credentials", 403
+    
+@app.before_request
+def before_request():
+    if 'authenticated' not in session and request.endpoint not in ['devlock', 'devlock_login']:
+        return redirect(url_for('devlock'))
+
 if __name__ == '__main__':
     app.run(port=4200)
