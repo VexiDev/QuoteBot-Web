@@ -18,7 +18,6 @@ app = Flask(__name__)
 app.secret_key = "thisisanubersecretkey123123123134901u5401485035u4jghiulbhdnaoiuRVGHC09paomp9cy4hg-92pGHMUIPGCHMPIHUPigco-r"  
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
 # These values should be read from a config file or environment variables
 CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
@@ -479,6 +478,7 @@ def devlock_login():
     
 @app.before_request
 def before_request():
+    session.setdefault('theme', 'dark')
     if 'authenticated' not in session and request.endpoint not in ['devlock', 'devlock_login']:
         return redirect(url_for('devlock'))
 
